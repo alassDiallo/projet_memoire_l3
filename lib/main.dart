@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:gestion_materiel_cmu/camera/camera.dart';
 import 'package:gestion_materiel_cmu/consultation/detailConsultation.dart';
-import 'package:gestion_materiel_cmu/volontaire/accueil.dart';
+//import 'package:gestion_materiel_cmu/volontaire/accueil.dart';
 import 'Login.dart';
 import 'patient/accueil.dart';
 import 'badge.dart';

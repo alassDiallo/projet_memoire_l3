@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:gestion_materiel_cmu/jika/accueiljica.dart';
 import 'package:gestion_materiel_cmu/models/Structure.dart';
-import 'package:gestion_materiel_cmu/volontaire/accueil.dart';
+//import 'package:gestion_materiel_cmu/volontaire/accueil.dart';
+import 'package:gestion_materiel_cmu/volontaire/volontaire/accueil.dart';
 import 'medecin/accueil.dart';
 import 'dart:async';
 import 'package:gestion_materiel_cmu/patient/accueil.dart';

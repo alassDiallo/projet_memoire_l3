@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:gestion_materiel_cmu/couleurs.dart';
 
 class OpaqueImage extends StatelessWidget {
   final String imageUrl;

@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
 
-class Patient extends StatelessWidget {
+//TODO: Faire une classe Globale pour contenu liste
+
+class Contenulist extends StatelessWidget {
+  String title;
+  String contenu;
+  Widget details;
+  Contenulist(this.title, this.contenu, this.details);
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -11,31 +17,32 @@ class Patient extends StatelessWidget {
           child: Row(
             children: [
               CircleAvatar(
-                child: Image.asset("images/vol.png"),
-                radius: 30,
+                child: Icon(Icons.request_quote_outlined),
+                radius: 15,
               ),
               SizedBox(width: 20),
               Column(
                 children: [
                   Text(
-                    "Assane",
+                    this.title,
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                   SizedBox(height: 10),
-                  Text("je suis la ")
+                  Text(this.contenu)
                 ],
               ),
               Spacer(),
               Column(
                 children: [
-                  Text(
-                    "abonné",
-                    style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.green[200]),
-                  ),
-                  Icon(Icons.star, color: Colors.blue, size: 20)
+                  GestureDetector(
+                      child: Icon(Icons.navigate_next_rounded,
+                          color: Colors.blue, size: 40),
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => this.details));
+                      }),
                 ],
               ),
             ],

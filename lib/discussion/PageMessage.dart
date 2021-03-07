@@ -58,28 +58,6 @@ class _PageMessageState extends State<PageMessage> {
   ];
 
   void _showModal() {
-// ListView.builder(
-//                         itemCount: option.length,
-//                         itemBuilder: (context, index) {
-//                           return Container(
-//                             padding: EdgeInsets.only(bottom: 10, top: 10),
-//                             child: ListTile(
-//                               leading: Container(
-//                                   decoration: BoxDecoration(
-//                                       borderRadius: BorderRadius.circular(30),
-//                                       color: option[index].couleur.shade100),
-//                                   height: 40,
-//                                   width: 40,
-//                                   child: Icon(
-//                                     option[index].icon,
-//                                     size: 20,
-//                                     color: option[index].couleur.shade500,
-//                                   )),
-//                               title: Text(option[index].titre),
-//                             ),
-//                           );
-//                         }),
-
     showModalBottomSheet(
         backgroundColor: Colors.transparent,
         context: context,
@@ -213,60 +191,6 @@ class _PageMessageState extends State<PageMessage> {
         });
   }
 
-  //           Option(titre: "photo & video", icon: Icons.image, couleur: Colors.amber),
-  // Option(
-  //     titre: "document", icon: Icons.insert_drive_file, couleur: Colors.blue),
-  // Option(titre: "Audio", icon: Icons.voice_chat, couleur: Colors.orange),
-  // Option(titre: "localisation", icon: Icons.map, couleur: Colors.purple),
-  //     });
-
-  // showModalBottomSheet(
-  //     context: context,
-  //     builder: (context) {
-  //       return Container(
-  //           decoration: BoxDecoration(
-  //               color: Colors.white,
-  //               borderRadius: BorderRadius.only(
-  //                 topLeft: Radius.circular(20),
-  //                 topRight: Radius.circular(20),
-  //               )),
-  //           child: Column(
-  //             children: [
-  //               Center(
-  //                   child: Container(
-  //                 height: 4,
-  //                 width: 50,
-  //                 color: Colors.grey.shade200,
-  //               )),
-  //               Container(
-  //                 padding: EdgeInsets.only(bottom: 100),
-  //                 child: ListView.builder(
-  //                     itemCount: option.length,
-  //                     itemBuilder: (context, index) {
-  //                       return Container(
-  //                         padding: EdgeInsets.only(bottom: 10, top: 10),
-  //                         child: ListTile(
-  //                           leading: Container(
-  //                               decoration: BoxDecoration(
-  //                                   borderRadius: BorderRadius.circular(30),
-  //                                   color: option[index].couleur.shade100),
-  //                               height: 40,
-  //                               width: 40,
-  //                               child: Icon(
-  //                                 option[index].icon,
-  //                                 size: 20,
-  //                                 color: option[index].couleur.shade500,
-  //                               )),
-  //                           title: Text(option[index].titre),
-  //                         ),
-  //                       );
-  //                     }),
-  //               ),
-  //             ],
-  //           ));
-  //     });
-  //}
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -314,42 +238,6 @@ class _PageMessageState extends State<PageMessage> {
           ),
           Icon(Icons.more_vert)
         ],
-        //backgroundColor: Colors.white,
-        /* flexibleSpace: SafeArea(
-          child: Container(
-            child: Row(
-              children: [
-                IconButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  icon: Icon(Icons.arrow_back),
-                ),
-                SizedBox(width: 6),
-                CircleAvatar(
-                    backgroundImage: AssetImage("images/vol.png"),
-                    maxRadius: 20),
-                SizedBox(width: 12),
-                Expanded(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Assane diallo",
-                        style: TextStyle(fontWeight: FontWeight.w600),
-                      ),
-                      SizedBox(height: 6),
-                      Text("En ligne",
-                          style: TextStyle(fontSize: 12, color: Colors.grey)),
-                    ],
-                  ),
-                ),
-                Icon(Icons.more_vert)
-              ],
-            ),
-          ),
-        ),*/
       ),
       body: Stack(
         children: [
@@ -377,6 +265,9 @@ class _PageMessageState extends State<PageMessage> {
                       child: TextField(
                         maxLines: null,
                         minLines: null,
+                        onChanged: (value) {
+                          mess = value;
+                        },
                         //expands: true,
                         textAlignVertical: TextAlignVertical.center,
                         keyboardType: TextInputType.multiline,
@@ -416,74 +307,11 @@ class _PageMessageState extends State<PageMessage> {
                           list.add(
                             Mess(message: mess, type: MessageType.sender),
                           );
+                          mess = '';
                         });
                       }),
                 ),
               ]))
-          /* Align(
-              alignment: Alignment.bottomLeft,
-              child: Container(
-                padding: EdgeInsets.only(left: 10, bottom: 10),
-                height: 80,
-                width: double.infinity,
-                color: Colors.white,
-                child: Row(
-                  children: [
-                    GestureDetector(
-                      onTap: _showModal,
-                      child: Container(
-                        height: 40,
-                        width: 40,
-                        decoration: BoxDecoration(
-                            color: Colors.blueGrey,
-                            borderRadius: BorderRadius.circular(30)),
-                        child: Icon(
-                          Icons.add,
-                          size: 21,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                    SizedBox(width: 16),
-                    Expanded(
-                      child: TextField(
-                          onChanged: (String c) {
-                            setState(() {
-                              mess = c;
-                            });
-                          },
-                          onSubmitted: (String a) {},
-                          decoration: InputDecoration(
-                            prefixIcon: IconButton(
-                              icon: Icon(Icons.insert_emoticon),
-                              onPressed: () {
-                                print("Bonjour");
-                              },
-                            ),
-                            hintText: "ecrire .........",
-                            hintStyle: TextStyle(color: Colors.grey.shade500),
-                            //border: InputBorder.none,
-                          )),
-                    ),
-                    Align(
-                        alignment: Alignment.bottomRight,
-                        child: Container(
-                          padding: EdgeInsets.only(right: 20, bottom: 10),
-                          child: FloatingActionButton(
-                            child: Icon(Icons.send),
-                            onPressed: () {
-                              setState(() {
-                                list.add(
-                                  Mess(message: mess, type: MessageType.sender),
-                                );
-                              });
-                            },
-                            elevation: 0,
-                          ),
-                        ))
-                  ],
-                ),
-              ))*/
         ],
       ),
     );

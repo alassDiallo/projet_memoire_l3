@@ -98,6 +98,8 @@ class _AjoutVolontaireFormulaireState extends State<AjoutVolontaireFormulaire> {
                           ),
                           DateTimeField(
                             decoration: InputDecoration(
+                                hintText: "choisir la date de naisssance",
+                                suffixIcon: Icon(Icons.date_range),
                                 border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(10))),
                             format: format,

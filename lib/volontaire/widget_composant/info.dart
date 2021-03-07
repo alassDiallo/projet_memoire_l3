@@ -15,12 +15,12 @@ class InfoProfil extends StatelessWidget {
                   child: Image.asset("images/vol.png"), radius: 80)),
           SizedBox(height: 6),
           Text(
-            "Assane Diallo",
+            "S Bassirou Dabo",
             style: TextStyle(color: Colors.white, fontSize: 20),
           ),
           SizedBox(height: 6),
           Text(
-            "ville de dakar",
+            "Structure de Diourbel",
             style: TextStyle(color: Colors.white, fontSize: 15),
           )
         ],
