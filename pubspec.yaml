@@ -49,6 +49,8 @@ dependencies:
   # shared_preferences: ^2.0.3
   color: ^2.1.1
   smart_select: ^4.3.2
+  flutter_chart: ^0.1.5
+  charts_flutter: ^0.9.0
  
 
 dev_dependencies:
