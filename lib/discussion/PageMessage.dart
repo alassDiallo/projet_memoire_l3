@@ -4,6 +4,8 @@ import 'package:gestion_materiel_cmu/discussion/chart_bubble.dart';
 import 'package:gestion_materiel_cmu/discussion/menu_plus.dart';
 import 'package:gestion_materiel_cmu/models/Message.dart';
 import 'appbar_disc.dart';
+import 'dart:io';
+import 'package:image_picker/image_picker.dart';
 
 class PageMessage extends StatefulWidget {
   @override
@@ -31,6 +33,22 @@ class _PageMessageState extends State<PageMessage> {
     Mess(message: "cva gnogui ci di takkalé rk", type: MessageType.receiver),
   ];
 
+  //acceder a la camera ou a la galerie
+  File fichier;
+
+  Future getImage(bool isCamera) async {
+    File image;
+    if (isCamera) {
+      image = await ImagePicker.pickImage(source: ImageSource.camera);
+    } else {
+      image = await ImagePicker.pickImage(source: ImageSource.gallery);
+    }
+
+    setState(() {
+      fichier = image;
+    });
+  }
+
   List<Option> option = [
     Option(titre: "photo & video", icon: Icons.image, couleur: Colors.amber),
     Option(
@@ -40,52 +58,214 @@ class _PageMessageState extends State<PageMessage> {
   ];
 
   void _showModal() {
+// ListView.builder(
+//                         itemCount: option.length,
+//                         itemBuilder: (context, index) {
+//                           return Container(
+//                             padding: EdgeInsets.only(bottom: 10, top: 10),
+//                             child: ListTile(
+//                               leading: Container(
+//                                   decoration: BoxDecoration(
+//                                       borderRadius: BorderRadius.circular(30),
+//                                       color: option[index].couleur.shade100),
+//                                   height: 40,
+//                                   width: 40,
+//                                   child: Icon(
+//                                     option[index].icon,
+//                                     size: 20,
+//                                     color: option[index].couleur.shade500,
+//                                   )),
+//                               title: Text(option[index].titre),
+//                             ),
+//                           );
+//                         }),
+
     showModalBottomSheet(
+        backgroundColor: Colors.transparent,
         context: context,
         builder: (context) {
           return Container(
+              margin: EdgeInsets.symmetric(vertical: 80, horizontal: 10),
               decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(20),
-                    topRight: Radius.circular(20),
-                  )),
+                color: Colors.white,
+                borderRadius: BorderRadius.all(Radius.circular(30)),
+              ),
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Center(
-                      child: Container(
-                    height: 4,
-                    width: 50,
-                    color: Colors.grey.shade200,
-                  )),
                   Container(
-                    padding: EdgeInsets.only(bottom: 100),
-                    child: ListView.builder(
-                        itemCount: option.length,
-                        itemBuilder: (context, index) {
-                          return Container(
-                            padding: EdgeInsets.only(bottom: 10, top: 10),
-                            child: ListTile(
-                              leading: Container(
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(30),
-                                      color: option[index].couleur.shade100),
-                                  height: 40,
-                                  width: 40,
-                                  child: Icon(
-                                    option[index].icon,
-                                    size: 20,
-                                    color: option[index].couleur.shade500,
-                                  )),
-                              title: Text(option[index].titre),
-                            ),
-                          );
-                        }),
-                  ),
+                      // child: Text("je suis encore la"),
+                      padding: EdgeInsets.only(
+                        left: 50,
+                        right: 50,
+                        top: 20,
+                      ),
+                      child: Column(
+                        children: [
+                          Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                Column(
+                                  children: [
+                                    CircleAvatar(
+                                      child: IconButton(
+                                        icon: Icon(
+                                          Icons.image,
+                                          color: Colors.white,
+                                        ),
+                                        onPressed: () {
+                                          getImage(false);
+                                        },
+                                      ),
+                                      backgroundColor: Colors.pink,
+                                      radius: 30,
+                                    ),
+                                    SizedBox(
+                                      height: 6,
+                                    ),
+                                    Text("photo & video")
+                                  ],
+                                ),
+                                Column(
+                                  children: [
+                                    CircleAvatar(
+                                      child: Icon(Icons.insert_drive_file,
+                                          color: Colors.white),
+                                      backgroundColor: Colors.blue[600],
+                                      radius: 30,
+                                    ),
+                                    SizedBox(
+                                      height: 6,
+                                    ),
+                                    Text("document")
+                                  ],
+                                ),
+                                Column(
+                                  children: [
+                                    CircleAvatar(
+                                      child: Icon(Icons.voice_chat,
+                                          color: Colors.white),
+                                      radius: 30,
+                                      backgroundColor: Colors.orange,
+                                    ),
+                                    SizedBox(
+                                      height: 6,
+                                    ),
+                                    Text("Audio")
+                                  ],
+                                )
+                              ]),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                Column(
+                                  children: [
+                                    CircleAvatar(
+                                      child: Icon(
+                                        Icons.image,
+                                        color: Colors.white,
+                                      ),
+                                      backgroundColor: Colors.pink,
+                                      radius: 30,
+                                    ),
+                                    SizedBox(
+                                      height: 6,
+                                    ),
+                                    Text("photo & video")
+                                  ],
+                                ),
+                                Column(
+                                  children: [
+                                    CircleAvatar(
+                                      child: Icon(Icons.insert_drive_file,
+                                          color: Colors.white),
+                                      backgroundColor: Colors.blue[600],
+                                      radius: 30,
+                                    ),
+                                    SizedBox(
+                                      height: 6,
+                                    ),
+                                    Text("document")
+                                  ],
+                                ),
+                                Column(
+                                  children: [
+                                    CircleAvatar(
+                                      child: Icon(Icons.voice_chat,
+                                          color: Colors.white),
+                                      radius: 30,
+                                      backgroundColor: Colors.orange,
+                                    ),
+                                    SizedBox(
+                                      height: 6,
+                                    ),
+                                    Text("Audio")
+                                  ],
+                                )
+                              ])
+                        ],
+                      )),
                 ],
               ));
         });
   }
+
+  //           Option(titre: "photo & video", icon: Icons.image, couleur: Colors.amber),
+  // Option(
+  //     titre: "document", icon: Icons.insert_drive_file, couleur: Colors.blue),
+  // Option(titre: "Audio", icon: Icons.voice_chat, couleur: Colors.orange),
+  // Option(titre: "localisation", icon: Icons.map, couleur: Colors.purple),
+  //     });
+
+  // showModalBottomSheet(
+  //     context: context,
+  //     builder: (context) {
+  //       return Container(
+  //           decoration: BoxDecoration(
+  //               color: Colors.white,
+  //               borderRadius: BorderRadius.only(
+  //                 topLeft: Radius.circular(20),
+  //                 topRight: Radius.circular(20),
+  //               )),
+  //           child: Column(
+  //             children: [
+  //               Center(
+  //                   child: Container(
+  //                 height: 4,
+  //                 width: 50,
+  //                 color: Colors.grey.shade200,
+  //               )),
+  //               Container(
+  //                 padding: EdgeInsets.only(bottom: 100),
+  //                 child: ListView.builder(
+  //                     itemCount: option.length,
+  //                     itemBuilder: (context, index) {
+  //                       return Container(
+  //                         padding: EdgeInsets.only(bottom: 10, top: 10),
+  //                         child: ListTile(
+  //                           leading: Container(
+  //                               decoration: BoxDecoration(
+  //                                   borderRadius: BorderRadius.circular(30),
+  //                                   color: option[index].couleur.shade100),
+  //                               height: 40,
+  //                               width: 40,
+  //                               child: Icon(
+  //                                 option[index].icon,
+  //                                 size: 20,
+  //                                 color: option[index].couleur.shade500,
+  //                               )),
+  //                           title: Text(option[index].titre),
+  //                         ),
+  //                       );
+  //                     }),
+  //               ),
+  //             ],
+  //           ));
+  //     });
+  //}
 
   @override
   Widget build(BuildContext context) {
@@ -120,7 +300,7 @@ class _PageMessageState extends State<PageMessage> {
             ),
             SizedBox(height: 2),
             Text("En ligne",
-                style: TextStyle(fontSize: 12, color: Colors.grey)),
+                style: TextStyle(fontSize: 12, color: Colors.green)),
           ],
         ),
         actions: [
@@ -195,6 +375,9 @@ class _PageMessageState extends State<PageMessage> {
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(30)),
                       child: TextField(
+                        maxLines: null,
+                        minLines: null,
+                        //expands: true,
                         textAlignVertical: TextAlignVertical.center,
                         keyboardType: TextInputType.multiline,
                         decoration: InputDecoration(
@@ -215,11 +398,7 @@ class _PageMessageState extends State<PageMessage> {
                                 IconButton(
                                   icon: Icon(Icons.camera_alt),
                                   onPressed: () {
-                                    return Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                AppareilPhoto()));
+                                    getImage(true);
                                   },
                                 )
                               ],

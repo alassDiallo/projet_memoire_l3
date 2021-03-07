@@ -1,14 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:gestion_materiel_cmu/couleurs.dart';
-import 'package:gestion_materiel_cmu/discussion/appbar_disc.dart';
 import 'package:gestion_materiel_cmu/formulaires/ajoutFournisseur.dart';
 import 'package:gestion_materiel_cmu/formulaires/ajoutMAteriel.dart';
 import 'package:gestion_materiel_cmu/formulaires/ajoutStructure.dart';
 import 'package:gestion_materiel_cmu/formulaires/ajoutVolontaire.dart';
-import 'package:gestion_materiel_cmu/volontaire/image.dart';
-import 'package:gestion_materiel_cmu/volontaire/info.dart';
-import 'package:gestion_materiel_cmu/volontaire/liste.dart';
-import 'package:gestion_materiel_cmu/volontaire/option.dart';
 import 'comptabilite.dart';
 
 class AccueilJica extends StatelessWidget {
@@ -41,7 +35,8 @@ class AccueilJica extends StatelessWidget {
       ),
       body: SingleChildScrollView(
         child: Container(
-          color: Colors.white,
+          color: Colors.blue[50],
+          height: MediaQuery.of(context).size.height,
           width: double.infinity,
           child: Column(
             children: [
@@ -58,7 +53,7 @@ class AccueilJica extends StatelessWidget {
                       },
                       child: Card(
                         margin:
-                            EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+                            EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                         color: Colors.green,
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(30)),
@@ -66,7 +61,7 @@ class AccueilJica extends StatelessWidget {
                         child: Container(
                           margin: EdgeInsets.all(30),
                           width: MediaQuery.of(context).size.width * 0.7,
-                          height: MediaQuery.of(context).size.height * 0.1,
+                          height: MediaQuery.of(context).size.height * 0.2,
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
@@ -94,11 +89,12 @@ class AccueilJica extends StatelessWidget {
                                     ],
                                   ),
                                   SizedBox(width: 20),
-                                  Icon(
-                                    Icons.account_balance,
-                                    size: 50,
-                                    color: Colors.white,
-                                  )
+                                  Container(
+                                      child: Image.asset(
+                                    "images/comptabilite.png",
+                                    width: 100,
+                                    height: 100,
+                                  ))
                                 ],
                               ),
                               Divider(
@@ -120,7 +116,7 @@ class AccueilJica extends StatelessWidget {
                       child: Container(
                         margin: EdgeInsets.all(30),
                         width: MediaQuery.of(context).size.width * 0.7,
-                        height: MediaQuery.of(context).size.height * 0.1,
+                        height: MediaQuery.of(context).size.height * 0.2,
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -137,11 +133,11 @@ class AccueilJica extends StatelessWidget {
                                     ),
                                   ],
                                 ),
-                                Icon(
-                                  Icons.account_balance,
-                                  size: 50,
-                                  color: Colors.white,
-                                )
+                                Image.asset(
+                                  "images/stat.png",
+                                  width: 200,
+                                  height: 100,
+                                ),
                               ],
                             ),
                             Divider(
@@ -161,7 +157,7 @@ class AccueilJica extends StatelessWidget {
                       child: Container(
                         margin: EdgeInsets.all(30),
                         width: MediaQuery.of(context).size.width * 0.7,
-                        height: MediaQuery.of(context).size.height * 0.1,
+                        height: MediaQuery.of(context).size.height * 0.2,
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -198,8 +194,7 @@ class AccueilJica extends StatelessWidget {
               Container(
                 margin: EdgeInsets.symmetric(horizontal: 5),
                 child: Container(
-                  padding: EdgeInsets.only(top: 40),
-                  color: Colors.white,
+                  padding: EdgeInsets.only(top: 10),
                   child: Table(
                     children: [
                       TableRow(children: [
@@ -286,22 +281,25 @@ class AccueilJica extends StatelessWidget {
 
   Widget option(String nombre, Icon icon, String text) {
     return Card(
-      color: Colors.indigo[900],
+      //color: Colors.white,
       shadowColor: Colors.white,
-      elevation: 12,
+      //elevation: 2,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       margin: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
       child: Container(
-        margin: EdgeInsets.symmetric(vertical: 40),
+        margin: EdgeInsets.symmetric(vertical: 35),
         //padding: EdgeInsets.only(left: 20, top: 16, bottom: 8, right: 8),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             //Align(alignment: Alignment.topRight, child: icon),
-            icon,
+            CircleAvatar(
+              child: icon,
+              radius: 40,
+            ),
             SizedBox(
-              height: 10,
+              height: 30,
             ),
             /*Text(nombre,
                 style: TextStyle(
@@ -312,7 +310,7 @@ class AccueilJica extends StatelessWidget {
                 style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.w400,
-                    color: Colors.white))
+                    color: Colors.black))
           ],
         ),
       ),

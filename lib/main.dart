@@ -1,4 +1,4 @@
-import 'package:camera/camera.dart';
+//import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:gestion_materiel_cmu/camera/camera.dart';
 import 'package:gestion_materiel_cmu/consultation/detailConsultation.dart';

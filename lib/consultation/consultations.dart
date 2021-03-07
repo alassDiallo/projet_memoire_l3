@@ -12,10 +12,11 @@ class Consultations extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(title: Text("Liste consultation")),
-        body: Container(
-            child: GridView.count(
-          crossAxisCount: 1,
+        body: GridView.count(
+          padding: EdgeInsets.symmetric(vertical: 20),
+          crossAxisCount: 2,
           crossAxisSpacing: 2,
+          mainAxisSpacing: 20,
           children: List.generate(list.length, (index) {
             return ItemConsultation(
                 consultation: list[index],
@@ -25,6 +26,6 @@ class Consultations extends StatelessWidget {
                         builder: (context) =>
                             Detail(consultation: list[index]))));
           }),
-        )));
+        ));
   }
 }

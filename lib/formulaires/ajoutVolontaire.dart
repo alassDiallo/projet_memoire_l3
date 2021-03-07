@@ -1,6 +1,8 @@
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'dart:async';
+import 'package:flutter_datetime_formfield/flutter_datetime_formfield.dart';
 
 class AjoutVolontaireFormulaire extends StatefulWidget {
   @override
@@ -13,7 +15,7 @@ class _AjoutVolontaireFormulaireState extends State<AjoutVolontaireFormulaire> {
   String _nom;
   String _prenom;
   String _lieuDeNaissance;
-  String _dateDeNaissance;
+  DateTime _dateDeNaissance;
   String _adresse;
   String _numeroCIN;
   String _telephone;
@@ -29,6 +31,8 @@ class _AjoutVolontaireFormulaireState extends State<AjoutVolontaireFormulaire> {
     }
   }
 
+  final format = DateFormat("MM-dd-yyyy");
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,7 +44,7 @@ class _AjoutVolontaireFormulaireState extends State<AjoutVolontaireFormulaire> {
         body: SingleChildScrollView(
           child: SafeArea(
             child: Container(
-              margin: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+              margin: EdgeInsets.symmetric(vertical: 20, horizontal: 30),
               child: Column(
                 children: [
                   Container(
@@ -95,17 +99,41 @@ class _AjoutVolontaireFormulaireState extends State<AjoutVolontaireFormulaire> {
                           DateTimeField(
                             decoration: InputDecoration(
                                 border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(20)),
-                                labelText: "choisissez la date de naissance"),
-                            format: DateFormat("d/M/Y"),
+                                    borderRadius: BorderRadius.circular(10))),
+                            format: format,
                             onShowPicker: (context, currentValue) {
                               return showDatePicker(
                                   context: context,
                                   firstDate: DateTime(1900),
                                   initialDate: currentValue ?? DateTime.now(),
-                                  lastDate: DateTime(2021));
+                                  lastDate: DateTime(2100));
                             },
                           ),
+                          // DateTimeFormField(
+                          //   initialValue: DateTime.now(),
+                          //   formatter: format,
+                          //   label: "date de naissance",
+                          //   validator: (DateTime dateTime) {
+                          //     if (dateTime == null) {
+                          //       return "Date Time Required";
+                          //     }
+                          //     return null;
+                          //   },
+                          //   onSaved: (DateTime dateTime) =>
+                          //       _dateDeNaissance = dateTime,
+                          // ),
+                          // TextFormField(
+                          //   onChanged: (value) {
+                          //     setState(() {
+                          //       _dateDeNaissance = DateTime.parse(value);
+                          //     });
+                          //   },
+                          //   decoration: InputDecoration(
+                          //       border: OutlineInputBorder(
+                          //           borderRadius: BorderRadius.circular(10)),
+                          //       labelText: "choisissez la date de naissance"),
+                          //   onTap: _dateD,
+                          // ),
                           SizedBox(
                             height: 10,
                           ),
@@ -174,7 +202,7 @@ class _AjoutVolontaireFormulaireState extends State<AjoutVolontaireFormulaire> {
                     onPressed: _enregistrer,
                     child: Text("enregistrer"),
                     color: Colors.blue,
-                  )
+                  ),
                 ],
               ),
             ),
@@ -188,6 +216,21 @@ class _AjoutVolontaireFormulaireState extends State<AjoutVolontaireFormulaire> {
             _currenteEtape += 1;
           })
         : null;
+  }
+
+  Future<Null> _dateD() async {
+    print(DateTime.now().year - 20);
+    DateTime dt = await showDatePicker(
+        context: context,
+        initialDate: DateTime.now(),
+        currentDate: DateTime.now(),
+        firstDate: DateTime(1960),
+        lastDate: DateTime.now());
+    if (dt != null) {
+      setState(() {
+        _dateDeNaissance = dt;
+      });
+    }
   }
 
   Widget etape() {

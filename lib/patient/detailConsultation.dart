@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gestion_materiel_cmu/medecin/Affichage.dart';
 import 'package:gestion_materiel_cmu/models/consultation.dart';
+import 'dart:async';
 
 class Detail extends StatefulWidget {
   final Consultation consultation;
@@ -107,23 +108,76 @@ class _DetailState extends State<Detail> {
               child: ClipRRect(
                   borderRadius: BorderRadius.circular(29),
                   child: FlatButton(
-                    padding: EdgeInsets.symmetric(vertical: 20, horizontal: 0),
-                    color: Colors.blue,
-                    //textColor: Colors.white,
-                    child: Text(
-                      "Demande de rendez-vous",
-                      style: TextStyle(color: Colors.white),
-                    ),
-                    onPressed: () {
-                      snack();
-                      Navigator.pop(context);
-                    },
-                  )),
+                      padding:
+                          EdgeInsets.symmetric(vertical: 20, horizontal: 0),
+                      color: Colors.blue,
+                      //textColor: Colors.white,
+                      child: Text(
+                        "Demande de rendez-vous",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      onPressed: dateR)),
             ),
           )
         ],
       ),
     );
+  }
+
+  Future<Null> dateR() async {
+    return showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text("Date pour le rendez-vous"),
+            content: Container(
+              height: 100,
+              child: Form(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text("choisir la date"),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    TextFormField(
+                      decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10))),
+                      onTap: date,
+                    )
+                  ],
+                ),
+              ),
+            ),
+            actions: [
+              FlatButton(
+                  color: Colors.red,
+                  onPressed: () {
+                    print("annuler");
+                    Navigator.pop(context);
+                  },
+                  child: Text("annuler")),
+              FlatButton(
+                  color: Colors.green,
+                  onPressed: () {
+                    snack();
+                    print("valider");
+                    Navigator.pop(context);
+                  },
+                  child: Text("valider")),
+            ],
+          );
+        });
+  }
+
+  Future<Null> date() async {
+    var date = showDatePicker(
+        context: context,
+        initialDate: DateTime.now(),
+        firstDate: DateTime(2000),
+        lastDate: DateTime.now());
   }
 
   void snack() {

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 class Comptabilite extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         title: Text("Comptabilité"),
@@ -10,9 +11,9 @@ class Comptabilite extends StatelessWidget {
       body: Stack(
         children: [
           Container(
-              height: MediaQuery.of(context).size.height,
+              // height: MediaQuery.of(context).size.height,
               width: double.infinity,
-              color: Colors.blue,
+              color: Colors.blue[900],
               child: Container(
                 margin: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
                 child: Column(
@@ -34,8 +35,8 @@ class Comptabilite extends StatelessWidget {
                       children: [
                         Container(
                           margin: EdgeInsets.symmetric(vertical: 20),
-                          height: 200,
-                          width: 180,
+                          height: size.height * 0.2,
+                          width: size.width * 0.1,
                           child: Card(
                             color: Colors.greenAccent[100],
                             shape: RoundedRectangleBorder(

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gestion_materiel_cmu/consultation/consultation.dart';
 import 'package:gestion_materiel_cmu/discussion/messagerie.dart';
 import 'package:gestion_materiel_cmu/map/map.dart';
+import 'package:gestion_materiel_cmu/notification/notification.dart';
 import 'package:gestion_materiel_cmu/patient/ItemConsultation.dart';
 import 'package:gestion_materiel_cmu/patient/historique.dart';
 import 'package:gestion_materiel_cmu/patient/option.dart';
@@ -24,7 +25,7 @@ class _AccueilPatientState extends State<AccueilPatient> {
         appBar: AppBar(
           actions: [
             PopupMenuButton(
-                offset: Offset(100, 40),
+                //offset: Offset(100, 40),
                 icon: Icon(Icons.more_vert),
                 itemBuilder: (context) => _popup())
           ],
@@ -42,7 +43,6 @@ class _AccueilPatientState extends State<AccueilPatient> {
                     ),
                     // height: MediaQuery.of(context).size.height / 2,
                   ),
-                  Text("$_currentIndex"),
                   Container(
                     padding: EdgeInsets.symmetric(vertical: 20, horizontal: 50),
                     child: Table(
@@ -92,7 +92,7 @@ class _AccueilPatientState extends State<AccueilPatient> {
                                       builder: (context) => Localisation()));
                             },
                             child: Option(
-                                couleur: Colors.blue,
+                                couleur: Colors.blue[900],
                                 icon: Icon(
                                   Icons.location_pin,
                                   color: Colors.white,
@@ -343,6 +343,12 @@ class _AccueilPatientState extends State<AccueilPatient> {
         {
           Navigator.push(
               context, MaterialPageRoute(builder: (context) => Messagerie()));
+        }
+        break;
+      case 2:
+        {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => NotificationM()));
         }
     }
   }

@@ -22,8 +22,8 @@ class _MessagesState extends State<Messages> {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(30),
             color: widget.sms.type == MessageType.receiver
-                ? Colors.grey.shade500
-                : Colors.blueGrey,
+                ? Colors.blue
+                : Colors.blue[100],
           ),
           padding: EdgeInsets.all(16),
           child: Text(widget.sms.message)),
