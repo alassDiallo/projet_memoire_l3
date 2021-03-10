@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:gestion_materiel_cmu/controllers/Connexion.dart';
+import 'package:gestion_materiel_cmu/models/Fournisseur.dart';
+import 'package:http/http.dart' as http;
+import 'dart:async';
+import 'dart:convert' as convert;
 
 class AjoutMateriel extends StatefulWidget {
   @override
@@ -7,13 +12,62 @@ class AjoutMateriel extends StatefulWidget {
 
 class _AjoutMaterielState extends State<AjoutMateriel> {
   var cle = GlobalKey<FormState>();
+  List<Fournisseur> fournisseurs = [];
   String _libelle, _type, _fournisseur;
   double _prix;
   int _quantite;
-  void _valider() {
+  Future<void> _valider() async {
     if (cle.currentState.validate()) {
       cle.currentState.save();
+      Map<String, dynamic> donnees = {
+        "libelle": _libelle,
+        "type": _type,
+        "prix": _prix.toString(),
+        "quantite": _quantite.toString(),
+        "idFournisseur": "1"
+      };
+      var url = Connexion.url + "materiel";
+      print(url);
+      var response = await http.post(Uri.encodeFull(url), body: donnees);
+      if (response.statusCode == 200) {
+        print(response.body);
+        cle.currentState.reset();
+      }
     }
+  }
+
+  List<DropdownMenuItem> listF() {
+    List<DropdownMenuItem> l = [];
+    for (Fournisseur f in fournisseurs) {
+      l.add(DropdownMenuItem(
+        child: Text('${f.nom}-${f.telephone}'),
+        value: f.idFournisseur,
+      ));
+    }
+    return l;
+  }
+
+  Future<void> getFournisseur() async {
+    var url = Connexion.url + "fournisseur";
+    var donnee = await http.get(url);
+    if (donnee.statusCode == 200) {
+      print(donnee.body);
+      var f = convert.jsonDecode(donnee.body);
+      for (var fn in f) {
+        fournisseurs.add(Fournisseur(
+            adresse: fn["adresse"],
+            nom: fn["nom"],
+            telephone: fn["telephone"],
+            idFournisseur: fn["idFournisseur"]));
+      }
+      print(fournisseurs.length);
+    }
+  }
+
+  @override
+  void initState() {
+    getFournisseur();
+    super.initState();
   }
 
   @override
@@ -184,45 +238,46 @@ class _AjoutMaterielState extends State<AjoutMateriel> {
                         height: 10,
                       ),
                       DropdownButtonFormField(
-                        validator: (value) {
-                          if (value == null) {
-                            return "le champs est obligatoire";
-                          }
-                        },
-                        onSaved: (value) {
-                          setState(() {
-                            _fournisseur = value;
-                          });
-                        },
-                        value: _fournisseur,
-                        onChanged: (value) {
-                          setState(() {
-                            _fournisseur = value;
-                          });
-                        },
-                        decoration: InputDecoration(
-                            hintText: "selectionner un fournisseur",
-                            border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(20))),
-                        items: [
-                          DropdownMenuItem(
-                            child: Text("assane diallo"),
-                            value: "assane diallo",
+                          validator: (value) {
+                            if (value == null) {
+                              return "le champs est obligatoire";
+                            }
+                          },
+                          onSaved: (value) {
+                            setState(() {
+                              _fournisseur = value;
+                            });
+                          },
+                          value: _fournisseur,
+                          onChanged: (value) {
+                            setState(() {
+                              _fournisseur = value;
+                            });
+                          },
+                          decoration: InputDecoration(
+                              hintText: "selectionner un fournisseur",
+                              border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(20))),
+                          items: fournisseurs.isNotEmpty ? listF() : null
+                          // [
+                          //   DropdownMenuItem(
+                          //     child: Text("assane diallo"),
+                          //     value: "assane diallo",
+                          //   ),
+                          //   DropdownMenuItem(
+                          //     child: Text("Bassirou Dabo"),
+                          //     value: "Bassirou Dabo",
+                          //   ),
+                          //   DropdownMenuItem(
+                          //     child: Text("Makhan traore"),
+                          //     value: "Makhan traore",
+                          //   ),
+                          //   DropdownMenuItem(
+                          //     child: Text("Yakhouba Cisse"),
+                          //     value: "Yakhouba Cisse",
+                          //   ),
+                          // ],
                           ),
-                          DropdownMenuItem(
-                            child: Text("Bassirou Dabo"),
-                            value: "Bassirou Dabo",
-                          ),
-                          DropdownMenuItem(
-                            child: Text("Makhan traore"),
-                            value: "Makhan traore",
-                          ),
-                          DropdownMenuItem(
-                            child: Text("Yakhouba Cisse"),
-                            value: "Yakhouba Cisse",
-                          ),
-                        ],
-                      ),
                       SizedBox(
                         height: 20,
                       ),

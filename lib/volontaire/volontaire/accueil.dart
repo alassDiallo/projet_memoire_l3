@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gestion_materiel_cmu/consultation/analyse.dart';
 import 'package:gestion_materiel_cmu/volontaire/volontaire/patient/consulation.dart';
 import 'package:gestion_materiel_cmu/volontaire/volontaire/depense/liste.dart';
 import 'package:gestion_materiel_cmu/volontaire/volontaire/form/form_patient.dart';
@@ -167,12 +168,10 @@ class _VolontaireState extends State<Volontaire> {
                     TableRow(children: [
                       GestureDetector(
                         onTap: () {
-                       Consultation()
                           Navigator.push(
                               context,
                               MaterialPageRoute(
                                   builder: (context) => FormPatient1(
-                                   
                                         page: Consultation(),
                                         couleur:
                                             Colors.greenAccent.withOpacity(0.5),
@@ -191,12 +190,11 @@ class _VolontaireState extends State<Volontaire> {
                       ),
                       GestureDetector(
                         onTap: () {
-                          Analys
                           Navigator.push(
                               context,
                               MaterialPageRoute(
                                   builder: (context) => FormPatient1(
-                                        page: AnalyseP(),
+                                        page: Analyse(),
                                         couleur:
                                             Colors.redAccent.withOpacity(0.6),
                                       )));

@@ -35,14 +35,14 @@ class _LoginState extends State<Login> {
       child: SingleChildScrollView(
         child: Container(
             width: double.infinity,
-            height: size.height,
+            // height: size.height,
             child: Stack(
               alignment: Alignment.center,
               children: [
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text("CONNEXION",
+                    Text("Authentification",
                         style: TextStyle(
                             fontSize: 30,
                             color: Colors.black,

@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:gestion_materiel_cmu/controllers/Connexion.dart';
+import 'package:http/http.dart' as http;
+import 'dart:async';
+import 'dart:convert' as convert;
 
 class AjoutFournisseur extends StatefulWidget {
   @override
@@ -9,9 +13,23 @@ class _AjoutFournisseurState extends State<AjoutFournisseur> {
   var cle = GlobalKey<FormState>();
   String _information, _adresse, _email, _telephone;
 
-  void _valider() {
+  Future<void> _valider() async {
     if (cle.currentState.validate()) {
       cle.currentState.save();
+      Map<String, dynamic> donnees = {
+        "nom": _information,
+        "adresse": _adresse,
+        "email": _email,
+        "telephone": _telephone
+      };
+
+      var url = Connexion.url + "fournisseur";
+      print(url);
+      var reponse = await http.post(Uri.encodeFull(url), body: donnees);
+      if (reponse.statusCode == 200) {
+        print(reponse.body);
+        cle.currentState.reset();
+      }
     }
   }
 
@@ -117,7 +135,6 @@ class _AjoutFournisseurState extends State<AjoutFournisseur> {
                               height: 10,
                             ),
                             TextFormField(
-                            
                               keyboardType: TextInputType.emailAddress,
                               validator: (value) {
                                 if (value.isEmpty ||

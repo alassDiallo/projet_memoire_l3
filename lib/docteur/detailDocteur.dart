@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:gestion_materiel_cmu/models/medecin.dart';
 
 class DetailDocteur extends StatelessWidget {
+  Medecin medecin;
+  DetailDocteur({this.medecin});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,11 +39,31 @@ class DetailDocteur extends StatelessWidget {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text("Dr. Assane Diallo",
+                        Text("Dr. " + medecin.prenom + " " + medecin.nom,
                             style: TextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 20)),
                         SizedBox(height: 10),
-                        Text("Optalmologue"),
+                        Text(medecin.libelleSpecialite),
+                        SizedBox(height: 10),
+                        Row(
+                          children: [
+                            Icon(
+                              Icons.local_hospital,
+                              color: Colors.green,
+                            ),
+                            Text(medecin.structure),
+                          ],
+                        ),
+                        SizedBox(height: 10),
+                        Row(
+                          children: [
+                            Icon(
+                              Icons.location_pin,
+                              color: Colors.red,
+                            ),
+                            Text(medecin.region),
+                          ],
+                        ),
                         SizedBox(height: 10),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,

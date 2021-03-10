@@ -2,11 +2,13 @@ class Volontaire {
   String nom;
   String prenom;
   String lieuDeNaissance;
-  Date dateDeNaissance;
+  DateTime dateDeNaissance;
   String adresse;
   String numeroCIN;
   String telephone;
   String email;
+  bool etat;
+  String referenceVolontaire;
 
   Volontaire(
       {this.nom,
@@ -16,5 +18,7 @@ class Volontaire {
       this.adresse,
       this.numeroCIN,
       this.telephone,
-      this.email});
+      this.email,
+      this.etat,
+      this.referenceVolontaire});
 }

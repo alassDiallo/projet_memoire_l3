@@ -1,7 +1,13 @@
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:flutter/material.dart';
+import 'package:gestion_materiel_cmu/controllers/Connexion.dart';
+import 'package:gestion_materiel_cmu/jika/statistique.dart';
+import 'package:gestion_materiel_cmu/models/Structure.dart';
+import 'package:gestion_materiel_cmu/models/materiel.dart';
 import 'package:intl/intl.dart';
 import 'dart:async';
+import 'package:http/http.dart' as http;
+import 'dart:convert' as convert;
 import 'package:flutter_datetime_formfield/flutter_datetime_formfield.dart';
 
 class AjoutVolontaireFormulaire extends StatefulWidget {
@@ -12,6 +18,33 @@ class AjoutVolontaireFormulaire extends StatefulWidget {
 
 class _AjoutVolontaireFormulaireState extends State<AjoutVolontaireFormulaire> {
   var cle = GlobalKey<FormState>();
+  List<Structure> _structures = [];
+  List<Materiel> _materiels = [];
+  Future<void> _getStrMat() async {
+    var url1 = Connexion.url + "materiel";
+    var url2 = Connexion.url + "structure";
+    var donnee = await http.get(url1);
+    var donnee2 = await http.get(url2);
+    if (donnee.statusCode == 200) {
+      var st = convert.jsonDecode(donnee.body);
+      for (var str in st) {
+        _materiels.add(Materiel(
+            libelle: str["libelle"],
+            idMateriel: str["idMateriel"],
+            reference: str["reference"]));
+      }
+    }
+    if (donnee2.statusCode == 200) {
+      var st = convert.jsonDecode(donnee2.body);
+      for (var str in st) {
+        _structures.add(Structure(
+            nom: str["nomStructure"], idStructure: str["idStructure"]));
+      }
+    }
+    print(_structures.length);
+    print(_materiels.length);
+  }
+
   String _nom;
   String _prenom;
   String _lieuDeNaissance;
@@ -21,14 +54,63 @@ class _AjoutVolontaireFormulaireState extends State<AjoutVolontaireFormulaire> {
   String _telephone;
   String _email;
   String _sexe;
+  int _materiel, _structure;
 
   int _currenteEtape = 0;
 
-  void _enregistrer() {
+  Future<void> _enregistrer() async {
     if (cle.currentState.validate()) {
       cle.currentState.save();
-      print("enregistrement reussi");
+      Map<String, dynamic> volontaire = {
+        "nom": _nom,
+        "prenom": _prenom,
+        "dateDeNaissance": _dateDeNaissance.toString(),
+        "lieuDeNaissance": _lieuDeNaissance,
+        "adresse": _adresse,
+        "telephone": _telephone,
+        "email": _email,
+        "sexe": _sexe,
+        "cin": _numeroCIN,
+        "structure": _structure.toString(),
+        "materiel": _materiel.toString()
+      };
+      print(volontaire);
+      var url = Connexion.url + "volontaire";
+      var donnee = await http.post(Uri.encodeFull(url), body: volontaire);
+      if (donnee.statusCode == 200) {
+        print(donnee.body);
+        cle.currentState.reset();
+        reussite();
+      }
     }
+  }
+
+  List<DropdownMenuItem> listeS() {
+    List<DropdownMenuItem> l = [];
+    for (Structure st in _structures) {
+      l.add(DropdownMenuItem(
+        child: Text(st.nom),
+        value: st.idStructure,
+      ));
+    }
+    return l;
+  }
+
+  List<DropdownMenuItem> listeM() {
+    List<DropdownMenuItem> l = [];
+    for (Materiel st in _materiels) {
+      l.add(DropdownMenuItem(
+        child: Text('${st.libelle}-${st.reference}'),
+        value: st.idMateriel,
+      ));
+    }
+    return l;
+  }
+
+  @override
+  void initState() {
+    _getStrMat();
+    super.initState();
   }
 
   final format = DateFormat("MM-dd-yyyy");
@@ -74,30 +156,77 @@ class _AjoutVolontaireFormulaireState extends State<AjoutVolontaireFormulaire> {
                             validator: (value) {
                               if (value.isEmpty) {
                                 return "veuillez remplir le champs";
+                              } else if (value.length < 2) {
+                                return "le nom doit avoir aumoins 2 caractére";
                               }
                             },
                             decoration: InputDecoration(
+                              labelText: "nom volontaire",
+                              labelStyle: TextStyle(
+                                  fontSize: 20, fontWeight: FontWeight.bold),
+                              floatingLabelBehavior:
+                                  FloatingLabelBehavior.always,
                               hintText: "saisir le nom du volontaire",
                               border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10)),
-                              labelText: "saisir le nom du volontaire",
                             ),
                           ),
                           SizedBox(
-                            height: 10,
+                            height: 30,
                           ),
                           TextFormField(
+                            onChanged: (value) {
+                              setState(() {
+                                _prenom = value;
+                              });
+                            },
+                            onSaved: (value) {
+                              _prenom = value;
+                            },
+                            validator: (value) {
+                              if (value.isEmpty) {
+                                return "veuillez renseigner le champs";
+                              } else {
+                                if (value.length < 2) {
+                                  return "le prenom doit comporter aumoins 2 caractere";
+                                }
+                              }
+                            },
                             decoration: InputDecoration(
                                 border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(10)),
-                                labelText: "saisir le prenom du volontaire",
+                                labelText: "prenom volontaire",
+                                labelStyle: TextStyle(
+                                    fontSize: 20, fontWeight: FontWeight.bold),
+                                floatingLabelBehavior:
+                                    FloatingLabelBehavior.always,
                                 hintText: "saiasir le prenom du volontaire"),
                           ),
                           SizedBox(
-                            height: 10,
+                            height: 30,
                           ),
                           DateTimeField(
+                            validator: (value) {
+                              if (value == null) {
+                                return "veuillez choisir la date de naissance";
+                              }
+                            },
+                            onChanged: (value) {
+                              setState(() {
+                                _dateDeNaissance = value;
+                              });
+                            },
+                            onSaved: (value) {
+                              setState(() {
+                                _dateDeNaissance = value;
+                              });
+                            },
                             decoration: InputDecoration(
+                                labelText: "date de naissance du volontaire",
+                                labelStyle: TextStyle(
+                                    fontSize: 20, fontWeight: FontWeight.bold),
+                                floatingLabelBehavior:
+                                    FloatingLabelBehavior.always,
                                 hintText: "choisir la date de naisssance",
                                 suffixIcon: Icon(Icons.date_range),
                                 border: OutlineInputBorder(
@@ -106,9 +235,12 @@ class _AjoutVolontaireFormulaireState extends State<AjoutVolontaireFormulaire> {
                             onShowPicker: (context, currentValue) {
                               return showDatePicker(
                                   context: context,
-                                  firstDate: DateTime(1900),
-                                  initialDate: currentValue ?? DateTime.now(),
-                                  lastDate: DateTime(2100));
+                                  firstDate: DateTime.now().subtract(
+                                      Duration(seconds: 3600 * 24 * 365 * 60)),
+                                  initialDate: DateTime.now().subtract(
+                                      Duration(seconds: 3600 * 24 * 365 * 18)),
+                                  lastDate: DateTime.now().subtract(
+                                      Duration(seconds: 3600 * 24 * 365 * 18)));
                             },
                           ),
                           // DateTimeFormField(
@@ -132,66 +264,329 @@ class _AjoutVolontaireFormulaireState extends State<AjoutVolontaireFormulaire> {
                           //   },
                           //   decoration: InputDecoration(
                           //       border: OutlineInputBorder(
-                          //           borderRadius: BorderRadius.circular(10)),
+                          //           borderRadius: BorderRadius.circular(30)),
                           //       labelText: "choisissez la date de naissance"),
                           //   onTap: _dateD,
                           // ),
                           SizedBox(
-                            height: 10,
+                            height: 30,
                           ),
                           TextFormField(
+                            onChanged: (value) {
+                              setState(() {
+                                _lieuDeNaissance = value;
+                              });
+                            },
+                            onSaved: (value) {
+                              setState(() {
+                                _lieuDeNaissance = value;
+                              });
+                            },
+                            validator: (value) {
+                              if (value.isEmpty) {
+                                return "veullez renseigner le champs";
+                              } else {
+                                if (value.length < 2) {
+                                  return "le lieu de naissance doit avoir aumoins 2 caractere";
+                                }
+                              }
+                            },
                             decoration: InputDecoration(
                                 border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(10)),
-                                labelText:
-                                    "saisir le lieu de naissance du volontaire",
+                                labelText: "lieu de naissance du volontaire",
+                                labelStyle: TextStyle(
+                                    fontSize: 20, fontWeight: FontWeight.bold),
+                                floatingLabelBehavior:
+                                    FloatingLabelBehavior.always,
                                 hintText:
                                     "saiasir le lieu de naissance du volontaire"),
                           ),
                           SizedBox(
-                            height: 10,
+                            height: 30,
+                          ),
+                          DropdownButtonFormField(
+                              onSaved: (value) {
+                                setState(() {
+                                  _sexe = value;
+                                });
+                              },
+                              validator: (value) {
+                                if (value == null) {
+                                  return "veullez renseigner le champs";
+                                }
+                              },
+                              decoration: InputDecoration(
+                                border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10)),
+                                labelText: "Sexe",
+                                hintText: "choisir le sexe",
+                                labelStyle: TextStyle(
+                                    fontSize: 20, fontWeight: FontWeight.bold),
+                                floatingLabelBehavior:
+                                    FloatingLabelBehavior.always,
+                              ),
+                              onChanged: (value) {
+                                setState(() {
+                                  _sexe = value;
+                                });
+                              },
+                              items: [
+                                DropdownMenuItem(
+                                  child: Text("homme"),
+                                  value: "homme",
+                                ),
+                                DropdownMenuItem(
+                                  child: Text("femme"),
+                                  value: "femme",
+                                )
+                              ]),
+                          SizedBox(
+                            height: 30,
                           ),
                           TextFormField(
+                            onChanged: (value) {
+                              setState(() {
+                                _adresse = value;
+                              });
+                            },
+                            onSaved: (value) {
+                              setState(() {
+                                _adresse = value;
+                              });
+                            },
+                            validator: (value) {
+                              if (value.isEmpty) {
+                                return "veullez renseigner le champs";
+                              } else {
+                                if (value.length < 2) {
+                                  return "l'adresse doit avoir aumoins 2 caractere";
+                                }
+                              }
+                            },
                             decoration: InputDecoration(
                                 border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(10)),
-                                labelText: "saisir l'adresse du volontaire",
+                                labelText: "Adresse du volontaire",
+                                labelStyle: TextStyle(
+                                    fontSize: 20, fontWeight: FontWeight.bold),
+                                floatingLabelBehavior:
+                                    FloatingLabelBehavior.always,
                                 hintText: "saiasir l'adresse du volontaire"),
                           ),
                           SizedBox(
-                            height: 10,
+                            height: 30,
                           ),
+
                           TextFormField(
+                            onChanged: (value) {
+                              setState(() {
+                                _telephone = value;
+                              });
+                            },
+                            onSaved: (value) {
+                              setState(() {
+                                _telephone = value;
+                              });
+                            },
+                            validator: (value) {
+                              if (value.isEmpty) {
+                                return "veullez renseigner le champs";
+                              } else {
+                                if (value.length < 9) {
+                                  return "le telephone comporte 9 chiffre";
+                                }
+                              }
+                            },
+                            maxLength: 9,
+                            keyboardType: TextInputType.number,
                             decoration: InputDecoration(
+                                labelText: "telephone du volontaire",
+                                labelStyle: TextStyle(
+                                    fontSize: 20, fontWeight: FontWeight.bold),
+                                floatingLabelBehavior:
+                                    FloatingLabelBehavior.always,
                                 border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(10)),
-                                labelText: "saisir le telephone du volontaire",
                                 hintText: "saiasir le telephone du volontaire"),
                           ),
                           SizedBox(
-                            height: 10,
+                            height: 30,
                           ),
                           TextFormField(
+                            onChanged: (value) {
+                              setState(() {
+                                _numeroCIN = value;
+                              });
+                            },
+                            onSaved: (value) {
+                              setState(() {
+                                _numeroCIN = value;
+                              });
+                            },
+                            validator: (value) {
+                              if (value.isEmpty) {
+                                return "veullez renseigner le champs";
+                              } else {
+                                if (value.length < 9) {
+                                  return "le numero de CIN/Passe-Port doit contenir aumoins 9 caracteres";
+                                }
+                              }
+                            },
+                            keyboardType: TextInputType.text,
+                            maxLength: 12,
                             decoration: InputDecoration(
                                 border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(10)),
                                 labelText:
-                                    "saisir le numero d'identification  du volontaire",
+                                    "numero CIN/Passe-Port du volontaire",
+                                labelStyle: TextStyle(
+                                    fontSize: 20, fontWeight: FontWeight.bold),
+                                floatingLabelBehavior:
+                                    FloatingLabelBehavior.always,
                                 hintText:
-                                    "saiasir le numero d'identification du volontaire"),
+                                    "saiasir le numero de CIN/passe-Port du volontaire"),
                           ),
                           SizedBox(
-                            height: 10,
+                            height: 30,
                           ),
                           TextFormField(
+                            keyboardType: TextInputType.emailAddress,
+                            onChanged: (value) {
+                              setState(() {
+                                _email = value;
+                              });
+                            },
+                            onSaved: (value) {
+                              setState(() {
+                                _email = value;
+                              });
+                            },
+                            validator: (value) {
+                              if (value.isEmpty) {
+                                return "veullez renseigner le champs";
+                              } else {
+                                if (value.isEmpty ||
+                                    !RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                                        .hasMatch(value)) {
+                                  return 'Entrer une adresse email valide';
+                                }
+                              }
+                            },
                             decoration: InputDecoration(
+                                labelText: "email du volontaire",
+                                labelStyle: TextStyle(
+                                    fontSize: 20, fontWeight: FontWeight.bold),
+                                floatingLabelBehavior:
+                                    FloatingLabelBehavior.always,
                                 border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(10)),
-                                labelText: "saisir le email du volontaire",
                                 hintText: "saiasir le email du volontaire"),
                           ),
                           SizedBox(
-                            height: 10,
+                            height: 30,
+                          ),
+                          DropdownButtonFormField(
+                              onSaved: (value) {
+                                setState(() {
+                                  _structure = value;
+                                });
+                              },
+                              validator: (value) {
+                                if (value == null) {
+                                  return "veuillez choisir une structure";
+                                }
+                              },
+                              decoration: InputDecoration(
+                                border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10)),
+                                hintText: "choisir la structure",
+                                labelText: "Structure",
+                                labelStyle: TextStyle(
+                                    fontSize: 20, fontWeight: FontWeight.bold),
+                                floatingLabelBehavior:
+                                    FloatingLabelBehavior.always,
+                              ),
+                              onChanged: (value) {
+                                setState(() {
+                                  _structure = value;
+                                });
+                              },
+                              items: _structures.isNotEmpty ? listeS() : null
+                              // [
+                              //   DropdownMenuItem(
+                              //     child: Text("structure de dakar"),
+                              //     value: 5,
+                              //   ),
+                              //   DropdownMenuItem(
+                              //     child: Text("structure de thies"),
+                              //     value: 2,
+                              //   ),
+                              //   DropdownMenuItem(
+                              //     child: Text("structure de Matam"),
+                              //     value: 3,
+                              //   ),
+                              //   DropdownMenuItem(
+                              //     child: Text("structure de Louga"),
+                              //     value: 4,
+                              //   ),
+                              // ]
+                              ),
+                          SizedBox(
+                            height: 30,
+                          ),
+                          DropdownButtonFormField(
+                              onSaved: (value) {
+                                setState(() {
+                                  _materiel = value;
+                                });
+                              },
+                              validator: (value) {
+                                if (value == null) {
+                                  return "veillez choisir un materiel";
+                                }
+                              },
+                              decoration: InputDecoration(
+                                border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10)),
+                                hintText: "choisir le materiel",
+                                labelText: "Materiel",
+                                labelStyle: TextStyle(
+                                    fontSize: 20, fontWeight: FontWeight.bold),
+                                floatingLabelBehavior:
+                                    FloatingLabelBehavior.always,
+                              ),
+                              onChanged: (value) {
+                                setState(() {
+                                  _materiel = value;
+                                });
+                              },
+                              items: _materiels.isNotEmpty ? listeM() : null
+                              // [
+                              //   DropdownMenuItem(
+                              //     child: Text("ordinateur-0000"),
+                              //     value: 1,
+                              //   ),
+                              //   DropdownMenuItem(
+                              //     child: Text("ordinateur-0001"),
+                              //     value: 2,
+                              //   ),
+                              //   DropdownMenuItem(
+                              //     child: Text("ordinateur-0002"),
+                              //     value: 3,
+                              //   ),
+                              //   DropdownMenuItem(
+                              //     child: Text("ordinateur-0003"),
+                              //     value: 4,
+                              //   ),
+                              //   DropdownMenuItem(
+                              //     child: Text("ordinateur-0004"),
+                              //     value: 5,
+                              //   ),
+                              // ]
+                              ),
+                          SizedBox(
+                            height: 20,
                           ),
                         ],
                       )),
@@ -212,13 +607,13 @@ class _AjoutVolontaireFormulaireState extends State<AjoutVolontaireFormulaire> {
         ));
   }
 
-  void continuer() {
-    _currenteEtape < 3
-        ? setState(() {
-            _currenteEtape += 1;
-          })
-        : null;
-  }
+  // void continuer() {
+  //   _currenteEtape < 3
+  //       ? setState(() {
+  //           _currenteEtape += 1;
+  //         })
+  //       : null;
+  // }
 
   Future<Null> _dateD() async {
     print(DateTime.now().year - 20);
@@ -235,33 +630,67 @@ class _AjoutVolontaireFormulaireState extends State<AjoutVolontaireFormulaire> {
     }
   }
 
-  Widget etape() {
-    return Stepper(
-        currentStep: _currenteEtape,
-        type: StepperType.horizontal,
-        onStepTapped: (int i) {
-          setState(() {
-            _currenteEtape = i;
-          });
-        },
-        onStepContinue: continuer,
-        onStepCancel: () {
-          _currenteEtape > 0
-              ? setState(() {
-                  _currenteEtape -= 1;
-                })
-              : null;
-        },
-        steps: etapes);
+  Future reussite() async {
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            content: Center(
+              child: Column(
+                children: [
+                  CircleAvatar(
+                    radius: 60,
+                    child: Icon(
+                      Icons.check,
+                      size: 50,
+                    ),
+                    backgroundColor: Colors.greenAccent,
+                  ),
+                  Text("Enregistrement du volontaire reussi"),
+                  FlatButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: Text("Terminer"),
+                      minWidth: MediaQuery.of(context).size.width,
+                      padding: EdgeInsets.symmetric(
+                        vertical: 20,
+                        horizontal: 40,
+                      ))
+                ],
+              ),
+            ),
+          );
+        });
   }
 
-  List<Step> etapes = [
-    Step(content: Text("civilité"), title: Text("civilite")),
-    Step(
-        title: Text("Indentification et localisation"),
-        content: Text("localisation")),
-    Step(
-        title: Text("Affectation et attribution"),
-        content: Text("affectation et attribution"))
-  ];
+//   Widget etape() {
+//     return Stepper(
+//         currentStep: _currenteEtape,
+//         type: StepperType.horizontal,
+//         onStepTapped: (int i) {
+//           setState(() {
+//             _currenteEtape = i;
+//           });
+//         },
+//         onStepContinue: continuer,
+//         onStepCancel: () {
+//           _currenteEtape > 0
+//               ? setState(() {
+//                   _currenteEtape -= 1;
+//                 })
+//               : null;
+//         },
+//         steps: etapes);
+//   }
+
+//   List<Step> etapes = [
+//     Step(content: Text("civilité"), title: Text("civilite")),
+//     Step(
+//         title: Text("Indentification et localisation"),
+//         content: Text("localisation")),
+//     Step(
+//         title: Text("Affectation et attribution"),
+//         content: Text("affectation et attribution"))
+//   ];
 }

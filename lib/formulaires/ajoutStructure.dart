@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:gestion_materiel_cmu/controllers/Connexion.dart';
+import 'package:http/http.dart' as http;
+import 'dart:async';
+import 'dart:convert' as convert;
+import 'dart:io';
 
 class AjoutStructure extends StatefulWidget {
   @override
@@ -11,13 +16,34 @@ class _AjoutStructureState extends State<AjoutStructure> {
 
   final cle = GlobalKey<FormState>();
 
-  void _valider() {
+  Future<void> _valider() async {
     if (cle.currentState.validate()) {
       cle.currentState.save();
-      print(_nom);
-      print(_region);
-      print(_adresse);
-      print(_telephone);
+      var url = Connexion.url + "structure";
+      print(url);
+      // var data = await http.get(url);
+      // var donnee = convert.jsonDecode(data.body);
+      // print(donnee);
+      Map<String, dynamic> donnees = {
+        "nom": _nom,
+        "region": _region,
+        "adresse": _adresse,
+        "telephone": _telephone
+      };
+      print(donnees);
+
+      final reponse = await http.post(Uri.encodeFull(url), body: donnees);
+      print(reponse.statusCode);
+      if (reponse.statusCode == 200) {
+        var c = convert.jsonDecode(reponse.body);
+        cle.currentState.reset();
+        // print(c["error"]["telephone"][0]);
+      }
+      // print(_nom);
+      // print(_region);
+      // print(_adresse);
+      // print(_telephone);
+
     }
   }
 
@@ -54,6 +80,9 @@ class _AjoutStructureState extends State<AjoutStructure> {
                         SizedBox(height: 10),
                         TextFormField(
                           decoration: InputDecoration(
+                              // labelText: "nom structure",
+                              // floatingLabelBehavior:
+                              //     FloatingLabelBehavior.always,
                               hintText: "entrer le nom de la structure",
                               border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(20))),
@@ -141,7 +170,7 @@ class _AjoutStructureState extends State<AjoutStructure> {
                               ),
                               DropdownMenuItem(
                                 child: Text("Kaffrine"),
-                                value: "Thies",
+                                value: "Kaffrine",
                               ),
                               DropdownMenuItem(
                                   child: Text("Tambacounda"),

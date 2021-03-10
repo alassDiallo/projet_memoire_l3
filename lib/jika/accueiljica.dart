@@ -3,6 +3,7 @@ import 'package:gestion_materiel_cmu/formulaires/ajoutFournisseur.dart';
 import 'package:gestion_materiel_cmu/formulaires/ajoutMAteriel.dart';
 import 'package:gestion_materiel_cmu/formulaires/ajoutStructure.dart';
 import 'package:gestion_materiel_cmu/formulaires/ajoutVolontaire.dart';
+import 'package:gestion_materiel_cmu/jika/statistique.dart';
 import 'comptabilite.dart';
 
 class AccueilJica extends StatelessWidget {
@@ -36,7 +37,7 @@ class AccueilJica extends StatelessWidget {
       body: SingleChildScrollView(
         child: Container(
           color: Colors.blue[50],
-          height: MediaQuery.of(context).size.height,
+          // height: MediaQuery.of(context).size.height,
           width: double.infinity,
           child: Column(
             children: [
@@ -92,8 +93,8 @@ class AccueilJica extends StatelessWidget {
                                   Container(
                                       child: Image.asset(
                                     "images/comptabilite.png",
-                                    width: 100,
-                                    height: 100,
+                                    width: size.width * 0.2,
+                                    height: size.height * 0.15,
                                   ))
                                 ],
                               ),
@@ -106,44 +107,54 @@ class AccueilJica extends StatelessWidget {
                         ),
                       ),
                     ),
-                    Card(
-                      margin:
-                          EdgeInsets.symmetric(vertical: 20, horizontal: 10),
-                      color: Colors.red,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30)),
-                      elevation: 5,
-                      child: Container(
-                        margin: EdgeInsets.all(30),
-                        width: MediaQuery.of(context).size.width * 0.7,
-                        height: MediaQuery.of(context).size.height * 0.2,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      "Statistique",
-                                      style: TextStyle(
-                                          color: Colors.white, fontSize: 15),
-                                    ),
-                                  ],
-                                ),
-                                Image.asset(
-                                  "images/stat.png",
-                                  width: 200,
-                                  height: 100,
-                                ),
-                              ],
-                            ),
-                            Divider(
-                              color: Colors.white,
-                            )
-                          ],
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => Statistique()));
+                      },
+                      child: Card(
+                        margin:
+                            EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+                        color: Colors.red,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30)),
+                        elevation: 5,
+                        child: Container(
+                          margin: EdgeInsets.all(30),
+                          width: MediaQuery.of(context).size.width * 0.7,
+                          height: MediaQuery.of(context).size.height * 0.2,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        "Statistique",
+                                        style: TextStyle(
+                                            color: Colors.white, fontSize: 15),
+                                      ),
+                                    ],
+                                  ),
+                                  Image.asset(
+                                    "images/stat.png",
+                                    width: size.width * 0.2,
+                                    height: size.height * 0.15,
+                                  ),
+                                ],
+                              ),
+                              Divider(
+                                color: Colors.white,
+                              )
+                            ],
+                          ),
                         ),
                       ),
                     ),

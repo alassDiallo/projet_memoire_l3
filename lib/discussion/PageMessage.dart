@@ -201,14 +201,15 @@ class _PageMessageState extends State<PageMessage> {
         leading: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            IconButton(
-                icon: Icon(
-                  Icons.arrow_back,
-                  size: 24,
-                ),
-                onPressed: () {
-                  Navigator.pop(context);
-                }),
+            BackButton(),
+            // IconButton(
+            //     icon: Icon(
+            //       Icons.arrow_back,
+            //       size: 24,
+            //     ),
+            //     onPressed: () {
+            //       Navigator.pop(context);
+            //     }),
             //SizedBox(width: 6),
             CircleAvatar(
                 backgroundImage: AssetImage("images/vol.png"), maxRadius: 20),

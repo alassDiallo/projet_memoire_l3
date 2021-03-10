@@ -1,5 +1,5 @@
-class Utilisateur{
-  String nom,contenu,heure,image;
+class Utilisateur {
+  String nom, contenu, heure, image;
 
-  Utilisateur({this.nom,this.contenu,this.heure,this.image});
+  Utilisateur({this.nom, this.contenu, this.heure, this.image});
 }
