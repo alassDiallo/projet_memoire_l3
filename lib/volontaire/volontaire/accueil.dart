@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:gestion_materiel_cmu/volontaire/volontaire/facturation/analyse.dart';
+import 'package:gestion_materiel_cmu/volontaire/volontaire/form/form_rapport_maintennance.dart';
 import 'package:gestion_materiel_cmu/volontaire/volontaire/patient/consulation.dart';
-import 'package:gestion_materiel_cmu/volontaire/volontaire/depense/liste.dart';
+import 'package:gestion_materiel_cmu/volontaire/volontaire/rapport/rapport_depense.dart';
 import 'package:gestion_materiel_cmu/volontaire/volontaire/form/form_patient.dart';
 import 'package:gestion_materiel_cmu/volontaire/volontaire/rapport/rapport.dart';
+import 'package:gestion_materiel_cmu/volontaire/volontaire/rapport/rapport_maintenance.dart';
+import 'package:gestion_materiel_cmu/volontaire/volontaire/rapport/rapport_patient.dart';
 import 'package:gestion_materiel_cmu/volontaire/widget_composant/menuCard.dart';
 import 'package:gestion_materiel_cmu/volontaire/widget_composant/menuItems_Drawer.dart';
+import 'package:gestion_materiel_cmu/volontaire/widget_composant/menucardR.dart';
+import 'package:gestion_materiel_cmu/volontaire/widget_composant/menucardV.dart';
 
 class Volontaire extends StatefulWidget {
   @override
@@ -54,14 +60,15 @@ class _VolontaireState extends State<Volontaire> {
   static const coleur = Color(0xFF363568);
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-
     return Scaffold(
         appBar: AppBar(
-          //automaticallyImplyLeading: false,
-          leading: Icon(Icons.menu_open_outlined),
-          title: Text("Acceuil Volontaire"),
+          // automaticallyImplyLeading: false,
+          // leading: Icon(Icons.menu_open_outlined),
+          title: Text(""),
           centerTitle: true,
+          actions: [
+            IconButton(icon: Icon(Icons.message_rounded), onPressed: () {}),
+          ],
         ),
         drawer: Drawer(
             child: ListView(children: [
@@ -101,15 +108,15 @@ class _VolontaireState extends State<Volontaire> {
         body: SingleChildScrollView(
           child: Container(
             // color: coleur,
-            color: Colors.white70,
+            //  color: Colors.blue[50],
             width: double.infinity,
             // height: size.height,
             child: Column(
               children: [
                 Card(
-                  color: Colors.blueAccent.withOpacity(0.5),
+                  color: Colors.blueAccent.withOpacity(0.4),
                   // color: coleur.withOpacity(0.4),
-                  elevation: 10,
+                  elevation: 8,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.only(
                           bottomLeft: Radius.circular(40),
@@ -167,36 +174,33 @@ class _VolontaireState extends State<Volontaire> {
                     TableRow(children: [
                       GestureDetector(
                         onTap: () {
-                       Consultation()
                           Navigator.push(
                               context,
                               MaterialPageRoute(
                                   builder: (context) => FormPatient1(
-                                   
                                         page: Consultation(),
                                         couleur:
-                                            Colors.greenAccent.withOpacity(0.5),
+                                            Colors.greenAccent.withOpacity(0.4),
                                       )));
                         },
                         child: MenuCard(
                           text: "Consultation",
                           icon: Icon(
-                            Icons.person,
+                            Icons.remove_red_eye_sharp,
                             color: Colors.white,
                             size: 40,
                           ),
-                          couleurCard: Colors.blueAccent.withOpacity(0.5),
+                          couleurCard: Colors.blueAccent.withOpacity(0.4),
                           couleurCircle: Colors.greenAccent,
                         ),
                       ),
                       GestureDetector(
                         onTap: () {
-                          Analys
                           Navigator.push(
                               context,
                               MaterialPageRoute(
                                   builder: (context) => FormPatient1(
-                                        page: AnalyseP(),
+                                        page: Analyse(),
                                         couleur:
                                             Colors.redAccent.withOpacity(0.6),
                                       )));
@@ -209,46 +213,108 @@ class _VolontaireState extends State<Volontaire> {
                                 color: Colors.white,
                                 size: 50,
                               ),
-                              couleurCard: Colors.blueAccent.withOpacity(0.5),
+                              couleurCard: Colors.blueAccent.withOpacity(0.4),
                               couleurCircle: Colors.redAccent.shade200),
                         ),
                       )
                     ]),
-                    TableRow(children: [
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => Rapport()));
-                        },
-                        child: MenuCard(
-                            text: "  Rapport   ",
-                            icon: Icon(
-                              Icons.assessment_sharp,
-                              color: Colors.white,
-                              size: 40,
-                            ),
-                            couleurCard: Colors.blueAccent.withOpacity(0.5),
-                            couleurCircle: Colors.blueAccent),
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.push(context,
-                              MaterialPageRoute(builder: (context) => Liste()));
-                        },
-                        child: MenuCard(
-                            text: "  Depense   ",
-                            icon: Icon(
-                              Icons.monetization_on,
-                              color: Colors.white,
-                              size: 40,
-                            ),
-                            couleurCard: Colors.blueAccent.withOpacity(0.5),
-                            couleurCircle: Colors.yellow),
-                      )
-                    ]),
+                    // TableRow(children: [
+                    //   GestureDetector(
+                    //     onTap: () {
+                    //       Navigator.push(
+                    //           context,
+                    //           MaterialPageRoute(
+                    //               builder: (context) => Rapport()));
+                    //     },
+                    //     child: MenuCard(
+                    //         text: "  Rapport   ",
+                    //         icon: Icon(
+                    //           Icons.assessment_sharp,
+                    //           color: Colors.white,
+                    //           size: 40,
+                    //         ),
+                    //         couleurCard: Colors.blueAccent.withOpacity(0.5),
+                    //         couleurCircle: Colors.blueAccent),
+                    //   ),
+                    //   GestureDetector(
+                    //     onTap: () {
+                    //       Navigator.push(context,
+                    //           MaterialPageRoute(builder: (context) => Liste()));
+                    //     },
+                    //     child: MenuCard(
+                    //         text: "Dépense",
+                    //         icon: Icon(
+                    //           Icons.monetization_on,
+                    //           color: Colors.white,
+                    //           size: 40,
+                    //         ),
+                    //         couleurCard: Colors.blueAccent.withOpacity(0.5),
+                    //         couleurCircle: Colors.yellow),
+                    //   )
+                    // ]),
                   ]),
+                ),
+                // SingleChildScrollView(
+                //   scrollDirection: Axis.horizontal,
+                //   child: Row(
+                //     children: [
+                //       GestureDetector(
+                //         onTap: () {
+                //           Navigator.push(
+                //               context,
+                //               MaterialPageRoute(
+                //                   builder: (context) => Rapport_Depense()));
+                //         },
+                //         child: MenuCardV(
+                //             text: "Dépense",
+                //             icon: Icon(
+                //               Icons.monetization_on,
+                //               color: Colors.white,
+                //               size: 40,
+                //             ),
+                //             couleurCard: Colors.blueAccent.withOpacity(0.5),
+                //             couleurCircle: Colors.yellow),
+                //       ),
+                //       GestureDetector(
+                //         onTap: () {
+                //           Navigator.push(
+                //               context,
+                //               MaterialPageRoute(
+                //                   builder: (context) => Rapport_Patient()));
+                //         },
+                //         child: MenuCardV(
+                //             text: "Activite Patient",
+                //             icon: Icon(
+                //               Icons.person_outlined,
+                //               color: Colors.white,
+                //               size: 40,
+                //             ),
+                //             couleurCard: Colors.blueAccent.withOpacity(0.5),
+                //             couleurCircle: Colors.blueAccent),
+                //       ),
+                //       GestureDetector(
+                //         onTap: () {
+                //           Navigator.push(
+                //               context,
+                //               MaterialPageRoute(
+                //                   builder: (context) => Rapport_Maintenance()));
+                //         },
+                //         child: MenuCardV(
+                //             text: "Maintenance",
+                //             icon: Icon(
+                //               Icons.miscellaneous_services_rounded,
+                //               color: Colors.white,
+                //               size: 40,
+                //             ),
+                //             couleurCard: Colors.blueAccent.withOpacity(0.5),
+                //             couleurCircle: Colors.yellow),
+                //       ),
+                //     ],
+                //   ),
+                // )
+
+                MenuCardR(
+                  couleurCard: Colors.blueAccent.withOpacity(0.4),
                 ),
               ],
             ),

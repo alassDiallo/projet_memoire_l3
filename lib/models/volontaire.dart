@@ -2,7 +2,7 @@ class Volontaire {
   String nom;
   String prenom;
   String lieuDeNaissance;
-  Date dateDeNaissance;
+  // Date dateDeNaissance;
   String adresse;
   String numeroCIN;
   String telephone;
@@ -11,7 +11,7 @@ class Volontaire {
   Volontaire(
       {this.nom,
       this.prenom,
-      this.dateDeNaissance,
+      //  this.dateDeNaissance,
       this.lieuDeNaissance,
       this.adresse,
       this.numeroCIN,

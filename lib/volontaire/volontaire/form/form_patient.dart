@@ -19,22 +19,34 @@ class _FormPatient1State extends State<FormPatient1> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text(" Patient "),
+          title: Text("  "),
           centerTitle: true,
         ),
         body: Center(
           child: SingleChildScrollView(
             child: Container(
-              width: double.infinity,
+              //  width: double.infinity,
               // height: size.height,
               // decoration: BoxDecoration(
               //     image: DecorationImage(
-              //   image: AssetImage("img/i3.jpg"),
+              //   image: AssetImage("images/i3.jpg"),
               //   fit: BoxFit.contain,
               // )),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
+                  Container(
+                    padding: EdgeInsets.symmetric(
+                      vertical: 20,
+                    ),
+                    child: Text(
+                      "Entrer la référence CMU du patient",
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                    ),
+                  ),
+                  Divider(),
+                  SizedBox(height: 20),
                   Card(
                     color: widget.couleur,
                     // color: coleur.withOpacity(0.4),
@@ -54,8 +66,7 @@ class _FormPatient1State extends State<FormPatient1> {
                               children: <Widget>[
                                 TextFormField(
                                   decoration: InputDecoration(
-                                    labelText:
-                                        'Entrer la référence CMU du patient',
+                                    labelText: 'Référence CMU ',
                                     prefixIcon: Icon(Icons.code_rounded),
                                     border: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(15.0),
@@ -63,12 +74,26 @@ class _FormPatient1State extends State<FormPatient1> {
                                     ),
                                     hintText: 'Reference',
                                   ),
-                                  validator: (input) => input.isEmpty
-                                      ? ' Veuillez remplir ce champs'
-                                      : null,
-                                  onSaved: (input) => _reference = input,
+                                  validator: (value) {
+                                    if (value.isEmpty) {
+                                      return "le champs est obligatoire";
+                                    }
+                                  },
+                                  onChanged: (value) {
+                                    setState(() {
+                                      _reference = value;
+                                    });
+                                  },
+                                  onSaved: (value) {
+                                    setState(() {
+                                      _reference = value;
+                                    });
+                                  },
                                 ),
+                                SizedBox(height: 20),
                                 Container(
+                                  width:
+                                      MediaQuery.of(context).size.width - 110,
                                   child: ElevatedButton(
                                     onPressed: () {
                                       if (_formKey.currentState.validate()) {
@@ -82,14 +107,7 @@ class _FormPatient1State extends State<FormPatient1> {
                                             ));
                                       }
                                     },
-                                    // color: Colors.greenAccent,
-                                    // textColor: Colors.white,
-                                    // padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
-                                    // splashColor: Colors.grey,
                                     child: Text('Enregistrer'),
-                                    // shape: RoundedRectangleBorder(
-                                    //   borderRadius: BorderRadius.circular(20),
-                                    // ),
                                   ),
                                 )
                               ])),

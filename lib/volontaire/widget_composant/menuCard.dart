@@ -15,6 +15,7 @@ class MenuCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      width: MediaQuery.of(context).size.width * 0.4,
       //height: 140,
       child: Card(
         color: couleurCard,
@@ -48,7 +49,7 @@ class MenuCard extends StatelessWidget {
                 ],
               ),
               Divider(
-                height: 20,
+                height: 30,
                 color: Colors.white,
                 thickness: 2,
                 indent: 19,

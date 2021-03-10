@@ -8,9 +8,8 @@ class AjoutAnalyse extends StatefulWidget {
 
 class _AjoutAnalyseState extends State<AjoutAnalyse> {
   final _formKey = GlobalKey<FormState>();
-  String _description;
-
-  Double _cout;
+  String _libelle;
+  double _prix;
   DateTime _date;
 
   DateTime selectedDate = DateTime.now();
@@ -33,7 +32,7 @@ class _AjoutAnalyseState extends State<AjoutAnalyse> {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
-        title: Text("Analyse "),
+        title: Text(" "),
         centerTitle: true,
       ),
       body: SingleChildScrollView(
@@ -49,9 +48,20 @@ class _AjoutAnalyseState extends State<AjoutAnalyse> {
                 elevation: 7,
                 color: Colors.blue.withOpacity(0.6),
                 child: Container(
-                  child: Image.asset("img/analyse.jpg", fit: BoxFit.cover),
+                  child: Image.asset("images/analyse.jpg", fit: BoxFit.cover),
                 ),
               ),
+              Container(
+                padding: EdgeInsets.symmetric(
+                  vertical: 20,
+                ),
+                child: Text(
+                  "Ajouter un Analyse",
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                ),
+              ),
+              Divider(),
+              SizedBox(height: 20),
               Container(
                 margin: EdgeInsets.all(15),
                 child: Form(
@@ -60,64 +70,98 @@ class _AjoutAnalyseState extends State<AjoutAnalyse> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
                         TextFormField(
+                          keyboardType: TextInputType.text,
                           decoration: InputDecoration(
-                              labelText: 'Description',
-                              prefixIcon: Icon(Icons.description_rounded),
-                              border: OutlineInputBorder()),
-                          validator: (input) => input.isEmpty
-                              ? ' Veuillez remplir ce champs'
-                              : null,
-                          onSaved: (input) => _description = input,
-                        ),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        TextFormField(
-                          decoration: InputDecoration(
-                              labelText: 'Cout',
-                              prefixIcon: Icon(Icons.attach_money_sharp),
-                              border: OutlineInputBorder()),
-                          keyboardType: TextInputType.number,
-                          validator: (input) => input.isEmpty
-                              ? ' Veuillez remplir ce champs'
-                              : null,
-                          onSaved: (input) => _cout = input as Double,
-                        ),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        TextFormField(
-                          readOnly: true,
-                          decoration: InputDecoration(
-                            labelText: 'Date',
-                            hintText: selectedDate.toString(),
-                            prefixIcon: IconButton(
-                              icon: Icon(Icons.date_range_rounded),
-                              onPressed: () => _selectDate(context),
+                            labelText: 'Libelle',
+                            prefixIcon: Icon(Icons.description_rounded),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(15.0),
+                              borderSide: BorderSide(),
                             ),
                           ),
-
-                          // keyboardType: TextInputType.datetime,
-                          onTap: () => _selectDate(context),
-                          validator: (input) => input.isEmpty
-                              ? ' Veuillez remplir ce champs'
-                              : null,
-                          onSaved: (input) => _date = input as DateTime,
+                          validator: (value) {
+                            if (value.isEmpty) {
+                              return "le champs est obligatoire";
+                            }
+                          },
+                          onChanged: (value) {
+                            setState(() {
+                              _libelle = value;
+                            });
+                          },
+                          onSaved: (value) {
+                            setState(() {
+                              _libelle = value;
+                            });
+                          },
                         ),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        TextFormField(
+                          decoration: InputDecoration(
+                            labelText: 'Cout',
+                            prefixIcon: Icon(Icons.attach_money_sharp),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(15.0),
+                              borderSide: BorderSide(),
+                            ),
+                          ),
+                          keyboardType: TextInputType.number,
+                          validator: (value) {
+                            if (value.isEmpty) {
+                              return "le champs est obligatoire";
+                            } else if (double.parse(value) < 1) {
+                              return "veuillez saisir une valeur positive";
+                            }
+                          },
+                          onChanged: (value) {
+                            setState(() {
+                              _prix = double.parse(value);
+                            });
+                          },
+                          onSaved: (value) {
+                            setState(() {
+                              _prix = double.parse(value);
+                            });
+                          },
+                        ),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        // TextFormField(
+                        //   readOnly: true,
+                        //   decoration: InputDecoration(
+                        //     labelText: 'Date',
+                        //     hintText: selectedDate.toString(),
+                        //     prefixIcon: IconButton(
+                        //       icon: Icon(Icons.date_range_rounded),
+                        //       onPressed: () => _selectDate(context),
+                        //     ),
+                        //   ),
+
+                        //   // keyboardType: TextInputType.datetime,
+                        //   onTap: () => _selectDate(context),
+                        //   validator: (input) => input.isEmpty
+                        //       ? ' Veuillez remplir ce champs'
+                        //       : null,
+                        //   onSaved: (input) => _date = input as DateTime,
+                        // ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Container(
+                              width: MediaQuery.of(context).size.width - 110,
                               child: RaisedButton(
                                 onPressed: _submit,
                                 child: Text('  Enregistrer  '),
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(20),
                                 ),
-                                color: Colors.greenAccent,
-                                textColor: Colors.yellow,
+                                color: Colors.blue,
+                                textColor: Colors.white,
                                 padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
-                                splashColor: Colors.grey,
+                                splashColor: Colors.white,
                               ),
                             )
                           ],

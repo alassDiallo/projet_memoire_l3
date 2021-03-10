@@ -36,7 +36,7 @@ class AccueilJica extends StatelessWidget {
       body: SingleChildScrollView(
         child: Container(
           color: Colors.blue[50],
-          height: MediaQuery.of(context).size.height,
+          // height: MediaQuery.of(context).size.height,
           width: double.infinity,
           child: Column(
             children: [
@@ -92,8 +92,8 @@ class AccueilJica extends StatelessWidget {
                                   Container(
                                       child: Image.asset(
                                     "images/comptabilite.png",
-                                    width: 100,
-                                    height: 100,
+                                    width: size.width * 0.2,
+                                    height: size.height * 0.15,
                                   ))
                                 ],
                               ),
@@ -135,8 +135,8 @@ class AccueilJica extends StatelessWidget {
                                 ),
                                 Image.asset(
                                   "images/stat.png",
-                                  width: 200,
-                                  height: 100,
+                                  width: size.width * 0.2,
+                                  height: size.height * 0.15,
                                 ),
                               ],
                             ),

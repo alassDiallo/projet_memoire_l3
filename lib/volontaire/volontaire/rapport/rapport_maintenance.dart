@@ -11,10 +11,13 @@ class Rapport_Maintenance extends StatefulWidget {
 class _Rapport_MaintenanceState extends State<Rapport_Maintenance> {
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Scaffold(
-        body: Rapport_Maintenancev(),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Maintenance'),
+        centerTitle: true,
+        // actions: [Text("SELECTIONNER")],
       ),
+      body: SingleChildScrollView(child: Rapport_Maintenancev()),
     );
   }
 }

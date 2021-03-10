@@ -35,7 +35,7 @@ class _LoginState extends State<Login> {
       child: SingleChildScrollView(
         child: Container(
             width: double.infinity,
-            height: size.height,
+            // height: size.height,
             child: Stack(
               alignment: Alignment.center,
               children: [
