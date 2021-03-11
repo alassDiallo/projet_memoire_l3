@@ -13,9 +13,9 @@ class AjoutMateriel extends StatefulWidget {
 class _AjoutMaterielState extends State<AjoutMateriel> {
   var cle = GlobalKey<FormState>();
   List<Fournisseur> fournisseurs = [];
-  String _libelle, _type, _fournisseur;
+  String _libelle, _type;
   double _prix;
-  int _quantite;
+  int _quantite, _fournisseur;
   Future<void> _valider() async {
     if (cle.currentState.validate()) {
       cle.currentState.save();
@@ -24,7 +24,7 @@ class _AjoutMaterielState extends State<AjoutMateriel> {
         "type": _type,
         "prix": _prix.toString(),
         "quantite": _quantite.toString(),
-        "idFournisseur": "1"
+        "idFournisseur": _fournisseur.toString()
       };
       var url = Connexion.url + "materiel";
       print(url);
@@ -73,7 +73,9 @@ class _AjoutMaterielState extends State<AjoutMateriel> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(),
+        appBar: AppBar(
+          title: Text("Ajouter un materiel"),
+        ),
         body: SingleChildScrollView(
             child: Container(
           margin: EdgeInsets.symmetric(vertical: 20, horizontal: 20),

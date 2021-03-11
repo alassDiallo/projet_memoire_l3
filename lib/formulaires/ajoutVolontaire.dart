@@ -1,7 +1,6 @@
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:flutter/material.dart';
 import 'package:gestion_materiel_cmu/controllers/Connexion.dart';
-import 'package:gestion_materiel_cmu/jika/statistique.dart';
 import 'package:gestion_materiel_cmu/models/Structure.dart';
 import 'package:gestion_materiel_cmu/models/materiel.dart';
 import 'package:intl/intl.dart';
@@ -126,7 +125,7 @@ class _AjoutVolontaireFormulaireState extends State<AjoutVolontaireFormulaire> {
         body: SingleChildScrollView(
           child: SafeArea(
             child: Container(
-              margin: EdgeInsets.symmetric(vertical: 20, horizontal: 30),
+              margin: EdgeInsets.symmetric(horizontal: 30),
               child: Column(
                 children: [
                   Container(
@@ -161,6 +160,9 @@ class _AjoutVolontaireFormulaireState extends State<AjoutVolontaireFormulaire> {
                               }
                             },
                             decoration: InputDecoration(
+                              contentPadding: EdgeInsets.symmetric(
+                                  horizontal: 20, vertical: 18),
+                              hintStyle: TextStyle(fontSize: 12),
                               labelText: "nom volontaire",
                               labelStyle: TextStyle(
                                   fontSize: 20, fontWeight: FontWeight.bold),
@@ -193,6 +195,9 @@ class _AjoutVolontaireFormulaireState extends State<AjoutVolontaireFormulaire> {
                               }
                             },
                             decoration: InputDecoration(
+                                contentPadding: EdgeInsets.symmetric(
+                                    horizontal: 20, vertical: 18),
+                                hintStyle: TextStyle(fontSize: 12),
                                 border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(10)),
                                 labelText: "prenom volontaire",
@@ -222,6 +227,9 @@ class _AjoutVolontaireFormulaireState extends State<AjoutVolontaireFormulaire> {
                               });
                             },
                             decoration: InputDecoration(
+                                contentPadding: EdgeInsets.symmetric(
+                                    horizontal: 20, vertical: 18),
+                                hintStyle: TextStyle(fontSize: 12),
                                 labelText: "date de naissance du volontaire",
                                 labelStyle: TextStyle(
                                     fontSize: 20, fontWeight: FontWeight.bold),
@@ -292,6 +300,9 @@ class _AjoutVolontaireFormulaireState extends State<AjoutVolontaireFormulaire> {
                               }
                             },
                             decoration: InputDecoration(
+                                contentPadding: EdgeInsets.symmetric(
+                                    horizontal: 20, vertical: 18),
+                                hintStyle: TextStyle(fontSize: 12),
                                 border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(10)),
                                 labelText: "lieu de naissance du volontaire",
@@ -317,6 +328,9 @@ class _AjoutVolontaireFormulaireState extends State<AjoutVolontaireFormulaire> {
                                 }
                               },
                               decoration: InputDecoration(
+                                contentPadding: EdgeInsets.symmetric(
+                                    horizontal: 20, vertical: 18),
+                                hintStyle: TextStyle(fontSize: 12),
                                 border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(10)),
                                 labelText: "Sexe",
@@ -365,6 +379,9 @@ class _AjoutVolontaireFormulaireState extends State<AjoutVolontaireFormulaire> {
                               }
                             },
                             decoration: InputDecoration(
+                                contentPadding: EdgeInsets.symmetric(
+                                    horizontal: 20, vertical: 18),
+                                hintStyle: TextStyle(fontSize: 12),
                                 border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(10)),
                                 labelText: "Adresse du volontaire",
@@ -401,6 +418,9 @@ class _AjoutVolontaireFormulaireState extends State<AjoutVolontaireFormulaire> {
                             maxLength: 9,
                             keyboardType: TextInputType.number,
                             decoration: InputDecoration(
+                                contentPadding: EdgeInsets.symmetric(
+                                    horizontal: 20, vertical: 18),
+                                hintStyle: TextStyle(fontSize: 12),
                                 labelText: "telephone du volontaire",
                                 labelStyle: TextStyle(
                                     fontSize: 20, fontWeight: FontWeight.bold),
@@ -436,6 +456,9 @@ class _AjoutVolontaireFormulaireState extends State<AjoutVolontaireFormulaire> {
                             keyboardType: TextInputType.text,
                             maxLength: 12,
                             decoration: InputDecoration(
+                                contentPadding: EdgeInsets.symmetric(
+                                    horizontal: 20, vertical: 18),
+                                hintStyle: TextStyle(fontSize: 12),
                                 border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(10)),
                                 labelText:
@@ -474,6 +497,9 @@ class _AjoutVolontaireFormulaireState extends State<AjoutVolontaireFormulaire> {
                               }
                             },
                             decoration: InputDecoration(
+                                contentPadding: EdgeInsets.symmetric(
+                                    horizontal: 20, vertical: 18),
+                                hintStyle: TextStyle(fontSize: 12),
                                 labelText: "email du volontaire",
                                 labelStyle: TextStyle(
                                     fontSize: 20, fontWeight: FontWeight.bold),
@@ -498,6 +524,9 @@ class _AjoutVolontaireFormulaireState extends State<AjoutVolontaireFormulaire> {
                                 }
                               },
                               decoration: InputDecoration(
+                                contentPadding: EdgeInsets.symmetric(
+                                    horizontal: 20, vertical: 18),
+                                hintStyle: TextStyle(fontSize: 12),
                                 border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(10)),
                                 hintText: "choisir la structure",
@@ -547,6 +576,9 @@ class _AjoutVolontaireFormulaireState extends State<AjoutVolontaireFormulaire> {
                                 }
                               },
                               decoration: InputDecoration(
+                                contentPadding: EdgeInsets.symmetric(
+                                    horizontal: 20, vertical: 18),
+                                hintStyle: TextStyle(fontSize: 12),
                                 border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(10)),
                                 hintText: "choisir le materiel",

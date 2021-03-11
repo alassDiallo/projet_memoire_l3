@@ -1,9 +1,48 @@
+import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_datetime_formfield/flutter_datetime_formfield.dart';
+import 'package:gestion_materiel_cmu/controllers/Connexion.dart';
 import 'package:gestion_materiel_cmu/models/medecin.dart';
+import 'package:intl/intl.dart';
+import 'package:http/http.dart' as http;
+import 'dart:async';
+import 'dart:convert' as convert;
 
-class DetailDocteur extends StatelessWidget {
+class DetailDocteur extends StatefulWidget {
   Medecin medecin;
   DetailDocteur({this.medecin});
+
+  @override
+  _DetailDocteurState createState() => _DetailDocteurState();
+}
+
+class _DetailDocteurState extends State<DetailDocteur> {
+  DateTime heure, date;
+  var cle = GlobalKey<FormState>();
+  void _enregistrer() async {
+    if (cle.currentState.validate()) {
+      cle.currentState.save();
+      // print("heure ${heure.hour}:${heure.minute}");
+      // print("heure ${date.toString()}");
+
+      Map<String, dynamic> rv = {
+        "idMedecin": widget.medecin.idMedecin.toString(),
+        "idPatient": "2",
+        "date": date.toString(),
+        "heure": '${heure.hour}:${heure.minute}'
+      };
+      var url = Connexion.url + "rendezvous";
+      print(url);
+      print(rv);
+      var donnee = await http.post(Uri.encodeFull(url), body: rv);
+      if (donnee.statusCode == 200) {
+        print(donnee.body);
+        Navigator.pop(context);
+        reussite();
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,11 +78,15 @@ class DetailDocteur extends StatelessWidget {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text("Dr. " + medecin.prenom + " " + medecin.nom,
+                        Text(
+                            "Dr. " +
+                                widget.medecin.prenom +
+                                " " +
+                                widget.medecin.nom,
                             style: TextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 20)),
                         SizedBox(height: 10),
-                        Text(medecin.libelleSpecialite),
+                        Text(widget.medecin.libelleSpecialite),
                         SizedBox(height: 10),
                         Row(
                           children: [
@@ -51,7 +94,7 @@ class DetailDocteur extends StatelessWidget {
                               Icons.local_hospital,
                               color: Colors.green,
                             ),
-                            Text(medecin.structure),
+                            Text(widget.medecin.structure),
                           ],
                         ),
                         SizedBox(height: 10),
@@ -61,7 +104,7 @@ class DetailDocteur extends StatelessWidget {
                               Icons.location_pin,
                               color: Colors.red,
                             ),
-                            Text(medecin.region),
+                            Text(widget.medecin.region),
                           ],
                         ),
                         SizedBox(height: 10),
@@ -144,7 +187,7 @@ class DetailDocteur extends StatelessWidget {
                       borderRadius: BorderRadius.circular(20)),
                   minWidth: MediaQuery.of(context).size.width,
                   padding: EdgeInsets.symmetric(vertical: 20),
-                  onPressed: () {},
+                  onPressed: showR,
                   child: Text("Demender un rendez-vous"),
                   color: Colors.blue,
                   textColor: Colors.white,
@@ -153,5 +196,168 @@ class DetailDocteur extends StatelessWidget {
         ],
       ),
     )));
+  }
+
+  Future showR() async {
+    var format = DateFormat("yyyy-MM-dd");
+    var f = DateFormat("HH:mm");
+    return showDialog(
+        barrierLabel: "Rendez-vous",
+        barrierDismissible: false,
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+            title: Column(
+              children: [
+                Row(
+                  children: [
+                    Text("demande de rendez-vous"),
+                  ],
+                ),
+                Divider()
+              ],
+            ),
+            content: Container(
+              height: MediaQuery.of(context).size.height * 0.3,
+              width: MediaQuery.of(context).size.width,
+              child: Form(
+                key: cle,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text("choisir la date"),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    DateTimeField(
+                      onChanged: (value) {
+                        setState(() {
+                          date = value;
+                        });
+                      },
+                      onSaved: (value) {
+                        setState(() {
+                          date = value;
+                        });
+                      },
+                      validator: (value) {
+                        if (value == null) {
+                          return "selectionner une date";
+                        }
+                      },
+                      format: format,
+                      decoration: InputDecoration(
+                          contentPadding: EdgeInsets.symmetric(
+                              horizontal: 20, vertical: 18),
+                          hintStyle: TextStyle(fontSize: 12),
+                          labelText: "choisir la date",
+                          // labelStyle: TextStyle(
+                          //     fontSize: 20, fontWeight: FontWeight.bold),
+                          //floatingLabelBehavior: FloatingLabelBehavior.always,
+                          hintText: "choisir la date",
+                          suffixIcon: Icon(Icons.date_range),
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10))),
+                      onShowPicker: (context, currentValue) {
+                        return showDatePicker(
+                            context: context,
+                            firstDate: DateTime.now(),
+                            initialDate: DateTime.now(),
+                            lastDate: DateTime.now().add(Duration(days: 10)));
+                      },
+                    ),
+                    SizedBox(height: 20),
+                    Text("choisir l'heure"),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    DateTimeFormField(
+                        formatter: f,
+                        onlyTime: true,
+                        initialValue: null,
+                        label: "heure",
+                        validator: (DateTime dateTime) {
+                          if (dateTime == null) {
+                            return "selectionner l'heure";
+                          }
+                          return null;
+                        },
+                        onSaved: (dateTime) {
+                          setState(() {
+                            heure = dateTime;
+                          });
+                        }),
+                  ],
+                ),
+              ),
+            ),
+            actions: [
+              FlatButton(
+                  onPressed: () {
+                    _enregistrer();
+                    print("vous avez valider");
+                  },
+                  child: Text("valider")),
+              FlatButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: Text("annuler"))
+            ],
+          );
+        });
+  }
+
+  Future reussite() async {
+    return showDialog(
+        barrierLabel: "Rendez-vous",
+        barrierDismissible: false,
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            actions: [
+              FlatButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: Text("fermer"))
+            ],
+            content: Container(
+              height: MediaQuery.of(context).size.height * 0.3,
+              child: Column(
+                children: [
+                  Align(
+                    alignment: Alignment.topRight,
+                    child: IconButton(
+                      icon: Icon(
+                        Icons.close,
+                        size: 40,
+                      ),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                    ),
+                  ),
+                  CircleAvatar(
+                    child: Icon(
+                      Icons.check,
+                      size: 40,
+                      color: Colors.white,
+                    ),
+                    radius: 50,
+                    backgroundColor: Colors.green,
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Text(
+                      "Bravo! votre demande à été envoyer au medecin vous serez notifiez pour la suite")
+                ],
+              ),
+            ),
+          );
+        });
   }
 }
