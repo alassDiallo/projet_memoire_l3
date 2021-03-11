@@ -35,7 +35,11 @@ class _Rapport_MaintenancevState extends State<Rapport_Maintenancev> {
             style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
           ),
         ),
-        Divider(),
+        Divider(
+          thickness: 5,
+          indent: 10,
+          endIndent: 10,
+        ),
         SizedBox(height: 20),
         Container(
           margin: EdgeInsets.all(15),
@@ -72,9 +76,7 @@ class _Rapport_MaintenancevState extends State<Rapport_Maintenancev> {
                     },
                   ),
                 ),
-                SizedBox(
-                  height: 25,
-                ),
+
                 Container(
                   margin: EdgeInsets.all(15),
                   child: TextFormField(
@@ -115,13 +117,13 @@ class _Rapport_MaintenancevState extends State<Rapport_Maintenancev> {
                       width: MediaQuery.of(context).size.width - 80,
                       child: RaisedButton(
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
+                          borderRadius: BorderRadius.circular(20),
                         ),
                         onPressed: _submit,
                         child: Text('   Envoyer   '),
                         color: Colors.blueAccent,
                         textColor: Colors.white,
-                        // padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
+                        padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
                         splashColor: Colors.blueAccent,
                       ),
                     ),

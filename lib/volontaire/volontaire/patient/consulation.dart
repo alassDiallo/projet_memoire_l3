@@ -16,7 +16,7 @@ class _ConsultationState extends State<Consultation> {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
-        title: Text(" "),
+        title: Text("Consultation "),
         centerTitle: true,
       ),
       body: SingleChildScrollView(

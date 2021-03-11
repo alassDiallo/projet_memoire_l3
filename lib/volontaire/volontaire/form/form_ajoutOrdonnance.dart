@@ -60,7 +60,11 @@ class _AjoutOrdonnanceState extends State<AjoutOrdonnance> {
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
             ),
-            Divider(),
+            Divider(
+              thickness: 5,
+              indent: 10,
+              endIndent: 10,
+            ),
             SizedBox(height: 20),
             Container(
               margin: EdgeInsets.all(15),

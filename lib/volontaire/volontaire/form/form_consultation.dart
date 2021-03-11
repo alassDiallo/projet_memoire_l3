@@ -23,12 +23,15 @@ class _FormConsultationState extends State<FormConsultation> {
                 vertical: 20,
               ),
               child: Text(
-                "Consultation",
+                "Choisir specialité",
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
             ),
-            Divider(),
-            SizedBox(height: 20),
+            Divider(
+              thickness: 5,
+              indent: 10,
+              endIndent: 10,
+            ),
             Container(
               margin: EdgeInsets.all(20),
               child: Form(
@@ -119,7 +122,7 @@ class _FormConsultationState extends State<FormConsultation> {
                         //shape:,
 
                         Card(
-                          color: Colors.greenAccent.withOpacity(0.4),
+                          color: Colors.green.withOpacity(0.5),
                           // color: coleur.withOpacity(0.4),
                           elevation: 7,
                           shape: RoundedRectangleBorder(
@@ -147,7 +150,7 @@ class _FormConsultationState extends State<FormConsultation> {
                                       )),
                                 ),
                                 SizedBox(
-                                  height: 30,
+                                  height: 20,
                                 ),
                                 TextField(
                                   readOnly: true,
@@ -191,7 +194,7 @@ class _FormConsultationState extends State<FormConsultation> {
                             //   },
                             // );
                             //   },
-                            color: Colors.greenAccent,
+                            color: Colors.blue,
                             textColor: Colors.white,
                             padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
                             splashColor: Colors.grey,

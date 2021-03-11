@@ -19,9 +19,9 @@ class _Rapport_DepenseState extends State<Rapport_Depense> {
       'date': "2021-03-02 ",
     },
     {
-      'description': 'Achat de materiel',
-      'cout': '123456 ',
-      'date': "2021-03-02 ",
+      'description': 'Achat',
+      'cout': '5389 ',
+      'date': "2020-10-17 ",
     },
     {
       'description': 'Achat de materiel',
@@ -34,7 +34,8 @@ class _Rapport_DepenseState extends State<Rapport_Depense> {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
-        title: Text(''),
+        title: Text('Dépense'),
+        centerTitle: true,
         // actions: [Text("SELECTIONNER")],
       ),
       body: SingleChildScrollView(
@@ -57,16 +58,19 @@ class _Rapport_DepenseState extends State<Rapport_Depense> {
                   child: Icon(Icons.list),
                   radius: 40,
                 ),
-                title: Text("Historique  dépenses"),
+                title: Text(
+                  "Historique ",
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
                 // Rapport_DepenseDepense.map((e) => Text(e['description']),).toList(),
 
                 // Text('Details'),
 
                 children: [
-                  Text(
-                    'Dépense',
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                  ),
+                  // Text(
+                  //   'Dépense',
+                  //   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  // ),
                   Column(
                     children: [
                       DataTable(

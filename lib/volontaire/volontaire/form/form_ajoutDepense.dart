@@ -52,10 +52,14 @@ class _AjoutDepenseState extends State<AjoutDepense> {
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
           ),
-          Divider(),
+          Divider(
+            thickness: 5,
+            indent: 10,
+            endIndent: 10,
+          ),
           SizedBox(height: 20),
           Container(
-            margin: EdgeInsets.all(15),
+            margin: EdgeInsets.all(20),
             child: Form(
                 key: _formKey,
                 child: Column(
@@ -121,26 +125,26 @@ class _AjoutDepenseState extends State<AjoutDepense> {
                     SizedBox(
                       height: 20,
                     ),
-                    TextFormField(
-                      readOnly: true,
-                      decoration: InputDecoration(
-                        labelText: 'Date',
-                        hintText: selectedDate.toString(),
-                        prefixIcon: IconButton(
-                          icon: Icon(Icons.date_range_rounded),
-                          onPressed: () => _selectDate(context),
-                        ),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(15.0),
-                          borderSide: BorderSide(),
-                        ),
-                      ),
-                      // keyboardType: TextInputType.datetime,
-                      onTap: () => _selectDate(context),
-                      validator: (input) =>
-                          input.isEmpty ? ' Veuillez remplir ce champs' : null,
-                      onSaved: (input) => _date = input as DateTime,
-                    ),
+                    // TextFormField(
+                    //   readOnly: true,
+                    //   decoration: InputDecoration(
+                    //     labelText: 'Date',
+                    //     hintText: selectedDate.toString(),
+                    //     prefixIcon: IconButton(
+                    //       icon: Icon(Icons.date_range_rounded),
+                    //       onPressed: () => _selectDate(context),
+                    //     ),
+                    //     border: OutlineInputBorder(
+                    //       borderRadius: BorderRadius.circular(15.0),
+                    //       borderSide: BorderSide(),
+                    //     ),
+                    //   ),
+                    //   // keyboardType: TextInputType.datetime,
+                    //   onTap: () => _selectDate(context),
+                    //   validator: (input) =>
+                    //       input.isEmpty ? ' Veuillez remplir ce champs' : null,
+                    //   onSaved: (input) => _date = input as DateTime,
+                    // ),
                     SizedBox(
                       height: 20,
                     ),
@@ -148,7 +152,7 @@ class _AjoutDepenseState extends State<AjoutDepense> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Container(
-                          width: MediaQuery.of(context).size.width - 110,
+                          width: MediaQuery.of(context).size.width - 80,
                           child: RaisedButton(
                             onPressed: _submit,
                             child: Text('  Enregistrer  '),

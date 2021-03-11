@@ -45,7 +45,11 @@ class _FormPatient1State extends State<FormPatient1> {
                           TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
                     ),
                   ),
-                  Divider(),
+                  Divider(
+                    thickness: 5,
+                    indent: 10,
+                    endIndent: 10,
+                  ),
                   SizedBox(height: 20),
                   Card(
                     color: widget.couleur,

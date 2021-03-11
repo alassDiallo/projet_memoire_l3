@@ -10,6 +10,7 @@ import 'package:gestion_materiel_cmu/volontaire/volontaire/rapport/rapport_patie
 import 'package:gestion_materiel_cmu/volontaire/widget_composant/menuCard.dart';
 import 'package:gestion_materiel_cmu/volontaire/widget_composant/menuItems_Drawer.dart';
 import 'package:gestion_materiel_cmu/volontaire/widget_composant/menucardR.dart';
+import 'package:gestion_materiel_cmu/volontaire/widget_composant/menucardR2.dart';
 import 'package:gestion_materiel_cmu/volontaire/widget_composant/menucardV.dart';
 
 class Volontaire extends StatefulWidget {
@@ -108,48 +109,49 @@ class _VolontaireState extends State<Volontaire> {
         body: SingleChildScrollView(
           child: Container(
             // color: coleur,
-            //  color: Colors.blue[50],
+            color: Colors.blue[900].withOpacity(0.7),
             width: double.infinity,
             // height: size.height,
             child: Column(
               children: [
-                Card(
-                  color: Colors.blueAccent.withOpacity(0.4),
-                  // color: coleur.withOpacity(0.4),
-                  elevation: 8,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.only(
-                          bottomLeft: Radius.circular(40),
-                          bottomRight: Radius.circular(40))),
-                  margin: EdgeInsets.fromLTRB(0, 1, 0, 15),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          child: CircleAvatar(child: Text("SBD"), radius: 45)),
-                      SizedBox(height: 15),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Text(
-                            "S Bassirou Dabo",
-                            style: TextStyle(color: Colors.black, fontSize: 20),
-                          ),
-                          SizedBox(height: 10),
-                          Text(
-                            "Structure de Diourbel",
-                            style: TextStyle(color: Colors.black, fontSize: 15),
-                          ),
-                        ],
-                      )
-                    ],
-                  ),
-                ),
+                // Card(
+                //   color: Colors.blueAccent.withOpacity(0.4),
+                //   // color: coleur.withOpacity(0.4),
+                //   elevation: 8,
+                //   shape: RoundedRectangleBorder(
+                //       borderRadius: BorderRadius.only(
+                //           bottomLeft: Radius.circular(40),
+                //           bottomRight: Radius.circular(40))),
+                //   margin: EdgeInsets.fromLTRB(0, 1, 0, 15),
+                //   child: Row(
+                //     mainAxisAlignment: MainAxisAlignment.start,
+                //     crossAxisAlignment: CrossAxisAlignment.center,
+                //     children: [
+                //       Container(
+                //           decoration: BoxDecoration(
+                //             borderRadius: BorderRadius.circular(20),
+                //           ),
+                //           child: CircleAvatar(child: Text("SBD"), radius: 45)),
+                //       SizedBox(height: 15),
+                //       Column(
+                //         mainAxisAlignment: MainAxisAlignment.center,
+                //         crossAxisAlignment: CrossAxisAlignment.center,
+                //         children: [
+                //           Text(
+                //             "S Bassirou Dabo",
+                //             style: TextStyle(color: Colors.black, fontSize: 20),
+                //           ),
+                //           SizedBox(height: 10),
+                //           Text(
+                //             "Structure de Diourbel",
+                //             style: TextStyle(color: Colors.black, fontSize: 15),
+                //           ),
+                //         ],
+                //       )
+                //     ],
+                //   ),
+                // ),
+
                 // GestureDetector(
                 //   onTap: () {
                 //     Navigator.push(context,
@@ -166,9 +168,9 @@ class _VolontaireState extends State<Volontaire> {
                 //     couleurCircle: Colors.greenAccent,
                 //   ),
                 // ),
-
+                MenuCardR2(),
                 Container(
-                  padding: EdgeInsets.only(top: 20),
+                  padding: EdgeInsets.only(top: 10),
                   // color: Colors.white,
                   child: Table(children: [
                     TableRow(children: [
@@ -179,8 +181,7 @@ class _VolontaireState extends State<Volontaire> {
                               MaterialPageRoute(
                                   builder: (context) => FormPatient1(
                                         page: Consultation(),
-                                        couleur:
-                                            Colors.greenAccent.withOpacity(0.4),
+                                        couleur: Colors.green.withOpacity(0.5),
                                       )));
                         },
                         child: MenuCard(
@@ -190,8 +191,9 @@ class _VolontaireState extends State<Volontaire> {
                             color: Colors.white,
                             size: 40,
                           ),
-                          couleurCard: Colors.blueAccent.withOpacity(0.4),
-                          couleurCircle: Colors.greenAccent,
+                          couleurCard: Colors.white,
+                          // Colors.blueAccent.withOpacity(0.2),
+                          couleurCircle: Colors.green,
                         ),
                       ),
                       GestureDetector(
@@ -201,8 +203,7 @@ class _VolontaireState extends State<Volontaire> {
                               MaterialPageRoute(
                                   builder: (context) => FormPatient1(
                                         page: Analyse(),
-                                        couleur:
-                                            Colors.redAccent.withOpacity(0.6),
+                                        couleur: Colors.red.withOpacity(0.5),
                                       )));
                         },
                         child: Container(
@@ -213,8 +214,9 @@ class _VolontaireState extends State<Volontaire> {
                                 color: Colors.white,
                                 size: 50,
                               ),
-                              couleurCard: Colors.blueAccent.withOpacity(0.4),
-                              couleurCircle: Colors.redAccent.shade200),
+                              couleurCard: Colors.white,
+                              // Colors.blueAccent.withOpacity(0.4),
+                              couleurCircle: Colors.red),
                         ),
                       )
                     ]),
@@ -314,7 +316,8 @@ class _VolontaireState extends State<Volontaire> {
                 // )
 
                 MenuCardR(
-                  couleurCard: Colors.blueAccent.withOpacity(0.4),
+                  couleurCard: Colors.white,
+                  // Colors.blueAccent.withOpacity(0.4),
                 ),
               ],
             ),

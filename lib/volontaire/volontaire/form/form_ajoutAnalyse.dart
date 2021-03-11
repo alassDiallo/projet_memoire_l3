@@ -32,11 +32,12 @@ class _AjoutAnalyseState extends State<AjoutAnalyse> {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
-        title: Text(" "),
+        title: Text("Analyse "),
         centerTitle: true,
       ),
       body: SingleChildScrollView(
         child: Container(
+          margin: EdgeInsets.all(15),
           //height: size.height,
           width: double.infinity,
           child: Column(
@@ -60,7 +61,11 @@ class _AjoutAnalyseState extends State<AjoutAnalyse> {
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                 ),
               ),
-              Divider(),
+              Divider(
+                thickness: 5,
+                indent: 15,
+                endIndent: 15,
+              ),
               SizedBox(height: 20),
               Container(
                 margin: EdgeInsets.all(15),
@@ -151,7 +156,7 @@ class _AjoutAnalyseState extends State<AjoutAnalyse> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Container(
-                              width: MediaQuery.of(context).size.width - 110,
+                              width: MediaQuery.of(context).size.width - 100,
                               child: RaisedButton(
                                 onPressed: _submit,
                                 child: Text('  Enregistrer  '),

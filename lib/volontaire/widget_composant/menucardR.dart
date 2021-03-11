@@ -39,11 +39,11 @@ class MenuCardR extends StatelessWidget {
                     style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
-                        color: Colors.white),
+                        color: Colors.blue),
                   ),
                   Divider(
                     height: 20,
-                    color: Colors.white,
+                    color: Colors.blue,
                     thickness: 2,
                     indent: 2,
                     endIndent: 15,

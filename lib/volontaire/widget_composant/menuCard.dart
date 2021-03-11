@@ -50,7 +50,7 @@ class MenuCard extends StatelessWidget {
               ),
               Divider(
                 height: 30,
-                color: Colors.white,
+                color: Colors.blue,
                 thickness: 2,
                 indent: 19,
                 endIndent: 20,

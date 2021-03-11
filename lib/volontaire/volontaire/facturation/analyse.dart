@@ -53,11 +53,16 @@ class _AnalyseState extends State<Analyse> {
                   ),
                 ),
               ),
+              Divider(
+                thickness: 5,
+                indent: 10,
+                endIndent: 10,
+              ),
               Card(
                 // color: Colors.transparent,
-                elevation: 10,
+                elevation: 7,
                 shadowColor: Colors.blue,
-                margin: EdgeInsets.all(10),
+                margin: EdgeInsets.all(15),
                 child: DataTable(
                   // dividerThickness: true,
                   showBottomBorder: true,
@@ -105,18 +110,21 @@ class _AnalyseState extends State<Analyse> {
                       prefixIcon: Icon(Icons.monetization_on_outlined),
                       labelText: 'Total à payer',
                       border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10.0),
+                        borderRadius: BorderRadius.circular(15.0),
                         borderSide: BorderSide(),
                       )),
                 ),
               ),
               Container(
-                width: MediaQuery.of(context).size.width - 110,
+                width: MediaQuery.of(context).size.width - 100,
                 child: RaisedButton(
                   child: Text('Valider'),
                   onPressed: () {},
                   color: Colors.blueAccent,
                   textColor: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
                   padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
                   splashColor: Colors.grey,
                 ),
