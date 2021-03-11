@@ -7,6 +7,8 @@ import 'package:gestion_materiel_cmu/volontaire/volontaire/rapport/rapport.dart'
 import 'package:gestion_materiel_cmu/volontaire/volontaire/rapport/rapport_depense.dart';
 import 'package:gestion_materiel_cmu/volontaire/widget_composant/menuCard.dart';
 import 'package:gestion_materiel_cmu/volontaire/widget_composant/menuItems_Drawer.dart';
+import 'package:gestion_materiel_cmu/volontaire/widget_composant/menucardR.dart';
+import 'package:gestion_materiel_cmu/volontaire/widget_composant/menucardR2.dart';
 
 class Volontaire extends StatefulWidget {
   @override
@@ -61,9 +63,12 @@ class _VolontaireState extends State<Volontaire> {
     return Scaffold(
         appBar: AppBar(
           //automaticallyImplyLeading: false,
-          leading: Icon(Icons.menu_open_outlined),
-          title: Text("Acceuil Volontaire"),
+
+          title: Text(""),
           centerTitle: true,
+          actions: [
+            IconButton(icon: Icon(Icons.message_rounded), onPressed: () {}),
+          ],
         ),
         drawer: Drawer(
             child: ListView(children: [
@@ -108,60 +113,46 @@ class _VolontaireState extends State<Volontaire> {
             // height: size.height,
             child: Column(
               children: [
-                Card(
-                  color: Colors.blueAccent.withOpacity(0.5),
-                  // color: coleur.withOpacity(0.4),
-                  elevation: 10,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.only(
-                          bottomLeft: Radius.circular(40),
-                          bottomRight: Radius.circular(40))),
-                  margin: EdgeInsets.fromLTRB(0, 1, 0, 15),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          child: CircleAvatar(child: Text("SBD"), radius: 45)),
-                      SizedBox(height: 15),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Text(
-                            "S Bassirou Dabo",
-                            style: TextStyle(color: Colors.black, fontSize: 20),
-                          ),
-                          SizedBox(height: 10),
-                          Text(
-                            "Structure de Diourbel",
-                            style: TextStyle(color: Colors.black, fontSize: 15),
-                          ),
-                        ],
-                      )
-                    ],
-                  ),
-                ),
-                // GestureDetector(
-                //   onTap: () {
-                //     Navigator.push(context,
-                //         MaterialPageRoute(builder: (context) => Ordonnance()));
-                //   },
-                //   child: MenuCard(
-                //     text: "Ordonnance",
-                //     icon: Icon(
-                //       Icons.person,
-                //       color: Colors.white,
-                //       size: 40,
-                //     ),
-                //     couleurCard: Colors.blueAccent.withOpacity(0.5),
-                //     couleurCircle: Colors.greenAccent,
+                // Card(
+                //   color: Colors.blueAccent.withOpacity(0.5),
+                //   // color: coleur.withOpacity(0.4),
+                //   elevation: 10,
+                //   shape: RoundedRectangleBorder(
+                //       borderRadius: BorderRadius.only(
+                //           bottomLeft: Radius.circular(40),
+                //           bottomRight: Radius.circular(40))),
+                //   margin: EdgeInsets.fromLTRB(0, 1, 0, 15),
+                //   child: Row(
+                //     mainAxisAlignment: MainAxisAlignment.start,
+                //     crossAxisAlignment: CrossAxisAlignment.center,
+                //     children: [
+                //       Container(
+                //           decoration: BoxDecoration(
+                //             borderRadius: BorderRadius.circular(20),
+                //           ),
+                //           child: CircleAvatar(child: Text("SBD"), radius: 45)),
+                //       SizedBox(height: 15),
+                //       Column(
+                //         mainAxisAlignment: MainAxisAlignment.center,
+                //         crossAxisAlignment: CrossAxisAlignment.center,
+                //         children: [
+                //           Text(
+                //             "S Bassirou Dabo",
+                //             style: TextStyle(color: Colors.black, fontSize: 20),
+                //           ),
+                //           SizedBox(height: 10),
+                //           Text(
+                //             "Structure de Diourbel",
+                //             style: TextStyle(color: Colors.black, fontSize: 15),
+                //           ),
+                //         ],
+                //       )
+                //     ],
                 //   ),
                 // ),
-
+                MenuCardR2(
+                  couleurCard: Colors.white,
+                ),
                 Container(
                   padding: EdgeInsets.only(top: 20),
                   // color: Colors.white,
@@ -174,8 +165,7 @@ class _VolontaireState extends State<Volontaire> {
                               MaterialPageRoute(
                                   builder: (context) => FormPatient1(
                                         page: Consultation(),
-                                        couleur:
-                                            Colors.greenAccent.withOpacity(0.5),
+                                        couleur: Colors.green.withOpacity(0.5),
                                       )));
                         },
                         child: MenuCard(
@@ -185,8 +175,8 @@ class _VolontaireState extends State<Volontaire> {
                             color: Colors.white,
                             size: 40,
                           ),
-                          couleurCard: Colors.blueAccent.withOpacity(0.5),
-                          couleurCircle: Colors.greenAccent,
+                          couleurCard: Colors.white,
+                          couleurCircle: Colors.green,
                         ),
                       ),
                       GestureDetector(
@@ -196,8 +186,7 @@ class _VolontaireState extends State<Volontaire> {
                               MaterialPageRoute(
                                   builder: (context) => FormPatient1(
                                         page: Analyse(),
-                                        couleur:
-                                            Colors.redAccent.withOpacity(0.6),
+                                        couleur: Colors.red.withOpacity(0.5),
                                       )));
                         },
                         child: Container(
@@ -208,48 +197,15 @@ class _VolontaireState extends State<Volontaire> {
                                 color: Colors.white,
                                 size: 50,
                               ),
-                              couleurCard: Colors.blueAccent.withOpacity(0.5),
-                              couleurCircle: Colors.redAccent.shade200),
+                              couleurCard: Colors.white,
+                              couleurCircle: Colors.red),
                         ),
                       )
                     ]),
-                    TableRow(children: [
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => Rapport()));
-                        },
-                        child: MenuCard(
-                            text: "  Rapport   ",
-                            icon: Icon(
-                              Icons.assessment_sharp,
-                              color: Colors.white,
-                              size: 40,
-                            ),
-                            couleurCard: Colors.blueAccent.withOpacity(0.5),
-                            couleurCircle: Colors.blueAccent),
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => Rapport_Depense()));
-                        },
-                        child: MenuCard(
-                            text: "  Depense   ",
-                            icon: Icon(
-                              Icons.monetization_on,
-                              color: Colors.white,
-                              size: 40,
-                            ),
-                            couleurCard: Colors.blueAccent.withOpacity(0.5),
-                            couleurCircle: Colors.yellow),
-                      )
-                    ]),
                   ]),
+                ),
+                MenuCardR(
+                  couleurCard: Colors.white,
                 ),
               ],
             ),
