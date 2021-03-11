@@ -111,7 +111,8 @@ class _VolontaireState extends State<Volontaire> {
             // color: coleur,
             color: Colors.blue[900].withOpacity(0.7),
             width: double.infinity,
-            // height: size.height,
+            //height: MediaQuery.of(context).size.height,
+            // height: double.infinity,
             child: Column(
               children: [
                 // Card(
