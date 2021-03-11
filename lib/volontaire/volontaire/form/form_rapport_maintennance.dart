@@ -12,19 +12,35 @@ class Rapport_Maintenancev extends StatefulWidget {
 
 class _Rapport_MaintenancevState extends State<Rapport_Maintenancev> {
   final _formKey = GlobalKey<FormState>();
+  String _description, _type;
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Container(
-          child: Image.asset(
-            'img/rapport2.png',
-            fit: BoxFit.contain,
-          ),
-        ),
+        // Container(
+        //   child: Image.asset(
+        //     'images/rapport2.png',
+        //     fit: BoxFit.fill,
+        //   ),
+        // ),
         SizedBox(
           height: 30,
         ),
+        Container(
+          padding: EdgeInsets.symmetric(
+            vertical: 20,
+          ),
+          child: Text(
+            "Envoyer un Rapport de maintennance",
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          ),
+        ),
+        Divider(
+          thickness: 5,
+          indent: 10,
+          endIndent: 10,
+        ),
+        SizedBox(height: 20),
         Container(
           margin: EdgeInsets.all(15),
           child: Form(
@@ -33,37 +49,61 @@ class _Rapport_MaintenancevState extends State<Rapport_Maintenancev> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
-                  margin: EdgeInsets.all(13),
+                  margin: EdgeInsets.all(15),
                   child: TextFormField(
                     maxLength: 25,
                     decoration: InputDecoration(
                         labelText: 'Type de materiel',
                         hintText: 'Entrer du texte',
-                        border: OutlineInputBorder()),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(15.0),
+                          borderSide: BorderSide(),
+                        )),
                     validator: (value) {
                       if (value.isEmpty) {
-                        return 'Veuillez saisir ce champ ';
+                        return "le champs est obligatoire";
                       }
-                      return null;
+                    },
+                    onChanged: (value) {
+                      setState(() {
+                        _type = value;
+                      });
+                    },
+                    onSaved: (value) {
+                      setState(() {
+                        _type = value;
+                      });
                     },
                   ),
                 ),
-                SizedBox(
-                  height: 25,
-                ),
+
                 Container(
-                  margin: EdgeInsets.all(11),
+                  margin: EdgeInsets.all(15),
                   child: TextFormField(
                     maxLength: 400,
-                    decoration: const InputDecoration(
-                        labelText: 'Description du probleme',
-                        hintText: 'Entrer du texte',
-                        border: OutlineInputBorder()),
+                    keyboardType: TextInputType.multiline,
+                    decoration: InputDecoration(
+                      labelText: 'Description du probleme',
+                      hintText: 'Entrer du texte',
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(15.0),
+                        borderSide: BorderSide(),
+                      ),
+                    ),
                     validator: (value) {
                       if (value.isEmpty) {
-                        return 'Veuillez saisir ce champ ';
+                        return "le champs est obligatoire";
                       }
-                      return null;
+                    },
+                    onChanged: (value) {
+                      setState(() {
+                        _description = value;
+                      });
+                    },
+                    onSaved: (value) {
+                      setState(() {
+                        _description = value;
+                      });
                     },
                   ),
                 ),
@@ -73,16 +113,19 @@ class _Rapport_MaintenancevState extends State<Rapport_Maintenancev> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    RaisedButton(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
+                    Container(
+                      width: MediaQuery.of(context).size.width - 80,
+                      child: RaisedButton(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        onPressed: _submit,
+                        child: Text('   Envoyer   '),
+                        color: Colors.blueAccent,
+                        textColor: Colors.white,
+                        padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
+                        splashColor: Colors.blueAccent,
                       ),
-                      onPressed: _submit,
-                      child: Text('   Envoyer   '),
-                      color: Colors.greenAccent,
-                      textColor: Colors.yellow,
-                      // padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
-                      splashColor: Colors.grey,
                     ),
                   ],
                 ),

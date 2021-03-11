@@ -107,6 +107,7 @@ class AccueilJica extends StatelessWidget {
                         ),
                       ),
                     ),
+<<<<<<< HEAD
                     GestureDetector(
                       onTap: () {
                         Navigator.push(
@@ -155,6 +156,46 @@ class AccueilJica extends StatelessWidget {
                               )
                             ],
                           ),
+=======
+                    Card(
+                      margin:
+                          EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+                      color: Colors.red,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30)),
+                      elevation: 5,
+                      child: Container(
+                        margin: EdgeInsets.all(30),
+                        width: MediaQuery.of(context).size.width * 0.7,
+                        height: MediaQuery.of(context).size.height * 0.2,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "Statistique",
+                                      style: TextStyle(
+                                          color: Colors.white, fontSize: 15),
+                                    ),
+                                  ],
+                                ),
+                                Image.asset(
+                                  "images/stat.png",
+                                  width: size.width * 0.2,
+                                  height: size.height * 0.15,
+                                ),
+                              ],
+                            ),
+                            Divider(
+                              color: Colors.white,
+                            )
+                          ],
+>>>>>>> sbd
                         ),
                       ),
                     ),

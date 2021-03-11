@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
-<<<<<<< HEAD
 import 'package:gestion_materiel_cmu/consultation/analyse.dart';
-=======
-import 'package:gestion_materiel_cmu/volontaire/volontaire/facturation/analyse.dart';
->>>>>>> 0e4619e593157b6ad6aef261868cebfa518c46a6
 import 'package:gestion_materiel_cmu/volontaire/volontaire/patient/consulation.dart';
-import 'package:gestion_materiel_cmu/volontaire/volontaire/depense/liste.dart';
+// import 'package:gestion_materiel_cmu/volontaire/volontaire/depense/liste.dart';
 import 'package:gestion_materiel_cmu/volontaire/volontaire/form/form_patient.dart';
 import 'package:gestion_materiel_cmu/volontaire/volontaire/rapport/rapport.dart';
+import 'package:gestion_materiel_cmu/volontaire/volontaire/rapport/rapport_depense.dart';
 import 'package:gestion_materiel_cmu/volontaire/widget_composant/menuCard.dart';
 import 'package:gestion_materiel_cmu/volontaire/widget_composant/menuItems_Drawer.dart';
 
@@ -236,8 +233,10 @@ class _VolontaireState extends State<Volontaire> {
                       ),
                       GestureDetector(
                         onTap: () {
-                          Navigator.push(context,
-                              MaterialPageRoute(builder: (context) => Liste()));
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => Rapport_Depense()));
                         },
                         child: MenuCard(
                             text: "  Depense   ",
