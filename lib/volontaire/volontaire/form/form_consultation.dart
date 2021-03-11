@@ -10,7 +10,7 @@ class FormConsultation extends StatefulWidget {
 class _FormConsultationState extends State<FormConsultation> {
   final _formKey = GlobalKey<FormState>();
   String _reference;
-  String _typeConsultation;
+  String _specialite;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -18,6 +18,20 @@ class _FormConsultationState extends State<FormConsultation> {
         Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            Container(
+              padding: EdgeInsets.symmetric(
+                vertical: 20,
+              ),
+              child: Text(
+                "Choisir specialité",
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              ),
+            ),
+            Divider(
+              thickness: 5,
+              indent: 10,
+              endIndent: 10,
+            ),
             Container(
               margin: EdgeInsets.all(20),
               child: Form(
@@ -28,6 +42,7 @@ class _FormConsultationState extends State<FormConsultation> {
                         SizedBox(
                           height: 20,
                         ),
+
                         // TextFormField(
                         //   decoration: InputDecoration(
                         //     labelText: 'Entrer la référence CMU du patient',
@@ -57,24 +72,32 @@ class _FormConsultationState extends State<FormConsultation> {
                             DropdownMenuItem<String>(
                               value: "7000",
                               child: Text(
-                                "Prénatale",
+                                "Gynécologie",
                               ),
                             ),
                             DropdownMenuItem<String>(
                               value: "13000",
                               child: Text(
-                                "Préventif",
+                                "Cardiologie",
                               ),
                             ),
                           ],
-                          onChanged: (value) {
+                          validator: (value) {
+                            if (value == null) {
+                              return "le champs est obligatoire";
+                            }
+                          },
+                          onSaved: (value) {
                             setState(() {
-                              _typeConsultation = value;
+                              _specialite = value;
                             });
                           },
-                          value: _typeConsultation,
-                          validator: (value) =>
-                              value == null ? 'veuillez choisir ' : null,
+                          value: _specialite,
+                          onChanged: (value) {
+                            setState(() {
+                              _specialite = value;
+                            });
+                          },
                           decoration: InputDecoration(
                               enabledBorder: UnderlineInputBorder(
                                 borderSide: BorderSide(color: Colors.black),
@@ -82,7 +105,7 @@ class _FormConsultationState extends State<FormConsultation> {
                               focusedBorder: UnderlineInputBorder(
                                 borderSide: BorderSide(color: Colors.white),
                               ),
-                              labelText: 'Type de consulation',
+                              labelText: 'Spécialité',
                               // hintText: 'Entrer du texte',
                               border: OutlineInputBorder()),
                           elevation: 2,
@@ -99,7 +122,7 @@ class _FormConsultationState extends State<FormConsultation> {
                         //shape:,
 
                         Card(
-                          color: Colors.greenAccent.withOpacity(0.4),
+                          color: Colors.green.withOpacity(0.5),
                           // color: coleur.withOpacity(0.4),
                           elevation: 7,
                           shape: RoundedRectangleBorder(
@@ -114,12 +137,12 @@ class _FormConsultationState extends State<FormConsultation> {
                               children: [
                                 TextFormField(
                                   readOnly: true,
-                                  initialValue: _typeConsultation,
+                                  initialValue: _specialite,
                                   decoration: InputDecoration(
                                       prefixIcon:
                                           Icon(Icons.monetization_on_outlined),
                                       labelText: 'Prix',
-                                      hintText: _typeConsultation,
+                                      hintText: _specialite,
                                       border: OutlineInputBorder(
                                         borderRadius:
                                             BorderRadius.circular(25.0),
@@ -127,7 +150,7 @@ class _FormConsultationState extends State<FormConsultation> {
                                       )),
                                 ),
                                 SizedBox(
-                                  height: 30,
+                                  height: 20,
                                 ),
                                 TextField(
                                   readOnly: true,
@@ -151,6 +174,7 @@ class _FormConsultationState extends State<FormConsultation> {
                         ),
 
                         Container(
+                          width: MediaQuery.of(context).size.width - 110,
                           child: RaisedButton(
                             onPressed: _submit,
                             //() {
@@ -170,7 +194,7 @@ class _FormConsultationState extends State<FormConsultation> {
                             //   },
                             // );
                             //   },
-                            color: Colors.greenAccent,
+                            color: Colors.blue,
                             textColor: Colors.white,
                             padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
                             splashColor: Colors.grey,

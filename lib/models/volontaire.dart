@@ -13,7 +13,7 @@ class Volontaire {
   Volontaire(
       {this.nom,
       this.prenom,
-      this.dateDeNaissance,
+      //  this.dateDeNaissance,
       this.lieuDeNaissance,
       this.adresse,
       this.numeroCIN,

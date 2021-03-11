@@ -10,8 +10,8 @@ class AjoutOrdonnance extends StatefulWidget {
 
 class _AjoutOrdonnanceState extends State<AjoutOrdonnance> {
   final _formKey = GlobalKey<FormState>();
-  String _description;
-  Double _cout;
+  String _libelle;
+  double _prix;
   DateTime _date;
 
   DateTime selectedDate = DateTime.now();
@@ -34,7 +34,7 @@ class _AjoutOrdonnanceState extends State<AjoutOrdonnance> {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
         appBar: AppBar(
-          title: Text(" Ordonnance "),
+          title: Text(""),
           centerTitle: true,
         ),
         body: SingleChildScrollView(
@@ -48,9 +48,24 @@ class _AjoutOrdonnanceState extends State<AjoutOrdonnance> {
               elevation: 7,
               color: Colors.blue.withOpacity(0.3),
               child: Container(
-                child: Image.asset("img/medicament.png", fit: BoxFit.cover),
+                child: Image.asset("images/medicament.png", fit: BoxFit.cover),
               ),
             ),
+            Container(
+              padding: EdgeInsets.symmetric(
+                vertical: 20,
+              ),
+              child: Text(
+                "Ajouter un medicament",
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              ),
+            ),
+            Divider(
+              thickness: 5,
+              indent: 10,
+              endIndent: 10,
+            ),
+            SizedBox(height: 20),
             Container(
               margin: EdgeInsets.all(15),
               child: Form(
@@ -60,29 +75,61 @@ class _AjoutOrdonnanceState extends State<AjoutOrdonnance> {
                     children: <Widget>[
                       TextFormField(
                         decoration: InputDecoration(
-                            labelText: 'Medicament',
-                            prefixIcon: Icon(Icons.description_rounded),
-                            hintText: 'Materiel',
-                            border: OutlineInputBorder()),
-                        validator: (input) => input.isEmpty
-                            ? ' Veuillez remplir ce champs'
-                            : null,
-                        onSaved: (input) => _description = input,
+                          labelText: 'Medicament',
+                          prefixIcon: Icon(Icons.description_rounded),
+                          hintText: 'Medicament',
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(15.0),
+                            borderSide: BorderSide(),
+                          ),
+                        ),
+                        validator: (value) {
+                          if (value.isEmpty) {
+                            return "le champs est obligatoire";
+                          }
+                        },
+                        onChanged: (value) {
+                          setState(() {
+                            _libelle = value;
+                          });
+                        },
+                        onSaved: (value) {
+                          setState(() {
+                            _libelle = value;
+                          });
+                        },
                       ),
                       SizedBox(
                         height: 20,
                       ),
                       TextFormField(
                         decoration: InputDecoration(
-                            labelText: 'Cout',
-                            prefixIcon: Icon(Icons.attach_money_sharp),
-                            hintText: 'Cout',
-                            border: OutlineInputBorder()),
+                          labelText: 'Prix',
+                          prefixIcon: Icon(Icons.attach_money_sharp),
+                          hintText: 'Prix',
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(15.0),
+                            borderSide: BorderSide(),
+                          ),
+                        ),
                         keyboardType: TextInputType.number,
-                        validator: (input) => input.isEmpty
-                            ? ' Veuillez remplir ce champs'
-                            : null,
-                        onSaved: (input) => _cout = input as Double,
+                        validator: (value) {
+                          if (value.isEmpty) {
+                            return "le champs est obligatoire";
+                          } else if (double.parse(value) < 1) {
+                            return "veuillez saisir une valeur positive";
+                          }
+                        },
+                        onChanged: (value) {
+                          setState(() {
+                            _prix = double.parse(value);
+                          });
+                        },
+                        onSaved: (value) {
+                          setState(() {
+                            _prix = double.parse(value);
+                          });
+                        },
                       ),
 
                       // TextFormField(
@@ -106,6 +153,7 @@ class _AjoutOrdonnanceState extends State<AjoutOrdonnance> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Container(
+                            width: MediaQuery.of(context).size.width - 110,
                             child: RaisedButton(
                               onPressed: _submit,
                               child: Text('  Enregistrer  '),

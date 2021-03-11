@@ -10,8 +10,19 @@ class Rapport_Patient extends StatefulWidget {
 class _Rapport_PatientState extends State<Rapport_Patient> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Text("Patient"),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Activite patient"),
+      ),
+      body: SingleChildScrollView(
+          child: Container(
+        width: double.infinity,
+        child: Column(
+          children: [
+            Text("Patient"),
+          ],
+        ),
+      )),
     );
   }
 }

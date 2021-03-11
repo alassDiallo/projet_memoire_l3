@@ -33,14 +33,36 @@ class _AnalyseState extends State<Analyse> {
       ),
       body: SingleChildScrollView(
         child: Container(
-          width: double.infinity,
-          height: size.height,
+          // width: double.infinity,
+          // //height: size.height,
+          // decoration: BoxDecoration(
+          //   image: DecorationImage(
+          //     image: AssetImage("images/accueil.jpg"),
+          //     fit: BoxFit.,
+          //   ),
+          // ),
           child: Column(
             children: [
+              Container(
+                width: double.infinity,
+                //height: size.height,
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage("images/accueil.jpg"),
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),
+              Divider(
+                thickness: 5,
+                indent: 10,
+                endIndent: 10,
+              ),
               Card(
-                elevation: 10,
+                // color: Colors.transparent,
+                elevation: 7,
                 shadowColor: Colors.blue,
-                margin: EdgeInsets.all(10),
+                margin: EdgeInsets.all(15),
                 child: DataTable(
                   // dividerThickness: true,
                   showBottomBorder: true,
@@ -62,44 +84,50 @@ class _AnalyseState extends State<Analyse> {
                             onTap: () {
                               // write your code..
                             },
+                            // showEditIcon: true,
                           ),
                           DataCell(
                             Text(analyse['cout']),
                             onTap: () {
                               // write your code..
                             },
+                            // showEditIcon: true,
                           ),
                         ]),
                       )
                       .toList(),
                 ),
               ),
-              Divider(),
+              // Divider(),
               SizedBox(
                 height: 20,
               ),
-              Card(
-                shadowColor: Colors.blue,
-                margin: EdgeInsets.all(10),
-                elevation: 10,
+              Container(
+                margin: EdgeInsets.all(15),
                 child: TextField(
                   readOnly: true,
                   decoration: InputDecoration(
                       prefixIcon: Icon(Icons.monetization_on_outlined),
                       labelText: 'Total à payer',
                       border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10.0),
+                        borderRadius: BorderRadius.circular(15.0),
                         borderSide: BorderSide(),
                       )),
                 ),
               ),
-              RaisedButton(
-                child: Text('Valider'),
-                onPressed: () {},
-                color: Colors.greenAccent,
-                textColor: Colors.yellow,
-                padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
-                splashColor: Colors.grey,
+              Container(
+                width: MediaQuery.of(context).size.width - 100,
+                child: RaisedButton(
+                  child: Text('Valider'),
+                  onPressed: () {},
+                  color: Colors.blueAccent,
+                  textColor: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
+                  splashColor: Colors.grey,
+                ),
               ),
             ],
           ),
