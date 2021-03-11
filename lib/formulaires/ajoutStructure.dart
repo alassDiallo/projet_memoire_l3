@@ -228,6 +228,8 @@ class _AjoutStructureState extends State<AjoutStructure> {
                           height: 10,
                         ),
                         TextFormField(
+                          autovalidateMode:
+                                  AutovalidateMode.onUserInteraction,
                           validator: (value) {
                             if (value.isEmpty) {
                               return "le champs est obligatoire";

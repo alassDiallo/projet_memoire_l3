@@ -7,7 +7,7 @@ class ListePatient extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Liste de mes patient du jour"),
+        title: Text("Liste de mes patients du jour"),
       ),
       body: Container(
         width: MediaQuery.of(context).size.width,

@@ -8,7 +8,8 @@ class RendezVous extends StatefulWidget {
 }
 
 class _RendezVousState extends State<RendezVous> {
-  List list = [
+  List<Rend> fl;
+  List<Rend> list = [
     Rend(
         nomDocteur: "Moussa Sarr",
         domaine: "Ophtalmologie",
@@ -20,6 +21,19 @@ class _RendezVousState extends State<RendezVous> {
     Rend(nomDocteur: "Moussa Sarr", domaine: "Neurologie", date: "21/12/2021"),
     Rend(nomDocteur: "Moussa Sarr", domaine: "Genecologie", date: "21/12/2021"),
   ];
+  void filter() {
+    setState(() {
+      fl = list.where((element) => element.domaine == 'Genecologie');
+    });
+
+    print(fl);
+  }
+
+  @override
+  void initState() {
+    filter();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +53,7 @@ class _RendezVousState extends State<RendezVous> {
                         style: TextStyle(fontSize: 18),
                       ),
                       Text(
-                        "envoyées",
+                        "envoyés",
                         style: TextStyle(fontSize: 18),
                       )
                     ])),

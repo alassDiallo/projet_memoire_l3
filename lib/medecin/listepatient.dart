@@ -116,7 +116,7 @@ class _ListePState extends State<ListeP> {
                     numeric: false,
                   ),
                   DataColumn(label: Text("Adresse"), numeric: false),
-                  DataColumn(label: Text("telphone"), numeric: false),
+                  DataColumn(label: Text("telephone"), numeric: false),
                 ],
                 rows: patients.map((element) {
                   return DataRow(

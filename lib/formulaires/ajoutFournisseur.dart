@@ -135,6 +135,8 @@ class _AjoutFournisseurState extends State<AjoutFournisseur> {
                               height: 10,
                             ),
                             TextFormField(
+                              autovalidateMode:
+                                  AutovalidateMode.onUserInteraction,
                               keyboardType: TextInputType.emailAddress,
                               validator: (value) {
                                 if (value.isEmpty ||
@@ -170,9 +172,20 @@ class _AjoutFournisseurState extends State<AjoutFournisseur> {
                               height: 10,
                             ),
                             TextFormField(
+                              autovalidateMode:
+                                  AutovalidateMode.onUserInteraction,
                               validator: (value) {
                                 if (value.isEmpty) {
                                   return "le champs est obligatoire";
+                                } else if (value.length > 1) {
+                                  return value.substring(0, 2);
+                                  // if (value.substring(0, 1) != "77" ||
+                                  //     value.substring(0, 1) != "76" ||
+                                  //     value.substring(0, 1) != "70" ||
+                                  //     value.substring(0, 1) != "78" ||
+                                  //     value.substring(0, 1) != "30" ||
+                                  //     value.substring(0, 1) != "33") {
+                                  //   return "le numero doit commencer par 77,76,78,70,30,33";
                                 } else if (value.length < 9) {
                                   return "veullez entrer un numero valide de 9 chiffre";
                                 }

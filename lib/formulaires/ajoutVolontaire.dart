@@ -152,6 +152,8 @@ class _AjoutVolontaireFormulaireState extends State<AjoutVolontaireFormulaire> {
                                 _nom = nom;
                               });
                             },
+                            autovalidateMode:
+                                  AutovalidateMode.onUserInteraction,
                             validator: (value) {
                               if (value.isEmpty) {
                                 return "veuillez remplir le champs";
@@ -185,6 +187,8 @@ class _AjoutVolontaireFormulaireState extends State<AjoutVolontaireFormulaire> {
                             onSaved: (value) {
                               _prenom = value;
                             },
+                            autovalidateMode:
+                                  AutovalidateMode.onUserInteraction,
                             validator: (value) {
                               if (value.isEmpty) {
                                 return "veuillez renseigner le champs";
@@ -290,6 +294,8 @@ class _AjoutVolontaireFormulaireState extends State<AjoutVolontaireFormulaire> {
                                 _lieuDeNaissance = value;
                               });
                             },
+                            autovalidateMode:
+                                  AutovalidateMode.onUserInteraction,
                             validator: (value) {
                               if (value.isEmpty) {
                                 return "veullez renseigner le champs";
@@ -359,6 +365,8 @@ class _AjoutVolontaireFormulaireState extends State<AjoutVolontaireFormulaire> {
                             height: 30,
                           ),
                           TextFormField(
+                            autovalidateMode:
+                                  AutovalidateMode.onUserInteraction,
                             onChanged: (value) {
                               setState(() {
                                 _adresse = value;
@@ -406,6 +414,8 @@ class _AjoutVolontaireFormulaireState extends State<AjoutVolontaireFormulaire> {
                                 _telephone = value;
                               });
                             },
+                            autovalidateMode:
+                                  AutovalidateMode.onUserInteraction,
                             validator: (value) {
                               if (value.isEmpty) {
                                 return "veullez renseigner le champs";
@@ -444,6 +454,8 @@ class _AjoutVolontaireFormulaireState extends State<AjoutVolontaireFormulaire> {
                                 _numeroCIN = value;
                               });
                             },
+                            autovalidateMode:
+                                  AutovalidateMode.onUserInteraction,
                             validator: (value) {
                               if (value.isEmpty) {
                                 return "veullez renseigner le champs";
@@ -485,6 +497,8 @@ class _AjoutVolontaireFormulaireState extends State<AjoutVolontaireFormulaire> {
                                 _email = value;
                               });
                             },
+                            autovalidateMode:
+                                  AutovalidateMode.onUserInteraction,
                             validator: (value) {
                               if (value.isEmpty) {
                                 return "veullez renseigner le champs";

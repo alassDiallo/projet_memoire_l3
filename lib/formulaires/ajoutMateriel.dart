@@ -105,6 +105,8 @@ class _AjoutMaterielState extends State<AjoutMateriel> {
                         height: 10,
                       ),
                       TextFormField(
+                        autovalidateMode:
+                                  AutovalidateMode.onUserInteraction,
                         validator: (value) {
                           if (value.isEmpty) {
                             return "le champs est obligatoire";
@@ -170,6 +172,8 @@ class _AjoutMaterielState extends State<AjoutMateriel> {
                         height: 10,
                       ),
                       TextFormField(
+                        autovalidateMode:
+                                  AutovalidateMode.onUserInteraction,
                         validator: (value) {
                           if (value.isEmpty) {
                             return "le champs est obligatoire";
@@ -205,6 +209,8 @@ class _AjoutMaterielState extends State<AjoutMateriel> {
                         height: 10,
                       ),
                       TextFormField(
+                        autovalidateMode:
+                                  AutovalidateMode.onUserInteraction,
                         validator: (value) {
                           if (value.isEmpty) {
                             return "le champs est obligatoire";
