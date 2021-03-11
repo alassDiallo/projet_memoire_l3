@@ -15,6 +15,7 @@ class PageMessage extends StatefulWidget {
 enum MessageType { sender, receiver }
 
 class _PageMessageState extends State<PageMessage> {
+  var cle = GlobalKey<FormState>();
   String mess = '';
   List<Mess> list = [
     Mess(message: "Bonjour asane comment tu vas", type: MessageType.receiver),
@@ -32,6 +33,18 @@ class _PageMessageState extends State<PageMessage> {
     Mess(message: "naka activité yi nak", type: MessageType.sender),
     Mess(message: "cva gnogui ci di takkalé rk", type: MessageType.receiver),
   ];
+
+  void _enregistrer() {
+    if (cle.currentState.validate()) {
+      cle.currentState.save();
+      setState(() {
+        list.add(
+          Mess(message: mess, type: MessageType.sender),
+        );
+      });
+      cle.currentState.reset();
+    }
+  }
 
   //acceder a la camera ou a la galerie
   File fichier;
@@ -263,38 +276,41 @@ class _PageMessageState extends State<PageMessage> {
                       margin: EdgeInsets.only(left: 4, bottom: 8),
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(30)),
-                      child: TextField(
-                        maxLines: null,
-                        minLines: null,
-                        onChanged: (value) {
-                          mess = value;
-                        },
-                        //expands: true,
-                        textAlignVertical: TextAlignVertical.center,
-                        keyboardType: TextInputType.multiline,
-                        decoration: InputDecoration(
-                            border: InputBorder.none,
-                            hintText: "ecrire un message.......",
-                            contentPadding: EdgeInsets.all(5),
-                            prefixIcon: IconButton(
-                              icon: Icon(Icons.emoji_emotions),
-                              onPressed: () {},
-                            ),
-                            suffixIcon: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                IconButton(
-                                  icon: Icon(Icons.attach_file),
-                                  onPressed: () => _showModal(),
-                                ),
-                                IconButton(
-                                  icon: Icon(Icons.camera_alt),
-                                  onPressed: () {
-                                    getImage(true);
-                                  },
-                                )
-                              ],
-                            )),
+                      child: Form(
+                        key: cle,
+                        child: TextFormField(
+                          maxLines: null,
+                          minLines: null,
+                          onChanged: (value) {
+                            mess = value;
+                          },
+                          //expands: true,
+                          textAlignVertical: TextAlignVertical.center,
+                          keyboardType: TextInputType.multiline,
+                          decoration: InputDecoration(
+                              border: InputBorder.none,
+                              hintText: "ecrire un message.......",
+                              contentPadding: EdgeInsets.all(5),
+                              prefixIcon: IconButton(
+                                icon: Icon(Icons.emoji_emotions),
+                                onPressed: () {},
+                              ),
+                              suffixIcon: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  IconButton(
+                                    icon: Icon(Icons.attach_file),
+                                    onPressed: () => _showModal(),
+                                  ),
+                                  IconButton(
+                                    icon: Icon(Icons.camera_alt),
+                                    onPressed: () {
+                                      getImage(true);
+                                    },
+                                  )
+                                ],
+                              )),
+                        ),
                       )),
                   //color: Colors.white,
                 ),
@@ -302,15 +318,7 @@ class _PageMessageState extends State<PageMessage> {
                   padding: EdgeInsets.only(bottom: 8, left: 2),
                   width: 50,
                   child: FloatingActionButton(
-                      child: Icon(Icons.send),
-                      onPressed: () {
-                        setState(() {
-                          list.add(
-                            Mess(message: mess, type: MessageType.sender),
-                          );
-                          mess = '';
-                        });
-                      }),
+                      child: Icon(Icons.send), onPressed: _enregistrer),
                 ),
               ]))
         ],

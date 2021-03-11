@@ -2,11 +2,7 @@ class Volontaire {
   String nom;
   String prenom;
   String lieuDeNaissance;
-<<<<<<< HEAD
   DateTime dateDeNaissance;
-=======
-  // Date dateDeNaissance;
->>>>>>> sbd
   String adresse;
   String numeroCIN;
   String telephone;

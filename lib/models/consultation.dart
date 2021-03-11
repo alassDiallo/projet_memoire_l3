@@ -16,7 +16,7 @@ List<Consultation> list = [
       image: "images/ophtalmologie.png",
       nomDocteur: "Assane Diallo"),
   Consultation(
-      nom: "Pneumolgie",
+      nom: "Pneumologie",
       prix: 5000.00,
       image: "images/pneumologie.jpeg",
       nomDocteur: "Bassirou Dabo"),

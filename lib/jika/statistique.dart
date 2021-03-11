@@ -104,11 +104,15 @@ class _StatistiqueState extends State<Statistique> {
     ));
 
     var _d = [
-      Tache(couleur: Color(0xff3366cc), nom: "travail", valeur: 38.5),
-      Tache(couleur: Color(0xff990099), nom: "repas", valeur: 8.3),
-      Tache(couleur: Color(0xff109618), nom: "commune", valeur: 10.8),
-      Tache(couleur: Color(0xfffdbe19), nom: "Telé", valeur: 19.2),
-      Tache(couleur: Color(0xffff9900), nom: "sommeil", valeur: 38.5),
+      Tache(couleur: Color(0xff3366cc), nom: "Achat de materiel", valeur: 38.5),
+      Tache(
+          couleur: Color(0xff990099),
+          nom: "analyse et ordonnance",
+          valeur: 8.3),
+      Tache(couleur: Color(0xff109618), nom: "consultation", valeur: 10.8),
+      Tache(
+          couleur: Color(0xfffdbe19), nom: "depense volontaire", valeur: 19.2),
+      Tache(couleur: Color(0xffff9900), nom: "Depense interne", valeur: 38.5),
       Tache(couleur: Color(0xffdc3912), nom: "autre", valeur: 10.3),
     ];
 

@@ -27,6 +27,7 @@ class _DetailState extends State<Detail> {
         setState(() {
           medecins.add(Medecin(
               nom: med["nom"],
+              idMedecin: med["idMedecin"],
               prenom: med["prenom"],
               libelleSpecialite: med["libelle"],
               region: med["region"],
@@ -102,7 +103,10 @@ class _DetailState extends State<Detail> {
                       ),
                       Divider(),
                       Container(
-                          height: 500,
+                          height: MediaQuery.of(context).size.height,
+                          //     .size
+                          //     .bottomCenter(Offset(0, 0)),
+                          width: MediaQuery.of(context).size.width,
                           child: medecins.isNotEmpty
                               ? ListView.builder(
                                   itemCount: medecins.length,

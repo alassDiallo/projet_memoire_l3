@@ -18,13 +18,13 @@ class DocteurCategorie extends StatelessWidget {
       child: Card(
         elevation: 2,
         child: Container(
-          padding: EdgeInsets.all(20),
+          padding: EdgeInsets.all(10),
           child: Row(
             children: [
               Image.asset(
                 "images/vol.png",
-                width: 100,
-                height: 100,
+                width: MediaQuery.of(context).size.width * 0.2,
+                height: MediaQuery.of(context).size.height * 0.1,
               ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -39,7 +39,7 @@ class DocteurCategorie extends StatelessWidget {
                         starCount: 5,
                         rating: 5,
                         color: Colors.orange,
-                        size: 20,
+                        size: 15,
                       ),
                     ],
                   ),
