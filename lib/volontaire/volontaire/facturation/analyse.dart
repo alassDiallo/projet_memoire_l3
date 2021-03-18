@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:gestion_materiel_cmu/controllers/ListeAnalyseP.dart';
+import 'package:gestion_materiel_cmu/models/Analyse.dart';
 import 'package:gestion_materiel_cmu/volontaire/volontaire/form/form_ajoutAnalyse.dart';
 
 class Analyse extends StatefulWidget {
@@ -9,22 +11,25 @@ class Analyse extends StatefulWidget {
 }
 
 class _AnalyseState extends State<Analyse> {
-  final listeAnalyse = [
-    {
-      'description': 'Radiographie pulmonaire',
-      'cout': '123456 ',
-    },
-    {
-      'description': 'Analyse sanguine',
-      'cout': '12000 ',
-    },
-    {
-      'description': 'Scanner',
-      'cout': '50000 ',
-    },
-  ];
+  double total;
+  List<AnalyseM> listeAnalys = [];
+  AnalyselistP ana = AnalyselistP();
+
+  @override
+  void initState() {
+    super.initState();
+    listeAnalys = ana.analyses;
+    for (var analyse in listeAnalys) {
+      total = total + analyse.prix;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    // for (var depense in listeAnalys) {
+    //   total += depense.prix;
+    // }
+    // return total;
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
@@ -76,18 +81,18 @@ class _AnalyseState extends State<Analyse> {
                       numeric: true,
                     ),
                   ],
-                  rows: listeAnalyse
+                  rows: listeAnalys
                       .map(
                         (analyse) => DataRow(cells: [
                           DataCell(
-                            Text(analyse['description']),
+                            Text(analyse.libelle),
                             onTap: () {
                               // write your code..
                             },
                             // showEditIcon: true,
                           ),
                           DataCell(
-                            Text(analyse['cout']),
+                            Text(analyse.prix.toString()),
                             onTap: () {
                               // write your code..
                             },
@@ -109,6 +114,7 @@ class _AnalyseState extends State<Analyse> {
                   decoration: InputDecoration(
                       prefixIcon: Icon(Icons.monetization_on_outlined),
                       labelText: 'Total à payer',
+                      hintText: total.toString(),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(15.0),
                         borderSide: BorderSide(),

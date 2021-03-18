@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:gestion_materiel_cmu/controllers/DepenseList.dart';
+import 'package:gestion_materiel_cmu/models/depense.dart';
 import 'package:gestion_materiel_cmu/volontaire/volontaire/form/form_ajoutDepense.dart';
 
 class Rapport_Depense extends StatefulWidget {
@@ -7,28 +9,43 @@ class Rapport_Depense extends StatefulWidget {
 }
 
 class _Rapport_DepenseState extends State<Rapport_Depense> {
-  final listeDepense = [
-    {
-      'description': 'Achat de materiel',
-      'cout': '123456 ',
-      'date': "2021-03-02 ",
-    },
-    {
-      'description': 'Achat de materiel',
-      'cout': '123456 ',
-      'date': "2021-03-02 ",
-    },
-    {
-      'description': 'Achat',
-      'cout': '5389 ',
-      'date': "2020-10-17 ",
-    },
-    {
-      'description': 'Achat de materiel',
-      'cout': '123456 ',
-      'date': "2021-03-02 ",
-    },
-  ];
+  List<Depense> listeDepense = [];
+  List<Depense> listeDep = [];
+
+  Depenselist dep = Depenselist();
+
+  @override
+  void initState() {
+    super.initState();
+    listeDepense = dep.depenses;
+  }
+
+  void selctionner(bool b, Depense element) async {
+    if (b) {
+      setState(() {
+        b = true;
+        listeDep.add(element);
+      });
+    } else {
+      listeDep.remove(element);
+    }
+  }
+
+  void supprimer() async {
+    setState(() {
+      if (listeDep.isNotEmpty) {
+        List<Depense> tmp = [];
+        tmp.addAll(listeDep);
+        for (Depense dep in tmp) {
+          listeDepense.remove(dep);
+          listeDep.remove(dep);
+        }
+      }
+    });
+  }
+
+  // final listeDepense = Depenselist().depenses;
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -79,44 +96,73 @@ class _Rapport_DepenseState extends State<Rapport_Depense> {
                         columns: [
                           DataColumn(
                             label: Text("Description"),
-                            numeric: false,
                           ),
                           DataColumn(
                             label: Text("Cout"),
-                            numeric: true,
                           ),
-                          DataColumn(
-                            label: Text("date"),
-                            numeric: false,
-                          ),
+                          // DataColumn(
+                          //   label: Text("date"),
+                          //   numeric: false,
+                          // ),
                         ],
                         rows: listeDepense
                             .map(
-                              (depense) => DataRow(cells: [
-                                DataCell(
-                                  Text(depense['description']),
-                                  onTap: () {
-                                    // write your code..
+                              (Depense depense) => DataRow(
+                                  selected: listeDep.contains(depense),
+                                  onSelectChanged: (b) {
+                                    selctionner(b, depense);
                                   },
-                                ),
-                                DataCell(
-                                  Text(depense['cout']),
-                                  onTap: () {
-                                    // write your code..
-                                  },
-                                ),
-                                DataCell(
-                                  Text(depense['date']),
-                                  onTap: () {
-                                    // write your code..
-                                  },
-                                ),
-                              ]),
+                                  cells: [
+                                    DataCell(
+                                      Text(depense.description),
+                                    ),
+                                    DataCell(
+                                      Text(depense.cout.toString()),
+                                    ),
+                                  ]),
                             )
                             .toList(),
                       ),
                       SizedBox(
                         height: 15,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.all(5),
+                            child: TextButton(
+                              // color: Colors.blueGrey,
+                              child: Row(
+                                children: [
+                                  Icon(
+                                    Icons.check,
+                                    color: Colors.green,
+                                  ),
+                                  Text("${listeDep.length} Selectionné(es)"),
+                                ],
+                              ),
+                              onPressed: () {},
+                            ),
+                          ),
+                          SizedBox(width: 5),
+                          Padding(
+                            padding: EdgeInsets.all(5),
+                            child: OutlineButton(
+                                color: Colors.blueGrey,
+                                child: Row(
+                                  children: [
+                                    Icon(
+                                      Icons.delete_forever,
+                                      color: Colors.red,
+                                    ),
+                                    Text("Supprimer"),
+                                  ],
+                                ),
+                                onPressed: listeDep.isEmpty ? null : supprimer),
+                          )
+                        ],
                       )
                     ],
                   ),
