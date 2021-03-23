@@ -1,12 +1,31 @@
 import 'package:flutter/material.dart';
+import 'dart:convert';
+import 'package:gestion_materiel_cmu/Login.dart';
+import 'package:gestion_materiel_cmu/composants/drawer.dart';
+import 'package:gestion_materiel_cmu/controllers/Connexion.dart';
 import 'package:gestion_materiel_cmu/formulaires/ajoutFournisseur.dart';
 import 'package:gestion_materiel_cmu/formulaires/ajoutMAteriel.dart';
 import 'package:gestion_materiel_cmu/formulaires/ajoutStructure.dart';
 import 'package:gestion_materiel_cmu/formulaires/ajoutVolontaire.dart';
 import 'package:gestion_materiel_cmu/jika/statistique.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:convert' as convert;
 import 'comptabilite.dart';
 
-class AccueilJica extends StatelessWidget {
+class AccueilJica extends StatefulWidget {
+  @override
+  _AccueilJicaState createState() => _AccueilJicaState();
+}
+
+class _AccueilJicaState extends State<AccueilJica> {
+  var admin;
+
+  @override
+  void initState() {
+    token();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -20,14 +39,21 @@ class AccueilJica extends StatelessWidget {
           ),
           PopupMenuButton(
               initialValue: 0,
-              icon: Icon(Icons.more_horiz),
+              icon: Icon(Icons.more_vert),
               itemBuilder: (context) {
                 return [
                   PopupMenuItem(
-                    child: Text("bonjour"),
+                    child: ListTile(
+                      leading: Icon(Icons.person),
+                      title: Text('profil'),
+                    ),
                   ),
                   PopupMenuItem(
-                    child: Text("bonjour"),
+                    child: ListTile(
+                      leading: Icon(Icons.logout),
+                      title: Text("Se deconnecter"),
+                      onTap: _logout,
+                    ),
                   )
                 ];
               })
@@ -161,7 +187,7 @@ class AccueilJica extends StatelessWidget {
                     Card(
                       margin:
                           EdgeInsets.symmetric(vertical: 20, horizontal: 10),
-                      color: Colors.yellow[600],
+                      color: Colors.orange,
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(30)),
                       elevation: 5,
@@ -186,7 +212,7 @@ class AccueilJica extends StatelessWidget {
                                   ],
                                 ),
                                 Icon(
-                                  Icons.account_balance,
+                                  Icons.file_copy_outlined,
                                   size: 50,
                                   color: Colors.white,
                                 )
@@ -326,5 +352,30 @@ class AccueilJica extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void _logout() async {
+    var res = await Connexion().deconnexion('auth/logout');
+    var body = convert.jsonDecode(res.body);
+    print(body);
+    if (body['success']) {
+      SharedPreferences localStorage = await SharedPreferences.getInstance();
+      localStorage.remove('user');
+      localStorage.remove('token');
+      Navigator.push(context, MaterialPageRoute(builder: (context) => Login()));
+    }
+  }
+
+  token() async {
+    SharedPreferences localstorage = await SharedPreferences.getInstance();
+    var t = localstorage.getString('token');
+    if (t != null) {
+      setState(() {
+        admin = jsonDecode(localstorage.getString('user'));
+      });
+      print(admin);
+    } else {
+      Navigator.push(context, MaterialPageRoute(builder: (context) => Login()));
+    }
   }
 }

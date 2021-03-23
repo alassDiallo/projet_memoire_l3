@@ -18,9 +18,9 @@ class Detail extends StatefulWidget {
 class _DetailState extends State<Detail> {
   List<Medecin> medecins = [];
   Future<void> getMedecin() async {
-    var url = Connexion.url + "specialite/${widget.consultation.nom}";
+    var url = "auth/specialite/${widget.consultation.nom}";
     print(url);
-    var donnees = await http.get(url);
+    var donnees = await Connexion().recuperation(url);
     if (donnees.statusCode == 200) {
       var medecin = convert.jsonDecode(donnees.body);
       for (var med in medecin) {
@@ -30,6 +30,7 @@ class _DetailState extends State<Detail> {
               idMedecin: med["idMedecin"],
               prenom: med["prenom"],
               libelleSpecialite: med["libelle"],
+              telephone: med["telephone"],
               region: med["region"],
               structure: med["nomStructure"]));
         });
@@ -102,20 +103,22 @@ class _DetailState extends State<Detail> {
                         ),
                       ),
                       Divider(),
-                      Container(
-                          height: MediaQuery.of(context).size.height,
-                          //     .size
-                          //     .bottomCenter(Offset(0, 0)),
-                          width: MediaQuery.of(context).size.width,
-                          child: medecins.isNotEmpty
-                              ? ListView.builder(
-                                  itemCount: medecins.length,
-                                  itemBuilder: (context, index) {
-                                    return DocteurCategorie(
-                                        medecin: medecins[index]);
-                                  })
-                              : Text(
-                                  "cette Specialite n'a pas encore de medecin"))
+                      SingleChildScrollView(
+                        child: Container(
+                            height: 400,
+                            //     .size
+                            //     .bottomCenter(Offset(0, 0)),
+                            // width: MediaQuery.of(context).size.width,
+                            child: medecins.isNotEmpty
+                                ? ListView.builder(
+                                    itemCount: medecins.length,
+                                    itemBuilder: (context, index) {
+                                      return DocteurCategorie(
+                                          medecin: medecins[index]);
+                                    })
+                                : Text(
+                                    "cette Specialite n'a pas encore de medecin")),
+                      )
                     ],
                   ),
                 ],
@@ -259,7 +262,9 @@ class _DetailState extends State<Detail> {
       backgroundColor: Colors.blue,
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.message),
-        onPressed: () {},
+        onPressed: () {
+          
+        },
         tooltip: "contacter le medecin",
       ),
       body: Stack(

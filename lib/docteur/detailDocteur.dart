@@ -8,6 +8,8 @@ import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert' as convert;
 
+import 'package:url_launcher/url_launcher.dart';
+
 class DetailDocteur extends StatefulWidget {
   Medecin medecin;
   DetailDocteur({this.medecin});
@@ -18,23 +20,28 @@ class DetailDocteur extends StatefulWidget {
 
 class _DetailDocteurState extends State<DetailDocteur> {
   DateTime heure, date;
+  DateFormat df = DateFormat("dd/MM/yyyy");
   var cle = GlobalKey<FormState>();
   void _enregistrer() async {
     if (cle.currentState.validate()) {
       cle.currentState.save();
       // print("heure ${heure.hour}:${heure.minute}");
       // print("heure ${date.toString()}");
+      print(df.format(date));
 
       Map<String, dynamic> rv = {
         "idMedecin": widget.medecin.idMedecin.toString(),
-        "idPatient": "2",
         "date": date.toString(),
-        "heure": '${heure.hour}:${heure.minute}'
+        "heure": (heure.hour > 9 ? '${heure.hour}h' : "0${heure.hour}h") +
+            (heure.minute > 9 ? heure.minute.toString() : "0${heure.minute}")
       };
-      var url = Connexion.url + "rendezvous";
-      print(url);
-      print(rv);
-      var donnee = await http.post(Uri.encodeFull(url), body: rv);
+
+      var url = "auth/rendezvous";
+      var donnee = await Connexion().envoideDonnnee(rv, url);
+      // print(url);
+      // print(rv);
+      // var donnee = await http.post(Uri.encodeFull(url), body: rv);
+      print(donnee.body);
       if (donnee.statusCode == 200) {
         print(donnee.body);
         Navigator.pop(context);
@@ -45,6 +52,7 @@ class _DetailDocteurState extends State<DetailDocteur> {
 
   @override
   Widget build(BuildContext context) {
+    print(widget.medecin.telephone);
     return Scaffold(
         body: SingleChildScrollView(
             child: Container(
@@ -122,7 +130,9 @@ class _DetailDocteurState extends State<DetailDocteur> {
                                   Icons.call,
                                   color: Colors.blue,
                                 ),
-                                onPressed: () {},
+                                onPressed: () {
+                                  launch("tel://" + widget.medecin.telephone);
+                                },
                               ),
                             ),
                             Container(
@@ -360,4 +370,6 @@ class _DetailDocteurState extends State<DetailDocteur> {
           );
         });
   }
+
+  void appel() {}
 }

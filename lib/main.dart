@@ -2,8 +2,10 @@
 import 'package:flutter/material.dart';
 import 'package:gestion_materiel_cmu/camera/camera.dart';
 import 'package:gestion_materiel_cmu/consultation/detailConsultation.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 //import 'package:gestion_materiel_cmu/volontaire/accueil.dart';
 import 'Login.dart';
+import 'dart:async';
 import 'patient/accueil.dart';
 import 'badge.dart';
 import 'package:gestion_materiel_cmu/discussion/messagerie.dart';
@@ -38,9 +40,26 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  bool isconnect = false;
   //Widget page=Login();
+  @override
+  void initState() {
+    verifConnexion();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(body: Login());
+  }
+
+  void verifConnexion() async {
+    SharedPreferences localStorage = await SharedPreferences.getInstance();
+    var token = localStorage.getString('token');
+    if (token != null) {
+      setState(() {
+        isconnect = true;
+      });
+    }
   }
 }

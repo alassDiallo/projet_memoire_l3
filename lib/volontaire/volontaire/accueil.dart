@@ -171,7 +171,7 @@ class _VolontaireState extends State<Volontaire> {
                         child: MenuCard(
                           text: "Consultation",
                           icon: Icon(
-                            Icons.person,
+                            Icons.local_hospital,
                             color: Colors.white,
                             size: 40,
                           ),

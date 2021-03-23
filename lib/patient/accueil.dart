@@ -1,5 +1,9 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:gestion_materiel_cmu/Login.dart';
+import 'package:gestion_materiel_cmu/composants/drawer.dart';
 import 'package:gestion_materiel_cmu/consultation/consultation.dart';
+import 'package:gestion_materiel_cmu/controllers/Connexion.dart';
 import 'package:gestion_materiel_cmu/discussion/messagerie.dart';
 import 'package:gestion_materiel_cmu/map/map.dart';
 import 'package:gestion_materiel_cmu/notification/notification.dart';
@@ -7,9 +11,11 @@ import 'package:gestion_materiel_cmu/patient/ItemConsultation.dart';
 import 'package:gestion_materiel_cmu/patient/historique.dart';
 import 'package:gestion_materiel_cmu/patient/option.dart';
 import 'package:gestion_materiel_cmu/patient/slide.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'listeConsultation.dart';
 import 'rendez_vous.dart';
 import 'package:gestion_materiel_cmu/medecin/discussion.dart';
+import 'dart:convert' as convert;
 //import 'package:badges/badges.dart';
 
 class AccueilPatient extends StatefulWidget {
@@ -19,9 +25,17 @@ class AccueilPatient extends StatefulWidget {
 
 class _AccueilPatientState extends State<AccueilPatient> {
   int _currentIndex = 0;
+  var patient;
+  @override
+  void initState() {
+    token();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: Colors.white,
         appBar: AppBar(
           actions: [
             PopupMenuButton(
@@ -30,7 +44,7 @@ class _AccueilPatientState extends State<AccueilPatient> {
                 itemBuilder: (context) => _popup())
           ],
         ),
-        drawer: _drawer(),
+        drawer: Drawers(),
         bottomNavigationBar: _bottomNavigationBar(),
         body: SingleChildScrollView(
             child: Container(
@@ -447,8 +461,7 @@ class _AccueilPatientState extends State<AccueilPatient> {
               leading: Icon(Icons.logout),
               title: Text("se deconnecter"),
               onTap: () {
-                Navigator.pop(context);
-                Navigator.pop(context);
+                _logout();
               },
             ),
             Divider(),
@@ -477,5 +490,31 @@ class _AccueilPatientState extends State<AccueilPatient> {
     list.add(PopupMenuDivider());
 
     return list;
+  }
+
+  void _logout() async {
+    var res = await Connexion().deconnexion('auth/logout');
+    var body = convert.jsonDecode(res.body);
+    print(body);
+    if (body['success']) {
+      SharedPreferences localStorage = await SharedPreferences.getInstance();
+      localStorage.remove('user');
+      localStorage.remove('token');
+      Navigator.push(context, MaterialPageRoute(builder: (context) => Login()));
+    }
+  }
+
+  token() async {
+    SharedPreferences localstorage = await SharedPreferences.getInstance();
+    var t = localstorage.getString('token');
+    if (t != null) {
+      setState(() {
+        patient = json.decode(localstorage.getString('user'));
+      });
+      print("-----------user-------------");
+      print(patient['email']);
+    } else {
+      Navigator.push(context, MaterialPageRoute(builder: (context) => Login()));
+    }
   }
 }

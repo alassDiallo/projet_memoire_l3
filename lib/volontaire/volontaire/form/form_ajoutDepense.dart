@@ -53,7 +53,7 @@ class _AjoutDepenseState extends State<AjoutDepense> {
             ),
           ),
           Divider(
-            thickness: 5,
+            thickness: 2,
             indent: 10,
             endIndent: 10,
           ),
@@ -146,13 +146,12 @@ class _AjoutDepenseState extends State<AjoutDepense> {
                     //   onSaved: (input) => _date = input as DateTime,
                     // ),
                     SizedBox(
-                      height: 20,
+                      height: 10,
                     ),
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Container(
-                          width: MediaQuery.of(context).size.width - 80,
+                          width: MediaQuery.of(context).size.width - 40,
                           child: RaisedButton(
                             onPressed: _submit,
                             child: Text('  Enregistrer  '),
@@ -161,7 +160,7 @@ class _AjoutDepenseState extends State<AjoutDepense> {
                             ),
                             color: Colors.blue,
                             textColor: Colors.white,
-                            padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
+                            padding: EdgeInsets.symmetric(vertical: 20),
                             splashColor: Colors.white,
                           ),
                         )

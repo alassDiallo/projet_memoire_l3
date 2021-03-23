@@ -14,10 +14,11 @@ class Medecins extends StatefulWidget {
 
 class _MedecinsState extends State<Medecins> {
   List<Medecin> medecins = [];
+  List<Medecin> filtre = [];
 
   Future<void> _getMedecins() async {
-    String url = Connexion.url + "medecin";
-    var donnee = await http.get(url);
+    String url = "auth/medecin";
+    var donnee = await Connexion().recuperation(url);
     print(url);
     print(donnee.body);
     if (donnee.statusCode == 200) {
@@ -29,41 +30,132 @@ class _MedecinsState extends State<Medecins> {
               prenom: med["prenom"],
               libelleSpecialite: med["libelle"],
               region: med["region"],
+              telephone: med['telephone'],
+              idMedecin: med["idMedecin"],
               structure: med["nomStructure"]));
         });
       }
+      setState(() {
+        filtre = medecins;
+      });
     }
   }
 
   @override
   void initState() {
-    super.initState();
     _getMedecins();
+    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text("Liste des medecins"),
-          actions: [
-            IconButton(
-                icon: Icon(
-                  Icons.search,
-                ),
-                onPressed: () {})
-          ],
-        ),
-        body: Container(
-            child: GridView.count(
-          crossAxisCount: 2,
-          crossAxisSpacing: 1,
-          mainAxisSpacing: 4,
-          children: List.generate(medecins.length, (index) {
-            return Docteur(
-              medecin: medecins[index],
-            );
-          }),
-        )));
+        backgroundColor: Colors.white,
+        // appBar: AppBar(
+        //   actions: [
+        //     IconButton(
+        //         icon: Icon(
+        //           Icons.search,
+        //         ),
+        //         onPressed: () {})
+        //   ],
+        // ),
+        body: SafeArea(
+          child: SingleChildScrollView(
+            child: Container(
+              child: Column(
+                children: [
+                  Container(
+                    height: MediaQuery.of(context).size.height * 0.3,
+                    decoration: BoxDecoration(
+                        color: Colors.blue[900],
+                        borderRadius: BorderRadius.only(
+                            bottomLeft: Radius.circular(60),
+                            topRight: Radius.circular(30))),
+                    child: Container(
+                      decoration: BoxDecoration(),
+                      margin: EdgeInsets.only(left: 10, right: 50),
+                      child: Column(
+                        children: [
+                          Align(
+                            alignment: Alignment.topLeft,
+                            child: BackButton(
+                              color: Colors.white,
+                            ),
+                          ),
+                          Text(
+                            "Medecins",
+                            style: TextStyle(
+                                fontSize: 40,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white),
+                          ),
+                          Divider(
+                            thickness: 5,
+                            indent: 100,
+                            endIndent: 100,
+                            height: 20,
+                            color: Colors.white,
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Center(
+                            child: Container(
+                              margin: EdgeInsets.only(left: 50),
+                              padding: EdgeInsets.symmetric(horizontal: 20),
+                              decoration: BoxDecoration(
+                                  color: Colors.white.withOpacity(0.4),
+                                  borderRadius: BorderRadius.circular(30)),
+                              child: TextField(
+                                onChanged: (value) {
+                                  filtrer(value);
+                                },
+                                decoration: InputDecoration(
+                                    hintText: "recherche...",
+                                    border: InputBorder.none,
+                                    suffixIcon: Icon(Icons.search)),
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                  SingleChildScrollView(
+                    child: Container(
+                        height: MediaQuery.of(context).size.height * 0.7,
+                        child: GridView.count(
+                          crossAxisCount: 2,
+                          crossAxisSpacing: 1,
+                          mainAxisSpacing: 4,
+                          children: List.generate(filtre.length, (index) {
+                            return Docteur(
+                              medecin: filtre[index],
+                            );
+                          }),
+                        )),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ));
+  }
+
+  void filtrer(String f) {
+    setState(() {
+      filtre = medecins
+          .where((element) =>
+              element.nom.toLowerCase().contains(f.toLowerCase()) ||
+              element.prenom.toLowerCase().contains(f.toLowerCase()) ||
+              element.telephone.contains(f) ||
+              element.libelleSpecialite
+                  .toLowerCase()
+                  .contains(f.toLowerCase()) ||
+              element.structure.toLowerCase().contains(f.toLowerCase()) ||
+              element.region.toLowerCase().contains(f.toLowerCase()))
+          .toList();
+    });
   }
 }

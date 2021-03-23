@@ -56,8 +56,16 @@ class Docteur extends StatelessWidget {
                         SizedBox(
                           height: 4,
                         ),
-                        Text("region de " + medecin.region ?? 'neant',
-                            style: TextStyle(fontSize: 10)),
+                        Row(
+                          children: [
+                            Icon(
+                              Icons.location_pin,
+                              color: Colors.red,
+                            ),
+                            Text(medecin.region ?? 'neant',
+                                style: TextStyle(fontSize: 10)),
+                          ],
+                        ),
                         SizedBox(
                           height: 6,
                         ),

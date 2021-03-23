@@ -12,13 +12,14 @@ class ListeP extends StatefulWidget {
 
 class _ListePState extends State<ListeP> {
   List<Patient> p = [];
+
   bool ascend;
   int _index = 0;
   List<Patient> patients = [];
   Future<void> _liste() async {
-    String url = Connexion.url + "patient";
+    String url = "auth/patient";
     print(url);
-    var response = await http.get(url);
+    var response = await Connexion().recuperation(url);
 
     if (response.statusCode == 200) {
       var donnee = convert.jsonDecode(response.body);
@@ -115,8 +116,9 @@ class _ListePState extends State<ListeP> {
                     label: Text("nom"),
                     numeric: false,
                   ),
-                  DataColumn(label: Text("Adresse"), numeric: false),
+                  // DataColumn(label: Text("Adresse"), numeric: false),
                   DataColumn(label: Text("telephone"), numeric: false),
+                  DataColumn(label: Text("heure"))
                 ],
                 rows: patients.map((element) {
                   return DataRow(
@@ -127,8 +129,9 @@ class _ListePState extends State<ListeP> {
                       cells: [
                         DataCell(Text(element.prenom)),
                         DataCell(Text(element.nom)),
-                        DataCell(Text(element.adresse)),
+                        // DataCell(Text(element.adresse)),
                         DataCell(Text(element.telephone)),
+                        DataCell(Text("11H")),
                       ]);
                 }).toList(),
               ),

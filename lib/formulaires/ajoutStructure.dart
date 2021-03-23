@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:gestion_materiel_cmu/controllers/Connexion.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
+import 'package:flutter/services.dart';
 import 'dart:convert' as convert;
 import 'dart:io';
 
@@ -19,7 +20,7 @@ class _AjoutStructureState extends State<AjoutStructure> {
   Future<void> _valider() async {
     if (cle.currentState.validate()) {
       cle.currentState.save();
-      var url = Connexion.url + "structure";
+      var url = "auth/structure";
       print(url);
       // var data = await http.get(url);
       // var donnee = convert.jsonDecode(data.body);
@@ -32,18 +33,24 @@ class _AjoutStructureState extends State<AjoutStructure> {
       };
       print(donnees);
 
-      final reponse = await http.post(Uri.encodeFull(url), body: donnees);
+      final reponse = await Connexion().envoideDonnnee(donnees, url);
       print(reponse.statusCode);
       if (reponse.statusCode == 200) {
         var c = convert.jsonDecode(reponse.body);
+        print(c);
         cle.currentState.reset();
-        // print(c["error"]["telephone"][0]);
+        if (reponse['success'] != null) {
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text(reponse['success']),
+            backgroundColor: Colors.greenAccent,
+          ));
+          // print(c["error"]["telephone"][0]);
+        }
+        // print(_nom);
+        // print(_region);
+        // print(_adresse);
+        // print(_telephone);
       }
-      // print(_nom);
-      // print(_region);
-      // print(_adresse);
-      // print(_telephone);
-
     }
   }
 
@@ -228,13 +235,24 @@ class _AjoutStructureState extends State<AjoutStructure> {
                           height: 10,
                         ),
                         TextFormField(
-                          autovalidateMode:
-                                  AutovalidateMode.onUserInteraction,
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
                           validator: (value) {
                             if (value.isEmpty) {
                               return "le champs est obligatoire";
-                            } else if (value.length < 9) {
-                              return "veullez entrer un numero valide de 9 chiffre";
+                            } else {
+                              if (value.length > 1) {
+                                if (value.substring(0, 2) != "77" &&
+                                    value.substring(0, 2) != "76" &&
+                                    value.substring(0, 2) != "78" &&
+                                    value.substring(0, 2) != "70" &&
+                                    value.substring(0, 2) != "33" &&
+                                    value.substring(0, 2) != "30") {
+                                  return "le numero doit commencer par 77,76,78,70,33,30";
+                                }
+                              }
+                              if (value.length < 9) {
+                                return "veullez entrer un numero valide de 9 chiffre";
+                              }
                             }
                           },
                           onChanged: (value) {
@@ -249,6 +267,9 @@ class _AjoutStructureState extends State<AjoutStructure> {
                           },
                           maxLength: 9,
                           keyboardType: TextInputType.number,
+                          inputFormatters: [
+                            WhitelistingTextInputFormatter.digitsOnly
+                          ],
                           decoration: InputDecoration(
                               hintText: "entrer le numero de telephone",
                               border: OutlineInputBorder(

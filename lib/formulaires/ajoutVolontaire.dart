@@ -1,5 +1,6 @@
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:gestion_materiel_cmu/controllers/Connexion.dart';
 import 'package:gestion_materiel_cmu/models/Structure.dart';
 import 'package:gestion_materiel_cmu/models/materiel.dart';
@@ -20,24 +21,30 @@ class _AjoutVolontaireFormulaireState extends State<AjoutVolontaireFormulaire> {
   List<Structure> _structures = [];
   List<Materiel> _materiels = [];
   Future<void> _getStrMat() async {
-    var url1 = Connexion.url + "materiel";
-    var url2 = Connexion.url + "structure";
-    var donnee = await http.get(url1);
-    var donnee2 = await http.get(url2);
+    var url1 = "auth/materiel";
+    var url2 = "auth/structure";
+    var donnee = await Connexion().recuperation(url1);
+    var donnee2 = await Connexion().recuperation(url2);
     if (donnee.statusCode == 200) {
+      print(donnee.body);
       var st = convert.jsonDecode(donnee.body);
       for (var str in st) {
-        _materiels.add(Materiel(
-            libelle: str["libelle"],
-            idMateriel: str["idMateriel"],
-            reference: str["reference"]));
+        setState(() {
+          _materiels.add(Materiel(
+              libelle: str["libelle"],
+              idMateriel: str["idMateriel"],
+              reference: str["reference"]));
+        });
       }
     }
     if (donnee2.statusCode == 200) {
+      print(donnee2.body);
       var st = convert.jsonDecode(donnee2.body);
       for (var str in st) {
-        _structures.add(Structure(
-            nom: str["nomStructure"], idStructure: str["idStructure"]));
+        setState(() {
+          _structures.add(Structure(
+              nom: str["nomStructure"], idStructure: str["idStructure"]));
+        });
       }
     }
     print(_structures.length);
@@ -74,12 +81,17 @@ class _AjoutVolontaireFormulaireState extends State<AjoutVolontaireFormulaire> {
         "materiel": _materiel.toString()
       };
       print(volontaire);
-      var url = Connexion.url + "volontaire";
-      var donnee = await http.post(Uri.encodeFull(url), body: volontaire);
+      var url = "auth/volontaire";
+      var donnee = await Connexion().envoideDonnnee(volontaire, url);
       if (donnee.statusCode == 200) {
         print(donnee.body);
         cle.currentState.reset();
-        reussite();
+        if (donnee['success'] != null) {
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text(donnee['success']),
+            backgroundColor: Colors.greenAccent,
+          ));
+        }
       }
     }
   }
@@ -153,7 +165,7 @@ class _AjoutVolontaireFormulaireState extends State<AjoutVolontaireFormulaire> {
                               });
                             },
                             autovalidateMode:
-                                  AutovalidateMode.onUserInteraction,
+                                AutovalidateMode.onUserInteraction,
                             validator: (value) {
                               if (value.isEmpty) {
                                 return "veuillez remplir le champs";
@@ -188,7 +200,7 @@ class _AjoutVolontaireFormulaireState extends State<AjoutVolontaireFormulaire> {
                               _prenom = value;
                             },
                             autovalidateMode:
-                                  AutovalidateMode.onUserInteraction,
+                                AutovalidateMode.onUserInteraction,
                             validator: (value) {
                               if (value.isEmpty) {
                                 return "veuillez renseigner le champs";
@@ -295,7 +307,7 @@ class _AjoutVolontaireFormulaireState extends State<AjoutVolontaireFormulaire> {
                               });
                             },
                             autovalidateMode:
-                                  AutovalidateMode.onUserInteraction,
+                                AutovalidateMode.onUserInteraction,
                             validator: (value) {
                               if (value.isEmpty) {
                                 return "veullez renseigner le champs";
@@ -366,7 +378,7 @@ class _AjoutVolontaireFormulaireState extends State<AjoutVolontaireFormulaire> {
                           ),
                           TextFormField(
                             autovalidateMode:
-                                  AutovalidateMode.onUserInteraction,
+                                AutovalidateMode.onUserInteraction,
                             onChanged: (value) {
                               setState(() {
                                 _adresse = value;
@@ -415,11 +427,21 @@ class _AjoutVolontaireFormulaireState extends State<AjoutVolontaireFormulaire> {
                               });
                             },
                             autovalidateMode:
-                                  AutovalidateMode.onUserInteraction,
+                                AutovalidateMode.onUserInteraction,
                             validator: (value) {
                               if (value.isEmpty) {
                                 return "veullez renseigner le champs";
                               } else {
+                                if (value.length > 1) {
+                                  if (value.substring(0, 2) != "77" &&
+                                      value.substring(0, 2) != "76" &&
+                                      value.substring(0, 2) != "78" &&
+                                      value.substring(0, 2) != "70" &&
+                                      value.substring(0, 2) != "33" &&
+                                      value.substring(0, 2) != "30") {
+                                    return "le numero doit commencer par 77,76,78,70,33,30";
+                                  }
+                                }
                                 if (value.length < 9) {
                                   return "le telephone comporte 9 chiffre";
                                 }
@@ -427,6 +449,9 @@ class _AjoutVolontaireFormulaireState extends State<AjoutVolontaireFormulaire> {
                             },
                             maxLength: 9,
                             keyboardType: TextInputType.number,
+                            inputFormatters: [
+                              WhitelistingTextInputFormatter.digitsOnly
+                            ],
                             decoration: InputDecoration(
                                 contentPadding: EdgeInsets.symmetric(
                                     horizontal: 20, vertical: 18),
@@ -455,7 +480,7 @@ class _AjoutVolontaireFormulaireState extends State<AjoutVolontaireFormulaire> {
                               });
                             },
                             autovalidateMode:
-                                  AutovalidateMode.onUserInteraction,
+                                AutovalidateMode.onUserInteraction,
                             validator: (value) {
                               if (value.isEmpty) {
                                 return "veullez renseigner le champs";
@@ -498,7 +523,7 @@ class _AjoutVolontaireFormulaireState extends State<AjoutVolontaireFormulaire> {
                               });
                             },
                             autovalidateMode:
-                                  AutovalidateMode.onUserInteraction,
+                                AutovalidateMode.onUserInteraction,
                             validator: (value) {
                               if (value.isEmpty) {
                                 return "veullez renseigner le champs";

@@ -3,6 +3,7 @@ import 'package:gestion_materiel_cmu/controllers/Connexion.dart';
 import 'package:gestion_materiel_cmu/models/Fournisseur.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
+import 'package:flutter/services.dart';
 import 'dart:convert' as convert;
 
 class AjoutMateriel extends StatefulWidget {
@@ -26,12 +27,18 @@ class _AjoutMaterielState extends State<AjoutMateriel> {
         "quantite": _quantite.toString(),
         "idFournisseur": _fournisseur.toString()
       };
-      var url = Connexion.url + "materiel";
+      var url = "auth/materiel";
       print(url);
-      var response = await http.post(Uri.encodeFull(url), body: donnees);
+      var response = await Connexion().envoideDonnnee(donnees, url);
       if (response.statusCode == 200) {
         print(response.body);
         cle.currentState.reset();
+        if (response['success'] != null) {
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text(response['success']),
+            backgroundColor: Colors.greenAccent,
+          ));
+        }
       }
     }
   }
@@ -48,17 +55,19 @@ class _AjoutMaterielState extends State<AjoutMateriel> {
   }
 
   Future<void> getFournisseur() async {
-    var url = Connexion.url + "fournisseur";
-    var donnee = await http.get(url);
+    var url = "auth/fournisseur";
+    var donnee = await Connexion().recuperation(url);
     if (donnee.statusCode == 200) {
       print(donnee.body);
       var f = convert.jsonDecode(donnee.body);
       for (var fn in f) {
-        fournisseurs.add(Fournisseur(
-            adresse: fn["adresse"],
-            nom: fn["nom"],
-            telephone: fn["telephone"],
-            idFournisseur: fn["idFournisseur"]));
+        setState(() {
+          fournisseurs.add(Fournisseur(
+              adresse: fn["adresse"],
+              nom: fn["nom"],
+              telephone: fn["telephone"],
+              idFournisseur: fn["idFournisseur"]));
+        });
       }
       print(fournisseurs.length);
     }
@@ -105,8 +114,7 @@ class _AjoutMaterielState extends State<AjoutMateriel> {
                         height: 10,
                       ),
                       TextFormField(
-                        autovalidateMode:
-                                  AutovalidateMode.onUserInteraction,
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
                         validator: (value) {
                           if (value.isEmpty) {
                             return "le champs est obligatoire";
@@ -172,13 +180,20 @@ class _AjoutMaterielState extends State<AjoutMateriel> {
                         height: 10,
                       ),
                       TextFormField(
-                        autovalidateMode:
-                                  AutovalidateMode.onUserInteraction,
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
+                        // inputFormatters: [
+                        //   WhitelistingTextInputFormatter.digitsOnly
+                        // ],
                         validator: (value) {
                           if (value.isEmpty) {
                             return "le champs est obligatoire";
-                          } else if (double.parse(value) < 1) {
-                            return "veuillez saisir une valeur positive";
+                          } else {
+                            var n = num.tryParse(value);
+                            if (n == null) {
+                              return "veuillez entrez un nombre valide";
+                            }
+                            if (double.parse(value) < 1)
+                              return "veuillez saisir une valeur positive";
                           }
                         },
                         onChanged: (value) {
@@ -191,9 +206,10 @@ class _AjoutMaterielState extends State<AjoutMateriel> {
                             _prix = double.parse(value);
                           });
                         },
-                        keyboardType: TextInputType.number,
+                        keyboardType:
+                            TextInputType.numberWithOptions(decimal: true),
                         decoration: InputDecoration(
-                            hintText: "entrer le prix",
+                            hintText: "entrer le prix du materiel( franc cfa)",
                             border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(20))),
                       ),
@@ -209,8 +225,10 @@ class _AjoutMaterielState extends State<AjoutMateriel> {
                         height: 10,
                       ),
                       TextFormField(
-                        autovalidateMode:
-                                  AutovalidateMode.onUserInteraction,
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
+                        inputFormatters: [
+                          WhitelistingTextInputFormatter.digitsOnly
+                        ],
                         validator: (value) {
                           if (value.isEmpty) {
                             return "le champs est obligatoire";

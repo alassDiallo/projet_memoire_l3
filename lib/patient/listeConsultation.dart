@@ -27,9 +27,10 @@ class _ListeCState extends State<ListeC> {
   List<Medecin> medecins = [];
 
   Future<void> _getMedecins() async {
-    String url = Connexion.url + "medecin";
-    var donnee = await http.get(url);
-    print(url);
+    // String url = Connexion.url + "medecin";
+
+    var donnee = await Connexion().recuperation("auth/medecin");
+    // print(url);
     print(donnee.body);
     if (donnee.statusCode == 200) {
       var m = convert.jsonDecode(donnee.body);
@@ -40,6 +41,8 @@ class _ListeCState extends State<ListeC> {
               prenom: med["prenom"],
               libelleSpecialite: med["libelle"],
               region: med["region"],
+              telephone: med["telephone"],
+              idMedecin: med["idMedecin"],
               structure: med["nomStructure"]));
         });
       }
@@ -56,12 +59,7 @@ class _ListeCState extends State<ListeC> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        actions: [
-          IconButton(
-            icon: Icon(Icons.search),
-            onPressed: () {},
-          )
-        ],
+        backgroundColor: Colors.blue[900],
         title: Text(
           "Liste Consultation",
         ),
@@ -92,12 +90,12 @@ class _ListeCState extends State<ListeC> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        "Consultations",
+                        "Specialités",
                         style: TextStyle(
                             fontSize: 20, fontWeight: FontWeight.bold),
                       ),
                       FlatButton(
-                          color: Colors.blue,
+                          color: Colors.blue[900],
                           textColor: Colors.white,
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(30)),
@@ -168,7 +166,7 @@ class _ListeCState extends State<ListeC> {
                   padding: EdgeInsets.all(10),
                   width: MediaQuery.of(context).size.width,
                   decoration: BoxDecoration(
-                      color: Colors.blue,
+                      color: Colors.blue[900],
                       borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(20),
                           topRight: Radius.circular(20))),
@@ -176,9 +174,11 @@ class _ListeCState extends State<ListeC> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        "Medecin",
+                        "Medecins",
                         style: TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.bold),
+                            color: Colors.white,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold),
                       ),
                       GestureDetector(
                           onTap: () {
@@ -187,7 +187,9 @@ class _ListeCState extends State<ListeC> {
                                 MaterialPageRoute(
                                     builder: (context) => Medecins()));
                           },
-                          child: Text("voir+", style: TextStyle(fontSize: 16))),
+                          child: Text("voir+",
+                              style: TextStyle(
+                                  fontSize: 16, color: Colors.white))),
                     ],
                   )),
               Container(

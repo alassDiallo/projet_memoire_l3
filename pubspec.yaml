@@ -38,12 +38,16 @@ dependencies:
   data_tables: ^1.0.3
   image_picker: ^0.6.7+22
   camera: ^0.7.0+2
+  url_launcher: ^6.0.2
   # path_provider: ^1.6.18
   path_provider: ^2.0.1
+  bubble_bottom_bar: ^1.2.0
   path: ^1.7.0
   intl: ^0.16.0
   flutter_rating: ^0.0.2
+  # location: ^3.0.0
   fl_chart: ^0.20.1
+  convex_bottom_bar: ^2.7.1+2
   datetime_picker_formfield: ^1.0.0
   flutter_datetime_formfield: ^0.1.2
   # shared_preferences: ^2.0.3
@@ -70,6 +74,9 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - images/img3.jpg
+    - images/doctor.jpg
+    - images/p.jpg
+    - images/img2.png
     - images/accueil.jpg
     - images/neurologie.png
     - images/ophtalmologie.png
@@ -94,6 +101,7 @@ flutter:
     - images/chargement.gif
     - images/i3.jpg
     - images/rapport.png
+    - images/accueilauth.jpg
     - images/rapport2.png
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg

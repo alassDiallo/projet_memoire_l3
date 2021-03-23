@@ -6,6 +6,7 @@ class Comptabilite extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.blue[900],
         title: Text("Comptabilité"),
       ),
       body: Stack(
@@ -28,14 +29,86 @@ class Comptabilite extends StatelessWidget {
                       height: 6,
                     ),
                     Text(
-                      "15000000",
+                      "15000000.00  Franc CFA",
                       style: TextStyle(color: Colors.white, fontSize: 30),
                     ),
                     Row(
                       children: [
                         Container(
                           margin: EdgeInsets.symmetric(vertical: 20),
+                          height: size.height * 0.25,
+                          width: size.width * 0.1,
+                          child: Card(
+                            color: Colors.green,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20)),
+                            child: Container(
+                              margin: EdgeInsets.symmetric(
+                                  vertical: 30, horizontal: 20),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                // children: [
+                                //   Icon(Icons.money),
+                                //   Text("150000"),
+                                //   Text("depense")
+                                // ],
+                              ),
+                            ),
+                          ),
+                        ),
+                        Container(
+                          margin: EdgeInsets.symmetric(vertical: 20),
                           height: size.height * 0.2,
+                          width: size.width * 0.1,
+                          child: Card(
+                            color: Colors.pink,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20)),
+                            child: Container(
+                              margin: EdgeInsets.symmetric(
+                                  vertical: 30, horizontal: 20),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                // children: [
+                                //   Icon(Icons.money),
+                                //   Text("150000"),
+                                //   Text("depense")
+                                // ],
+                              ),
+                            ),
+                          ),
+                        ),
+                        Container(
+                          margin: EdgeInsets.symmetric(vertical: 20),
+                          height: size.height * 0.15,
+                          width: size.width * 0.1,
+                          child: Card(
+                            color: Colors.brown[100],
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20)),
+                            child: Container(
+                              margin: EdgeInsets.symmetric(
+                                  vertical: 30, horizontal: 20),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                // children: [
+                                //   Icon(Icons.money),
+                                //   Text("150000"),
+                                //   Text("depense")
+                                // ],
+                              ),
+                            ),
+                          ),
+                        ),
+                        Container(
+                          margin: EdgeInsets.symmetric(vertical: 20),
+                          height: size.height * 0.25,
                           width: size.width * 0.1,
                           child: Card(
                             color: Colors.greenAccent[100],
@@ -48,19 +121,19 @@ class Comptabilite extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceAround,
-                                children: [
-                                  Icon(Icons.money),
-                                  Text("150000"),
-                                  Text("depense")
-                                ],
+                                // children: [
+                                //   Icon(Icons.money),
+                                //   Text("150000"),
+                                //   Text("depense")
+                                // ],
                               ),
                             ),
                           ),
                         ),
                         Container(
                           margin: EdgeInsets.symmetric(vertical: 20),
-                          height: 200,
-                          width: 180,
+                          height: size.height * 0.2,
+                          width: size.width * 0.1,
                           child: Card(
                             color: Colors.brown[100],
                             shape: RoundedRectangleBorder(
@@ -72,11 +145,35 @@ class Comptabilite extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceAround,
-                                children: [
-                                  Icon(Icons.money),
-                                  Text("150000"),
-                                  Text("depense")
-                                ],
+                                // children: [
+                                //   Icon(Icons.money),
+                                //   Text("150000"),
+                                //   Text("depense")
+                                // ],
+                              ),
+                            ),
+                          ),
+                        ),
+                        Container(
+                          margin: EdgeInsets.symmetric(vertical: 20),
+                          height: size.height * 0.15,
+                          width: size.width * 0.1,
+                          child: Card(
+                            color: Colors.pink,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20)),
+                            child: Container(
+                              margin: EdgeInsets.symmetric(
+                                  vertical: 30, horizontal: 20),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                // children: [
+                                //   Icon(Icons.money),
+                                //   Text("150000"),
+                                //   Text("depense")
+                                // ],
                               ),
                             ),
                           ),
@@ -123,7 +220,7 @@ class Comptabilite extends StatelessWidget {
                         subtitle: Text("structures"),
                         leading: CircleAvatar(
                           child: Icon(
-                            Icons.account_balance,
+                            Icons.settings,
                             color: Colors.white,
                           ),
                           radius: 30,
@@ -139,7 +236,7 @@ class Comptabilite extends StatelessWidget {
                         subtitle: Text("structures"),
                         leading: CircleAvatar(
                           child: Icon(
-                            Icons.home,
+                            Icons.file_copy,
                             color: Colors.white,
                           ),
                           radius: 30,
@@ -171,7 +268,7 @@ class Comptabilite extends StatelessWidget {
                         subtitle: Text("volontaire"),
                         leading: CircleAvatar(
                           child: Icon(
-                            Icons.account_balance,
+                            Icons.transfer_within_a_station,
                             color: Colors.white,
                           ),
                           radius: 30,
@@ -183,11 +280,11 @@ class Comptabilite extends StatelessWidget {
                         ),
                       ),
                       ListTile(
-                        title: Text("Depense Volontaire"),
-                        subtitle: Text("volontaire"),
+                        title: Text("Depense Interne"),
+                        subtitle: Text("depense"),
                         leading: CircleAvatar(
                           child: Icon(
-                            Icons.account_balance,
+                            Icons.transform_rounded,
                             color: Colors.white,
                           ),
                           radius: 30,

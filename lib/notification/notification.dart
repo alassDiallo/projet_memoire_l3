@@ -5,6 +5,7 @@ class NotificationM extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          backgroundColor: Colors.blue[900],
           title: Text("Notification"),
         ),
         body: SingleChildScrollView(

@@ -18,20 +18,28 @@ class _PageMessageState extends State<PageMessage> {
   var cle = GlobalKey<FormState>();
   String mess = '';
   List<Mess> list = [
-    Mess(message: "Bonjour asane comment tu vas", type: MessageType.receiver),
-    Mess(message: "oui cva et toi", type: MessageType.sender),
-    Mess(message: "cva cool lou bess", type: MessageType.receiver),
-    Mess(message: "ah dara sinon et de ton cote", type: MessageType.sender),
-    Mess(message: "ah naz com dab ymgx", type: MessageType.receiver),
-    Mess(message: "naka activité yi nak", type: MessageType.sender),
-    Mess(message: "cva gnogui ci di takkalé rk", type: MessageType.receiver),
-    Mess(message: "Bonjour asane comment tu vas", type: MessageType.receiver),
-    Mess(message: "oui cva et toi", type: MessageType.sender),
-    Mess(message: "cva cool lou bess", type: MessageType.receiver),
-    Mess(message: "ah dara sinon et de ton cote", type: MessageType.sender),
-    Mess(message: "ah naz com dab ymgx", type: MessageType.receiver),
-    Mess(message: "naka activité yi nak", type: MessageType.sender),
-    Mess(message: "cva gnogui ci di takkalé rk", type: MessageType.receiver),
+    Mess(
+        message: "Bonjour doctor comment vous allez",
+        type: MessageType.receiver),
+    Mess(message: "oui cva monsieur Diallo", type: MessageType.sender),
+    Mess(
+        message: "cva bien oui enfet je voudrais un rendez-vous",
+        type: MessageType.receiver),
+    Mess(message: "d'accord pour quand ?", type: MessageType.sender),
+    Mess(
+        message: "bon c'est temps si j'ai souvent mal à la téte",
+        type: MessageType.receiver),
+    Mess(
+        message: "d'accords je vois tu as pris des medicaments",
+        type: MessageType.sender),
+    Mess(message: "non j'en ai pas encore prix", type: MessageType.receiver),
+    // Mess(message: "Bonjour asane comment tu vas", type: MessageType.receiver),
+    // Mess(message: "oui cva et toi", type: MessageType.sender),
+    // Mess(message: "cva cool lou bess", type: MessageType.receiver),
+    // Mess(message: "ah dara sinon et de ton cote", type: MessageType.sender),
+    // Mess(message: "ah naz com dab ymgx", type: MessageType.receiver),
+    // Mess(message: "naka activité yi nak", type: MessageType.sender),
+    // Mess(message: "cva gnogui ci di takkalé rk", type: MessageType.receiver),
   ];
 
   void _enregistrer() {
@@ -208,6 +216,7 @@ class _PageMessageState extends State<PageMessage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.blue[900],
         elevation: 0,
         automaticallyImplyLeading: false,
         leadingWidth: 100,

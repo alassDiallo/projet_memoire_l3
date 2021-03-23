@@ -31,7 +31,7 @@ class MenuCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   CircleAvatar(
-                      child: icon, radius: 30, backgroundColor: couleurCircle),
+                      child: icon, radius: 50, backgroundColor: couleurCircle),
                 ],
               ),
               SizedBox(
