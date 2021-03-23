@@ -1,5 +1,8 @@
 import 'dart:ffi';
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
+import 'package:gestion_materiel_cmu/controllers/Connexion.dart';
+import 'package:gestion_materiel_cmu/controllers/DepenseList.dart';
 
 class AjoutDepense extends StatefulWidget {
   @override
@@ -9,8 +12,9 @@ class AjoutDepense extends StatefulWidget {
 class _AjoutDepenseState extends State<AjoutDepense> {
   final _formKey = GlobalKey<FormState>();
   String _description;
-  double _prix;
+  double _cout;
   DateTime _date;
+  // Depenselist dep = Depenselist();
 
   DateTime selectedDate = DateTime.now();
 
@@ -113,12 +117,12 @@ class _AjoutDepenseState extends State<AjoutDepense> {
                       },
                       onChanged: (value) {
                         setState(() {
-                          _prix = double.parse(value);
+                          _cout = double.parse(value);
                         });
                       },
                       onSaved: (value) {
                         setState(() {
-                          _prix = double.parse(value);
+                          _cout = double.parse(value);
                         });
                       },
                     ),
@@ -175,11 +179,26 @@ class _AjoutDepenseState extends State<AjoutDepense> {
     // );
   }
 
-  void _submit() {
+  Future<void> _submit() async {
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
-      Scaffold.of(context)
-          .showSnackBar(SnackBar(content: Text('Traitement en cours')));
+      // Scaffold.of(context)
+      //     .showSnackBar(SnackBar(content: Text('Traitement en cours')));
+      var url = Connexion.url + "depenses";
+      print(url);
+      Map<String, dynamic> depense = {
+        "description": _description,
+        "cout": _cout.toString(),
+        "idVolontaire": "4"
+      };
+      print(depense);
+      var donnee = await http.post(Uri.encodeFull(url), body: depense);
+      print(donnee.statusCode);
+      CircularProgressIndicator();
+      if (donnee.statusCode == 200) {
+        print(donnee.body);
+        _formKey.currentState.reset();
+      }
     }
   }
 }

@@ -1,5 +1,7 @@
 import 'dart:ffi';
 import 'package:flutter/material.dart';
+import 'package:gestion_materiel_cmu/controllers/Connexion.dart';
+import 'package:http/http.dart' as http;
 
 class AjoutAnalyse extends StatefulWidget {
   @override
@@ -10,21 +12,43 @@ class _AjoutAnalyseState extends State<AjoutAnalyse> {
   final _formKey = GlobalKey<FormState>();
   String _libelle;
   double _prix;
-  DateTime _date;
+  // DateTime _date;
 
-  DateTime selectedDate = DateTime.now();
+  // DateTime selectedDate = DateTime.now();
 
-  void _selectDate(BuildContext context) async {
-    final DateTime picked = await showDatePicker(
-      context: context,
-      initialDate: selectedDate,
-      firstDate: DateTime(2000),
-      lastDate: DateTime(2025),
-    );
-    if (picked != null && picked != selectedDate)
-      setState(() {
-        selectedDate = picked;
-      });
+  // void _selectDate(BuildContext context) async {
+  //   final DateTime picked = await showDatePicker(
+  //     context: context,
+  //     initialDate: selectedDate,
+  //     firstDate: DateTime(2000),
+  //     lastDate: DateTime(2025),
+  //   );
+  //   if (picked != null && picked != selectedDate)
+  //     setState(() {
+  //       selectedDate = picked;
+  //     });
+  // }
+  Future<void> _submit() async {
+    if (_formKey.currentState.validate()) {
+      _formKey.currentState.save();
+      // Scaffold.of(context)
+      //     .showSnackBar(SnackBar(content: Text('Traitement en cours')));
+      var url = Connexion.url + "analyses";
+      print(url);
+      Map<String, dynamic> analyse = {
+        "libelle": _libelle,
+        "prix": _prix.toString(),
+        "idPatient": "4"
+      };
+      print(analyse);
+      var donnee = await http.post(Uri.encodeFull(url), body: analyse);
+      print(donnee.statusCode);
+      if (donnee.statusCode == 200) {
+        print(donnee.body);
+        _formKey.currentState.reset();
+      }
+      Navigator.pop(context);
+    }
   }
 
   @override
@@ -179,13 +203,5 @@ class _AjoutAnalyseState extends State<AjoutAnalyse> {
         ),
       ),
     );
-  }
-
-  void _submit() {
-    if (_formKey.currentState.validate()) {
-      _formKey.currentState.save();
-      Scaffold.of(context)
-          .showSnackBar(SnackBar(content: Text('Traitement en cours')));
-    }
   }
 }

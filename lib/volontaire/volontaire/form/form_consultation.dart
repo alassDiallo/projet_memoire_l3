@@ -217,17 +217,6 @@ class _FormConsultationState extends State<FormConsultation> {
       Scaffold.of(context)
           .showSnackBar(SnackBar(content: Text('Traitement en cours')));
       _formKey.currentState.save();
-
-      // Navigator.push(
-      //     context,
-      //     MaterialPageRoute(
-      // //         builder: (context) => Patient2()));
-      // showDialog(
-      //   context: context,
-      //   builder: (BuildContext context) {
-      //     return DialogPatient();
-      //   },
-      // );
     }
   }
 }
