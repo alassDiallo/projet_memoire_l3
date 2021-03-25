@@ -16,10 +16,12 @@ class _ListePState extends State<ListeP> {
   bool ascend;
   int _index = 0;
   List<Patient> patients = [];
+  List<Patient> j = [];
   Future<void> _liste() async {
-    String url = "auth/patient";
+    String url = "auth/listePatient";
     print(url);
     var response = await Connexion().recuperation(url);
+    print(response);
 
     if (response.statusCode == 200) {
       var donnee = convert.jsonDecode(response.body);
@@ -29,12 +31,19 @@ class _ListePState extends State<ListeP> {
             adresse: p["adresse"],
             telephone: p["telephone"],
             nom: p["nom"],
-            prenom: p["prenom"]);
+            prenom: p["prenom"],
+            date: p['date'],
+            heure: p['heure']);
 
         setState(() {
           patients.add(patient);
         });
       }
+      setState(() {
+        j = patients
+            .where((element) => DateTime.parse(element.date) == DateTime.now())
+            .toList();
+      });
     }
   }
 

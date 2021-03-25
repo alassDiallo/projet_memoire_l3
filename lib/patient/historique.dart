@@ -26,6 +26,7 @@ class _HistoriqueState extends State<Historique> {
         setState(() {
           rendezvous.add(RendezV(
               date: r['date'],
+              idR: r['id'],
               heure: r['heure'],
               nomMedecin: r['prenom'] + " " + r['nom'],
               specialite: r['libelle'],
@@ -61,95 +62,150 @@ class _HistoriqueState extends State<Historique> {
               : ListView.builder(
                   itemCount: rendezvous.length,
                   itemBuilder: (context, index) {
-                    return Card(
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10)),
-                      margin:
-                          EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                      elevation: 10,
-                      child: Container(
-                        padding: EdgeInsets.all(20),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text("Date",
-                                        style: TextStyle(
-                                            color:
-                                                Colors.black.withOpacity(0.5))),
-                                    SizedBox(height: 10),
-                                    Text(df.format(
-                                        DateTime.parse(rendezvous[index].date)))
-                                  ],
-                                ),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text("Heure",
-                                        style: TextStyle(
-                                            color:
-                                                Colors.black.withOpacity(0.5))),
-                                    SizedBox(height: 10),
-                                    Text(rendezvous[index].heure)
-                                  ],
-                                ),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text("Medecin",
-                                        style: TextStyle(
-                                            color:
-                                                Colors.black.withOpacity(0.5))),
-                                    SizedBox(height: 10),
-                                    Text("Dr. ${rendezvous[index].nomMedecin}")
-                                  ],
-                                )
-                              ],
-                            ),
-                            Divider(),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Expanded(
-                                  child: Column(
+                    return Dismissible(
+                      onDismissed: (direction) {
+                        supprimer(rendezvous[index].idR);
+                      },
+                      background: Container(
+                        child: Icon(Icons.check),
+                      ),
+                      secondaryBackground: Container(
+                        color: Colors.red,
+                        child: Icon(Icons.delete),
+                      ),
+                      key: ValueKey(rendezvous[index].idR),
+                      child: Card(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10)),
+                        margin:
+                            EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                        elevation: 10,
+                        child: Container(
+                          padding: EdgeInsets.all(20),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      Text("Specialité",
+                                      Text("Date",
                                           style: TextStyle(
                                               color: Colors.black
                                                   .withOpacity(0.5))),
                                       SizedBox(height: 10),
-                                      Text("${rendezvous[index].specialite}")
+                                      Text(df.format(DateTime.parse(
+                                          rendezvous[index].date)))
                                     ],
                                   ),
-                                ),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      "Structure",
-                                      style: TextStyle(
-                                          color: Colors.black.withOpacity(0.5)),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text("Heure",
+                                          style: TextStyle(
+                                              color: Colors.black
+                                                  .withOpacity(0.5))),
+                                      SizedBox(height: 10),
+                                      Text(rendezvous[index].heure)
+                                    ],
+                                  ),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text("Medecin",
+                                          style: TextStyle(
+                                              color: Colors.black
+                                                  .withOpacity(0.5))),
+                                      SizedBox(height: 10),
+                                      Text(
+                                          "Dr. ${rendezvous[index].nomMedecin}")
+                                    ],
+                                  )
+                                ],
+                              ),
+                              Divider(),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text("Specialité",
+                                            style: TextStyle(
+                                                color: Colors.black
+                                                    .withOpacity(0.5))),
+                                        SizedBox(height: 10),
+                                        Text("${rendezvous[index].specialite}")
+                                      ],
                                     ),
-                                    SizedBox(height: 10),
-                                    Text("${rendezvous[index].structure}")
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ],
+                                  ),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        "Structure",
+                                        style: TextStyle(
+                                            color:
+                                                Colors.black.withOpacity(0.5)),
+                                      ),
+                                      SizedBox(height: 10),
+                                      Text("${rendezvous[index].structure}")
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     );
                   }),
         ));
+  }
+
+  void supprimer(int idR) async {
+    print(idR);
+
+    var reponse = await http.delete(Connexion.url + "auth/rendezvous/${idR}");
+    if (reponse.statusCode == 200) {
+      var resultat = convert.jsonDecode(reponse.body);
+      if (resultat['success'] != null) {
+        Scaffold.of(context).showSnackBar(SnackBar(
+          content: Text(resultat['success']),
+          backgroundColor: Colors.green,
+        ));
+        // setState(() {
+        //   rendezvous.removeAt(idR);
+        // });
+      }
+    }
+  }
+
+  Future<void> alert() async {
+    return showDialog(
+        barrierLabel: "Supprimer",
+        barrierDismissible: false,
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text('vouler-vous vraiment supprimer'),
+            actions: [
+              FlatButton(onPressed: () {}, child: Text("oui")),
+              FlatButton(onPressed: () {}, child: Text("non"))
+            ],
+          );
+        });
   }
 }

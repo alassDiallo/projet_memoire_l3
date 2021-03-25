@@ -39,7 +39,7 @@ class _DetailDocteurState extends State<DetailDocteur> {
       var url = "auth/rendezvous";
       var donnee = await Connexion().envoideDonnnee(rv, url);
       // print(url);
-      // print(rv);
+      print(donnee);
       // var donnee = await http.post(Uri.encodeFull(url), body: rv);
       print(donnee.body);
       if (donnee.statusCode == 200) {

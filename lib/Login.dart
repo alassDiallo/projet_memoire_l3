@@ -213,8 +213,21 @@ class _LoginState extends State<Login> {
     print(token);
 
     if (token != null) {
-      //var user = convert.jsonDecode(localstorage.getString('user'));
-      print(token);
+      var user = json.decode(localstorage.getString('user'));
+      if (user['profil'] == "patient") {
+        Navigator.push(context, MaterialPageRoute(builder: (context) {
+          return AccueilPatient();
+        }));
+      } else if (user['profil'] == "medecin") {
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => AccueilMedecin()));
+      } else if (user['profil'] == "admin") {
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => AccueilJica()));
+      } else if (user['profil'] == "volontaire") {
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => Volontaire()));
+      }
     }
   }
 }

@@ -3,9 +3,10 @@ import 'package:gestion_materiel_cmu/controllers/Connexion.dart';
 import 'package:gestion_materiel_cmu/models/consultation.dart';
 import 'package:gestion_materiel_cmu/models/rendez-vous.dart';
 import 'package:gestion_materiel_cmu/rendez-vous/rendez-vous.dart';
-import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert' as convert;
+
+import 'package:intl/intl.dart';
 
 class RendezVous extends StatefulWidget {
   @override
@@ -19,6 +20,7 @@ class _RendezVousState extends State<RendezVous> {
 
   Future<void> getR() async {
     var url = "auth/rendezvous";
+    print(url);
     var donnees = await Connexion().recuperation(url);
     if (donnees.statusCode == 200) {
       print(url);
@@ -51,8 +53,11 @@ class _RendezVousState extends State<RendezVous> {
       //   }
       // });
       setState(() {
-        rendezv =
-            rendezvous.where((element) => element.etat == "accepter").toList();
+        rendezv = rendezvous
+            .where((element) =>
+                element.etat == "accepter" &&
+                DateTime.parse(element.date).isAfter(DateTime.now()))
+            .toList();
         rendezE = rendezvous
             .where((element) => element.etat == "en attente")
             .toList();
@@ -117,8 +122,8 @@ class _RendezVousState extends State<RendezVous> {
                       : ListView.builder(
                           itemCount: rendezv.length,
                           itemBuilder: (context, index) {
-                            return Rv(
-                              rv: rendezv[index],
+                            return r(
+                              rendezv[index],
                             );
                           })),
               Container(
@@ -135,5 +140,143 @@ class _RendezVousState extends State<RendezVous> {
                             );
                           }))
             ]))));
+  }
+
+  Widget r(RendezV rv) {
+    DateFormat df = DateFormat("dd/MM/yyyy");
+    return Card(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+      margin: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+      elevation: 10,
+      child: Container(
+        padding: EdgeInsets.all(20),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text("Date",
+                        style: TextStyle(color: Colors.black.withOpacity(0.5))),
+                    SizedBox(height: 10),
+                    Text(df.format(DateTime.parse(rv.date)))
+                  ],
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text("Heure",
+                        style: TextStyle(color: Colors.black.withOpacity(0.5))),
+                    SizedBox(height: 10),
+                    Text(rv.heure.toString())
+                  ],
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text("Medecin",
+                        style: TextStyle(color: Colors.black.withOpacity(0.5))),
+                    SizedBox(height: 10),
+                    Text("Dr. " + rv.nomMedecin)
+                  ],
+                )
+              ],
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Divider(),
+            SizedBox(
+              height: 10,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text("Specialité",
+                          style:
+                              TextStyle(color: Colors.black.withOpacity(0.5))),
+                      SizedBox(height: 10),
+                      Text(rv.specialite)
+                    ],
+                  ),
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Structure",
+                      style: TextStyle(color: Colors.black.withOpacity(0.5)),
+                    ),
+                    SizedBox(height: 10),
+                    Text(rv.structure)
+                  ],
+                ),
+                SizedBox(width: 10),
+                Container(
+                  //margin: EdgeInsets.only(left: 10),
+                  child: FlatButton(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(50)),
+                      color: Colors.red,
+                      onPressed: () {
+                        annuler(rv);
+                      },
+                      child: Text(
+                        "Annuler",
+                        style: TextStyle(color: Colors.white),
+                      )),
+                )
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  annuler(RendezV v) {
+    print(v.idR);
+    return showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (context) => AlertDialog(
+              title: Text("annuler le rendez-vous"),
+              content: Text("voulez-vous annuler ce rendez-vous ?"),
+              actions: [
+                FlatButton(
+                    onPressed: () {
+                      supprimer(v);
+                    },
+                    child: Text('oui')),
+                FlatButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: Text('non'))
+              ],
+            ));
+  }
+
+  Future supprimer(v) async {
+    var url = "auth/rendezvous/${v.idR}";
+    var donnees = await Connexion().supprimer(url);
+    print(donnees);
+    setState(() {
+      rendezv.remove(v);
+    });
+    Navigator.pop(context);
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text("Vous avez annuler le rendez-vous"),
+      backgroundColor: Colors.green,
+    ));
   }
 }

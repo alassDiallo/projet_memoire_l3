@@ -18,7 +18,7 @@ List<Consultation> list = [
   Consultation(
       nom: "Pneumologie",
       prix: 5000.00,
-      image: "images/pneumologie.jpeg",
+      image: "images/poumon.png",
       nomDocteur: "Bassirou Dabo"),
   Consultation(
       nom: "Neurologie",
@@ -38,26 +38,26 @@ List<Consultation> list = [
   Consultation(
       nom: "infectiologie",
       prix: 5000.00,
-      image: "images/infectiologie.jpg",
+      image: "images/infectiologie.png",
       nomDocteur: "Bassirou Dabo"),
   Consultation(
-      nom: "Neurologie",
+      nom: "Dentiste",
       prix: 5000.00,
-      image: "images/neurologie.png",
+      image: "images/dent.png",
       nomDocteur: "Makhan traore"),
-  Consultation(
-      nom: "ophtalmologie",
-      prix: 1500.00,
-      image: "images/ophtalmologie.png",
-      nomDocteur: "Assane Diallo"),
-  Consultation(
-      nom: "Pneumolgie",
-      prix: 5000.00,
-      image: "images/pneumologie.jpeg",
-      nomDocteur: "Bassirou Dabo"),
+  // Consultation(
+  //     nom: "ophtalmologie",
+  //     prix: 1500.00,
+  //     image: "images/ophtalmologie.png",
+  //     nomDocteur: "Assane Diallo"),
+  // Consultation(
+  //     nom: "Pneumolgie",
+  //     prix: 5000.00,
+  //     image: "images/pneumologie.jpeg",
+  //     nomDocteur: "Bassirou Dabo"),
   Consultation(
       nom: "Cardiologie",
       prix: 1500.00,
-      image: "images/cardiologie.jpg",
+      image: "images/cardio.png",
       nomDocteur: "Assane Diallo"),
 ];

@@ -22,38 +22,41 @@ class MenuCardR2 extends StatelessWidget {
             margin: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
             color: couleurCard,
             shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
             elevation: 5,
             child: Container(
               margin: EdgeInsets.all(30),
-              width: MediaQuery.of(context).size.width * 0.9,
+              // width: MediaQuery.of(context).size.width * 0.9,
               //  height: MediaQuery.of(context).size.height * 0.3,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Row(
+                  Column(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        "Statistique",
-                        style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.blue),
-                      ),
                       Image.asset(
                         "images/stat.png",
                         height: MediaQuery.of(context).size.height * 0.12,
-                      )
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Text(
+                        "Statistique",
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                     ],
                   ),
                   Divider(
                     height: 10,
                     color: Colors.blue,
-                    thickness: 2,
-                    indent: 2,
-                    endIndent: 15,
+                    thickness: 5,
+                    indent: 40,
+                    endIndent: 40,
                   ),
                 ],
               ),

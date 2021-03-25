@@ -184,6 +184,7 @@ class _AjoutMaterielState extends State<AjoutMateriel> {
                         // inputFormatters: [
                         //   WhitelistingTextInputFormatter.digitsOnly
                         // ],
+                        maxLength: 12,
                         validator: (value) {
                           if (value.isEmpty) {
                             return "le champs est obligatoire";
@@ -229,6 +230,7 @@ class _AjoutMaterielState extends State<AjoutMateriel> {
                         inputFormatters: [
                           WhitelistingTextInputFormatter.digitsOnly
                         ],
+                        maxLength: 4,
                         validator: (value) {
                           if (value.isEmpty) {
                             return "le champs est obligatoire";

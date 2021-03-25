@@ -11,6 +11,8 @@ class Patient {
   DateTime dateDeNaissance;
   String sexe;
   bool etat;
+  String heure;
+  String date;
 
   Patient(
       {this.adresse,
@@ -24,5 +26,7 @@ class Patient {
       this.prenom,
       this.reference,
       this.sexe,
+      this.date,
+      this.heure,
       this.telephone});
 }

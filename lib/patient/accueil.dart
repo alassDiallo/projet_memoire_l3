@@ -380,13 +380,13 @@ class _AccueilPatientState extends State<AccueilPatient> {
       backgroundColor: Colors.blue,
       items: [
         BottomNavigationBarItem(
-          label: "Accueil",
+          title: Text("Accueil"),
           icon: Icon(
             Icons.home,
             color: Colors.white,
           ),
         ),
-        BottomNavigationBarItem(label: 'Messages', icon: Icon(Icons.chat)
+        BottomNavigationBarItem(title: Text('Messages'), icon: Icon(Icons.chat)
             /*icon: Badge(
             shape: BadgeShape.circle,
             borderRadius: BorderRadius.circular(100),
@@ -401,7 +401,7 @@ class _AccueilPatientState extends State<AccueilPatient> {
             ),
         BottomNavigationBarItem(
           icon: Icon(Icons.notifications),
-          label: 'Notification',
+          title: Text('Notification'),
           /*icon: Badge(
             shape: BadgeShape.circle,
             borderRadius: BorderRadius.circular(100),

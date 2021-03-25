@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gestion_materiel_cmu/controllers/Connexion.dart';
 import 'package:gestion_materiel_cmu/models/rendez-vous.dart';
 import 'package:intl/intl.dart';
 
@@ -123,7 +124,7 @@ class _RvState extends State<Rv> {
               actions: [
                 FlatButton(
                     onPressed: () {
-                      Navigator.pop(context);
+                      supprimer(v.idR);
                     },
                     child: Text('oui')),
                 FlatButton(
@@ -133,5 +134,16 @@ class _RvState extends State<Rv> {
                     child: Text('non'))
               ],
             ));
+  }
+
+  Future supprimer(idR) async {
+    var url = "auth/rendezvous/${idR}";
+    var donnees = await Connexion().supprimer(url);
+    print(donnees);
+    Navigator.pop(context);
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text("Vous avez annuler le rendez-vous"),
+      backgroundColor: Colors.green,
+    ));
   }
 }

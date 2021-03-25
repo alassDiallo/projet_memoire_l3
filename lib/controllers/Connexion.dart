@@ -9,8 +9,16 @@ import 'package:shared_preferences/shared_preferences.dart';
 class Connexion {
   //static final url = "http://10.156.91.79:51789/api/";
 
-  static final url = "http://192.168.43.100:8000/api/";
+  // static final url = "http://192.168.43.100:8000/api/";
+  static final url = "http://10.156.81.236:8000/api/";
+
   var token;
+
+  supprimer(lien) async {
+    var fullUrl = url + lien;
+    await getToken();
+    return await http.delete(fullUrl, headers: _setHeader());
+  }
 
   deconnexion(lien) async {
     var fullurl = url + lien;
@@ -34,7 +42,7 @@ class Connexion {
   recuperation(apiUrl) async {
     var fullUrl = url + apiUrl;
     await getToken();
-    return http.get(fullUrl, headers: _setHeader());
+    return await http.get(fullUrl, headers: _setHeader());
   }
 
   _setHeader() => {

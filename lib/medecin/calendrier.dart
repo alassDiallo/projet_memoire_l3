@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:gestion_materiel_cmu/medecin/listepatient.dart';
+import 'package:gestion_materiel_cmu/controllers/Connexion.dart';
+// import 'package:gestion_materiel_cmu/medecin/listepatient.dart';
+import 'package:gestion_materiel_cmu/models/patient.dart';
+import 'dart:async';
+import 'dart:convert';
+import 'dart:convert' as convert;
 
 class Calendrier extends StatefulWidget {
   @override
@@ -7,20 +12,53 @@ class Calendrier extends StatefulWidget {
 }
 
 class _CalendrierState extends State<Calendrier> {
+  List<Patient> patient = [];
+  List<Widget> page = [];
+  List<String> dates = [];
+  Map<String, List<Patient>> liste;
+  List<String> l = [];
+  Future<void> listeP() async {
+    var url = "auth/listePatientCalendrier";
+    print(url);
+    var donnees = await Connexion().recuperation(url);
+    print(donnees.body);
+    Map<String, dynamic> jour = json.decode(donnees.body);
+    print(jour.length);
+    jour.forEach((key, value) {
+      setState(() {
+        dates.add(key);
+        // p.add(Patient(
+        //     heure: value['heure'],
+        //     nom: value['nom'],
+        //     idPatient: value['idPatient'],
+        //     prenom: value['prenom'],
+        //     telephone: value['telephone']));
+      });
+      print('------------------value----------------------');
+      for (var p in value) {
+        creerLigne(Patient(
+            nom: p['nom'],
+            prenom: p['prenom'],
+            telephone: p['telephone'],
+            heure: p['heure']));
+      }
+    });
+    print(dates);
+    print('---------------------------------------------------');
+  }
+
   List d = [
     "21/12/2020",
     "23/12/2020",
     "25/12/2020",
     "28/12/2020",
-    "29/12/2020",
-    "4/02/2021",
   ];
 
   List<Widget> enfant() {
     List<Widget> l = [];
     d.forEach((element) {
       l.add(Container(
-        child: ListeP(),
+        child: null,
       ));
     });
 
@@ -30,7 +68,7 @@ class _CalendrierState extends State<Calendrier> {
   List<Tab> list = [];
 
   void i() {
-    d.forEach((element) {
+    dates.forEach((element) {
       setState(() {
         list.add(Tab(
           child: Text(element),
@@ -41,12 +79,14 @@ class _CalendrierState extends State<Calendrier> {
 
   @override
   void initState() {
+    listeP();
     i();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    print(page.length);
     return DefaultTabController(
       length: list.length,
       child: Scaffold(
@@ -56,7 +96,6 @@ class _CalendrierState extends State<Calendrier> {
           actions: [
             IconButton(
               icon: Icon(Icons.calendar_today_rounded),
-              
               onPressed: () {},
             )
           ],
@@ -66,7 +105,7 @@ class _CalendrierState extends State<Calendrier> {
           ),
         ),
         body: Container(
-          child: TabBarView(children: enfant()
+          child: TabBarView(children: page
               // [
               //   Container(
               //     child: ListeP(),
@@ -91,5 +130,49 @@ class _CalendrierState extends State<Calendrier> {
         ),
       ),
     );
+  }
+
+  void creerLigne(Patient patient) {
+    print(patient.nom);
+    setState(() {
+      page.add(Container(
+          child: DataTable(
+        headingTextStyle: TextStyle(
+            fontSize: 16, fontWeight: FontWeight.bold, color: Colors.black),
+        columnSpacing: 20,
+        dividerThickness: 1,
+        //showCheckboxColumn: true,
+        showBottomBorder: true,
+        sortColumnIndex: 0,
+        sortAscending: false,
+        columns: [
+          DataColumn(
+            label: Text("prenom"),
+            numeric: true,
+            // onSort: (_index, ascend) {
+            //   setState(() {
+            //     ascend = !ascend;
+            //   });
+            //   trie(_index, ascend);
+            //}
+          ),
+          DataColumn(
+            label: Text("nom"),
+            numeric: false,
+          ),
+          // DataColumn(label: Text("Adresse"), numeric: false),
+          DataColumn(label: Text("telephone"), numeric: false),
+          DataColumn(label: Text("heure"))
+        ],
+        rows: [
+          DataRow(cells: [
+            DataCell(Text(patient.prenom)),
+            DataCell(Text(patient.nom)),
+            DataCell(Text(patient.telephone)),
+            DataCell(Text(patient.heure)),
+          ])
+        ],
+      )));
+    });
   }
 }

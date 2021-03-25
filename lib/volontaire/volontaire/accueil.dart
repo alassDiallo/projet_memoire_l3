@@ -5,6 +5,8 @@ import 'package:gestion_materiel_cmu/volontaire/volontaire/patient/consulation.d
 import 'package:gestion_materiel_cmu/volontaire/volontaire/form/form_patient.dart';
 import 'package:gestion_materiel_cmu/volontaire/volontaire/rapport/rapport.dart';
 import 'package:gestion_materiel_cmu/volontaire/volontaire/rapport/rapport_depense.dart';
+import 'package:gestion_materiel_cmu/volontaire/volontaire/rapport/rapport_maintenance.dart';
+import 'package:gestion_materiel_cmu/volontaire/volontaire/rapport/rapport_patient.dart';
 import 'package:gestion_materiel_cmu/volontaire/widget_composant/menuCard.dart';
 import 'package:gestion_materiel_cmu/volontaire/widget_composant/menuItems_Drawer.dart';
 import 'package:gestion_materiel_cmu/volontaire/widget_composant/menucardR.dart';
@@ -55,13 +57,15 @@ class _VolontaireState extends State<Volontaire> {
   //     this.selectedIndex = index;
   //   });
   // }
-  static const coleur = Color(0xFF363568);
+  static const coleur = Color(0xFF1F0799);
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
 
     return Scaffold(
+        // backgroundColor: coleur,
         appBar: AppBar(
+          backgroundColor: coleur,
           //automaticallyImplyLeading: false,
 
           title: Text(""),
@@ -108,11 +112,106 @@ class _VolontaireState extends State<Volontaire> {
         body: SingleChildScrollView(
           child: Container(
             // color: coleur,
-            color: Colors.white70,
+            //color: Colors.white70,
             width: double.infinity,
             // height: size.height,
             child: Column(
               children: [
+                Table(
+                  children: [
+                    TableRow(children: [
+                      MenuCardR2(),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => FormPatient1(
+                                        page: Consultation(),
+                                        couleur: Colors.green.withOpacity(0.5),
+                                      )));
+                        },
+                        child: MenuCard(
+                          text: "Consultation",
+                          icon: Image.asset("images/ac.jpg"),
+                          couleurCard: Colors.white,
+                          couleurCircle: Colors.green,
+                        ),
+                      ),
+                    ]),
+                    TableRow(children: [
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => FormPatient1(
+                                        page: Analyse(),
+                                        couleur: Colors.red.withOpacity(0.5),
+                                      )));
+                        },
+                        child: Container(
+                          child: MenuCard(
+                              text: "  Analyse ",
+                              icon: Image.asset("images/rapport2.png"),
+                              couleurCard: Colors.white,
+                              couleurCircle: Colors.blue),
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => Rapport_Maintenance()));
+                        },
+                        child: Container(
+                          child: MenuCard(
+                              text: "  Maintenance ",
+                              icon: Icon(
+                                Icons.miscellaneous_services_outlined,
+                                color: Colors.blue[900],
+                                size: 60,
+                              ),
+                              couleurCard: Colors.white,
+                              couleurCircle: Colors.red),
+                        ),
+                      )
+                    ]),
+                    TableRow(children: [
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => Rapport_Depense()));
+                        },
+                        child: Container(
+                          child: MenuCard(
+                              text: "  Dépense ",
+                              icon: Image.asset("images/comptabilite.png"),
+                              couleurCard: Colors.white,
+                              couleurCircle: Colors.red),
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => Rapport_Patient()));
+                        },
+                        child: Container(
+                          child: MenuCard(
+                              text: "  Patient ",
+                              icon: Image.asset("images/searche.png"),
+                              couleurCard: Colors.white,
+                              couleurCircle: Colors.red),
+                        ),
+                      )
+                    ])
+                  ],
+                ),
                 // Card(
                 //   color: Colors.blueAccent.withOpacity(0.5),
                 //   // color: coleur.withOpacity(0.4),
@@ -150,63 +249,63 @@ class _VolontaireState extends State<Volontaire> {
                 //     ],
                 //   ),
                 // ),
-                MenuCardR2(
-                  couleurCard: Colors.white,
-                ),
-                Container(
-                  padding: EdgeInsets.only(top: 20),
-                  // color: Colors.white,
-                  child: Table(children: [
-                    TableRow(children: [
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => FormPatient1(
-                                        page: Consultation(),
-                                        couleur: Colors.green.withOpacity(0.5),
-                                      )));
-                        },
-                        child: MenuCard(
-                          text: "Consultation",
-                          icon: Icon(
-                            Icons.local_hospital,
-                            color: Colors.white,
-                            size: 40,
-                          ),
-                          couleurCard: Colors.white,
-                          couleurCircle: Colors.green,
-                        ),
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => FormPatient1(
-                                        page: Analyse(),
-                                        couleur: Colors.red.withOpacity(0.5),
-                                      )));
-                        },
-                        child: Container(
-                          child: MenuCard(
-                              text: "  Analyse ",
-                              icon: Icon(
-                                Icons.article_rounded,
-                                color: Colors.white,
-                                size: 50,
-                              ),
-                              couleurCard: Colors.white,
-                              couleurCircle: Colors.red),
-                        ),
-                      )
-                    ]),
-                  ]),
-                ),
-                MenuCardR(
-                  couleurCard: Colors.white,
-                ),
+                // MenuCardR2(
+                //   couleurCard: Colors.white.withOpacity(0.3),
+                // ),
+                // Container(
+                //   padding: EdgeInsets.only(top: 20),
+                //   // color: Colors.white,
+                //   child: Table(children: [
+                //     TableRow(children: [
+                //       GestureDetector(
+                //         onTap: () {
+                //           Navigator.push(
+                //               context,
+                //               MaterialPageRoute(
+                //                   builder: (context) => FormPatient1(
+                //                         page: Consultation(),
+                //                         couleur: Colors.green.withOpacity(0.5),
+                //                       )));
+                //         },
+                //         child: MenuCard(
+                //           text: "Consultation",
+                //           icon: Icon(
+                //             Icons.local_hospital,
+                //             color: Colors.white,
+                //             size: 40,
+                //           ),
+                //           couleurCard: Colors.white,
+                //           couleurCircle: Colors.green,
+                //         ),
+                //       ),
+                //       GestureDetector(
+                //         onTap: () {
+                //           Navigator.push(
+                //               context,
+                //               MaterialPageRoute(
+                //                   builder: (context) => FormPatient1(
+                //                         page: Analyse(),
+                //                         couleur: Colors.red.withOpacity(0.5),
+                //                       )));
+                //         },
+                //         child: Container(
+                //           child: MenuCard(
+                //               text: "  Analyse ",
+                //               icon: Icon(
+                //                 Icons.article_rounded,
+                //                 color: Colors.white,
+                //                 size: 50,
+                //               ),
+                //               couleurCard: Colors.white,
+                //               couleurCircle: Colors.red),
+                //         ),
+                //       )
+                //     ]),
+                //   ]),
+                // ),
+                // MenuCardR(
+                //   couleurCard: Colors.white,
+                // ),
               ],
             ),
           ),

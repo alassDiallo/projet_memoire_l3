@@ -211,13 +211,14 @@ class _AjoutFournisseurState extends State<AjoutFournisseur> {
                                           return "le champs est obligatoire";
                                         } else {
                                           if (value.length > 1) {
-                                            if (value.substring(0, 2) != "77" &&
+                                            if (value.substring(0, 2) != "78" &&
+                                                value.substring(0, 2) != "77" &&
                                                 value.substring(0, 2) != "76" &&
-                                                value.substring(0, 2) != "78" &&
+                                                value.substring(0, 2) != "75" &&
                                                 value.substring(0, 2) != "70" &&
                                                 value.substring(0, 2) != "33" &&
                                                 value.substring(0, 2) != "30") {
-                                              return "le numero doit commencer par 77,76,78,70,33,30";
+                                              return "le numero commence par 77,78,76,75,70,33,30";
                                             }
                                           }
                                           if (value.length < 9) {
