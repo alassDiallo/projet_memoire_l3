@@ -121,19 +121,72 @@ class _AnalyseState extends State<Analyse> {
                       )),
                 ),
               ),
+              // Container(
+              //   margin: EdgeInsets.all(10),
+              //   child: Column(
+              //     children: [
+              //       // Icon(Icons.monetization_on_outlined),
+              //       Row(
+              //         children: [
+              //           Text("Total à payer :"),
+              //           Column(
+              //             children: [
+              //               Text(
+              //                 total.toString(),
+              //               ),
+              //               Divider(
+              //                 height: 10,
+              //                 thickness: 2,
+              //                 indent: 10,
+              //                 endIndent: 3,
+              //               )
+              //             ],
+              //           )
+              //         ],
+              //       ),
+              //        ],  ),
+
+              // TextField(
+              //   readOnly: true,
+              //   decoration: InputDecoration(
+              //     // prefixIcon: Icon(Icons.monetization_on_outlined),
+              //     labelText: 'Total à payer',
+              //     hintText: total.toString(),
+              //     contentPadding: EdgeInsets.only(left: 12),
+              //     // border: OutlineInputBorder(
+              //     //   //   // borderRadius: BorderRadius.horizontal(),
+              //     //   borderSide: BorderSide(),
+              //     // )
+              //   ),
+              // ),  ),
+
               Container(
-                width: MediaQuery.of(context).size.width - 100,
-                child: RaisedButton(
-                  child: Text('Valider'),
+                width: MediaQuery.of(context).size.width - 80,
+                child: ElevatedButton(
                   onPressed: () {},
-                  color: Colors.blueAccent,
-                  textColor: Colors.white,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20),
+                  style: ElevatedButton.styleFrom(
+                    padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
+                    primary: Colors.blueAccent,
+                    textStyle: TextStyle(
+                      color: Colors.white,
+                    ),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
                   ),
-                  padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
-                  splashColor: Colors.grey,
+                  child: Text('  Valider  '),
                 ),
+                // RaisedButton(
+                //   child: Text('Valider'),
+                //   onPressed: () {},
+                //   color: Colors.blueAccent,
+                //   textColor: Colors.white,
+                //   shape: RoundedRectangleBorder(
+                //     borderRadius: BorderRadius.circular(20),
+                //   ),
+                //   padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
+                //   splashColor: Colors.grey,
+                // ),
               ),
             ],
           ),

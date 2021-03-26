@@ -47,13 +47,32 @@ class _AjoutDepenseState extends State<AjoutDepense> {
       // height: size.height,
       child: Column(
         children: [
-          Container(
-            padding: EdgeInsets.symmetric(
-              vertical: 20,
-            ),
-            child: Text(
-              "Ajouter une Dépense",
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          Card(
+            color: Colors.blueAccent.withOpacity(0.1),
+            // color: coleur.withOpacity(0.4),
+            elevation: 7,
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(40),
+                    bottomRight: Radius.circular(40))),
+            margin: EdgeInsets.fromLTRB(0, 1, 0, 15),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                SizedBox(
+                  height: 30,
+                ),
+                Container(
+                  padding: EdgeInsets.symmetric(
+                    vertical: 20,
+                  ),
+                  child: Text(
+                    "Ajouter une Dépense",
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ],
             ),
           ),
           Divider(
@@ -78,10 +97,15 @@ class _AjoutDepenseState extends State<AjoutDepense> {
                           borderSide: BorderSide(),
                         ),
                       ),
+                      // autovalidateMode: AutovalidateMode.onUserInteraction,
                       keyboardType: TextInputType.text,
                       validator: (value) {
                         if (value.isEmpty) {
                           return "le champs est obligatoire";
+                        } else {
+                          if (value.length < 3) {
+                            return "Ce champs doit comporter au moins 3 caractere";
+                          }
                         }
                       },
                       onChanged: (value) {
@@ -157,16 +181,19 @@ class _AjoutDepenseState extends State<AjoutDepense> {
                       children: [
                         Container(
                           width: MediaQuery.of(context).size.width - 80,
-                          child: RaisedButton(
+                          child: ElevatedButton(
                             onPressed: _submit,
-                            child: Text('  Enregistrer  '),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20),
+                            style: ElevatedButton.styleFrom(
+                              padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
+                              primary: Colors.blue,
+                              textStyle: TextStyle(
+                                color: Colors.white,
+                              ),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20),
+                              ),
                             ),
-                            color: Colors.blue,
-                            textColor: Colors.white,
-                            padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
-                            splashColor: Colors.white,
+                            child: Text('  Enregistrer  '),
                           ),
                         )
                       ],

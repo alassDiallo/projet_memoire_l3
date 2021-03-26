@@ -33,18 +33,47 @@ class _FormPatient1State extends State<FormPatient1> {
               //   fit: BoxFit.contain,
               // )),
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+                // mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Container(
-                    padding: EdgeInsets.symmetric(
-                      vertical: 20,
-                    ),
-                    child: Text(
-                      "Entrer la référence CMU du patient",
-                      style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                  Card(
+                    color: Colors.blueAccent,
+                    // color: coleur.withOpacity(0.4),
+                    elevation: 7,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.only(
+                            bottomLeft: Radius.circular(40),
+                            bottomRight: Radius.circular(40))),
+                    margin: EdgeInsets.fromLTRB(0, 1, 0, 15),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        SizedBox(
+                          height: 30,
+                        ),
+                        Container(
+                          padding: EdgeInsets.symmetric(
+                            vertical: 20,
+                          ),
+                          child: Text(
+                            "Entrer la référence CMU du patient",
+                            style: TextStyle(
+                                fontSize: 18, fontWeight: FontWeight.w500),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
+                  // Container(
+                  //   padding: EdgeInsets.symmetric(
+                  //     vertical: 20,
+                  //   ),
+                  //   child: Text(
+                  //     "Entrer la référence CMU du patient",
+                  //     style:
+                  //         TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                  //   ),
+                  // ),
                   Divider(
                     thickness: 5,
                     indent: 10,
@@ -104,11 +133,14 @@ class _FormPatient1State extends State<FormPatient1> {
                                         // Scaffold.of(context).showSnackBar(SnackBar(
                                         //     content: Text('Traitement en cours')));
                                         _formKey.currentState.save();
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (context) => widget.page,
-                                            ));
+                                        if (_reference == "12345ref") {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    widget.page,
+                                              ));
+                                        }
                                       }
                                     },
                                     child: Text('Enregistrer'),

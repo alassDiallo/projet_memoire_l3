@@ -23,11 +23,26 @@ class Depenselist {
       }
     }
   }
+//    Future<void> addDepense(String description, String coup) async {
+
+//   Map<String, dynamic> depenseb = {
+//     "description": description,
+//     "cout": coup,
+//     "idVolontaire": "3",
+//   };
+//   print(depenseb);
+//   var url = Connexion.url + "depenses";
+//   var donnee = await http.post(Uri.encodeFull(url), body: depenseb);
+//   if (donnee.statusCode == 200) {
+//     print(donnee.body);
+
+//   }
+// }
 
   Depenselist() {
     this.getDepense();
     this.depenses;
-    // this.addDepense(description, prix, idV);
+    // this.addDepense(String description, String coup);
   }
 }
 // List<dynamic> donnee = convert.jsonDecode(donneejs.body);
@@ -45,21 +60,5 @@ class Depenselist {
 //         )
 //         .toList();
 //     return depenses;
-//   }
-// }
-
-// Future<void> addDepense(String description, String coup) async {
-
-//   Map<String, dynamic> depenseb = {
-//     "description": description,
-//     "cout": coup,
-//     "idVolontaire": "3",
-//   };
-//   print(depenseb);
-//   var url = Connexion.url + "depenses";
-//   var donnee = await http.post(Uri.encodeFull(url), body: depenseb);
-//   if (donnee.statusCode == 200) {
-//     print(donnee.body);
-
 //   }
 // }

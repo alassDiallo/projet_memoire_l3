@@ -61,6 +61,7 @@ class _VolontaireState extends State<Volontaire> {
     Size size = MediaQuery.of(context).size;
 
     return Scaffold(
+        backgroundColor: coleur,
         appBar: AppBar(
           //automaticallyImplyLeading: false,
 
@@ -108,7 +109,7 @@ class _VolontaireState extends State<Volontaire> {
         body: SingleChildScrollView(
           child: Container(
             // color: coleur,
-            color: Colors.white70,
+            // color: Colors.white70,
             width: double.infinity,
             // height: size.height,
             child: Column(
