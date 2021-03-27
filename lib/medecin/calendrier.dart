@@ -13,6 +13,7 @@ class Calendrier extends StatefulWidget {
 
 class _CalendrierState extends State<Calendrier> {
   List<Patient> patient = [];
+  List<Tab> list = [];
   List<Widget> page = [];
   List<String> dates = [];
   Map<String, List<Patient>> liste;
@@ -65,8 +66,6 @@ class _CalendrierState extends State<Calendrier> {
     return l;
   }
 
-  List<Tab> list = [];
-
   void i() {
     dates.forEach((element) {
       setState(() {
@@ -105,17 +104,17 @@ class _CalendrierState extends State<Calendrier> {
           ),
         ),
         body: Container(
-          child: TabBarView(children: page
-              // [
-              //   Container(
-              //     child: ListeP(),
-              //   ),
-              //   Container(
-              //     child: ListeP(),
-              //   ),
-              //   Container(
-              //     child: ListeP(),
-              //   ),
+          child: TabBarView(children: [
+            Container(
+              child: Text("bonjour"),
+            ),
+            Container(
+              child: Text("bonjour"),
+            ),
+            Container(
+              child: Text("bonjour"),
+            ),
+          ]
               //   Container(
               //     child: ListeP(),
               //   ),

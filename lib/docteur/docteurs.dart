@@ -50,7 +50,7 @@ class _MedecinsState extends State<Medecins> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.blue[900],
         // appBar: AppBar(
         //   actions: [
         //     IconButton(
@@ -66,7 +66,7 @@ class _MedecinsState extends State<Medecins> {
               child: Column(
                 children: [
                   Container(
-                    height: MediaQuery.of(context).size.height * 0.3,
+                    height: MediaQuery.of(context).size.height * 0.25,
                     decoration: BoxDecoration(
                         color: Colors.blue[900],
                         borderRadius: BorderRadius.only(
@@ -124,17 +124,20 @@ class _MedecinsState extends State<Medecins> {
                   ),
                   SingleChildScrollView(
                     child: Container(
-                        height: MediaQuery.of(context).size.height * 0.7,
-                        child: GridView.count(
-                          crossAxisCount: 2,
-                          crossAxisSpacing: 1,
-                          mainAxisSpacing: 4,
-                          children: List.generate(filtre.length, (index) {
-                            return Docteur(
-                              medecin: filtre[index],
-                            );
-                          }),
-                        )),
+                        height: MediaQuery.of(context).size.height * 0.75,
+                        child: filtre.isEmpty
+                            ? Container(
+                                height: 50, child: CircularProgressIndicator())
+                            : GridView.count(
+                                crossAxisCount: 2,
+                                crossAxisSpacing: 1,
+                                mainAxisSpacing: 4,
+                                children: List.generate(filtre.length, (index) {
+                                  return Docteur(
+                                    medecin: filtre[index],
+                                  );
+                                }),
+                              )),
                   ),
                 ],
               ),

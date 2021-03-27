@@ -83,6 +83,8 @@ flutter:
     - images/genecologie.png
     - images/dermatologie.png
     - images/radiotherapie.jpg
+    - images/map.png
+    - images/images.png
     - images/pneumologie.jpeg
     - images/infectiologie.jpg
     - images/vol.png
@@ -107,6 +109,7 @@ flutter:
     - images/cardio.png
     - images/rapport.png
     - images/accueilauth.jpg
+    - images/accueilP.jpg
     - images/rapport2.png
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg

@@ -59,6 +59,14 @@ class _Rapport_DepenseState extends State<Rapport_Depense> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
+            Container(
+              height: 200,
+              width: 200,
+              decoration: BoxDecoration(
+                  image: DecorationImage(
+                      image: AssetImage("images/comptabilite.png"),
+                      fit: BoxFit.fill)),
+            ),
             AjoutDepense(),
             SizedBox(
               height: 20,
@@ -71,7 +79,7 @@ class _Rapport_DepenseState extends State<Rapport_Depense> {
               //         // padding: EdgeInsets.all(),
               margin: EdgeInsets.all(15),
               child: ExpansionTile(
-                leading:Icon(Icons.list),
+                leading: Icon(Icons.list),
                 title: Text(
                   "Historique ",
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),

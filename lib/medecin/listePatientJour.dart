@@ -6,6 +6,8 @@ import 'package:gestion_materiel_cmu/models/patient.dart';
 import 'dart:async';
 import 'dart:convert' as convert;
 
+import 'package:intl/intl.dart';
+
 class ListePatient extends StatefulWidget {
   @override
   _ListePatientState createState() => _ListePatientState();
@@ -46,6 +48,13 @@ class _ListePatientState extends State<ListePatient> {
     }
   }
 
+  @override
+  void initState() {
+    ascend = false;
+    listeP();
+    super.initState();
+  }
+
   void trie(int index, bool ascend) {
     if (index == 0) {
       if (ascend) {
@@ -60,7 +69,7 @@ class _ListePatientState extends State<ListePatient> {
     if (b) {
       setState(() {
         b = true;
-        p.add(element);
+        l.add(element);
       });
     } else {
       p.remove(element);
@@ -69,9 +78,9 @@ class _ListePatientState extends State<ListePatient> {
 
   void supprimer() async {
     setState(() {
-      if (p.isNotEmpty) {
+      if (l.isNotEmpty) {
         List<Patient> tmp = [];
-        tmp.addAll(p);
+        tmp.addAll(l);
         for (Patient pt in tmp) {
           p.remove(pt);
           p.remove(pt);
@@ -81,20 +90,34 @@ class _ListePatientState extends State<ListePatient> {
   }
 
   @override
-  void initState() {
-    ascend = false;
-    listeP();
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
+    DateFormat df = DateFormat("dd/MM/yyyy");
     return Scaffold(
       appBar: AppBar(
         title: Text("Liste de mes patients du jour"),
       ),
       body: Column(
         children: [
+          Card(
+              margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+              color: Colors.pink,
+              child: Container(
+                padding: EdgeInsets.only(left: 20),
+                height: MediaQuery.of(context).size.height * 0.15,
+                width: double.infinity,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Text(df.format(DateTime.now()).toString(),
+                        style: TextStyle(color: Colors.white, fontSize: 20)),
+                    CircleAvatar(
+                      backgroundColor: Colors.blue[900],
+                      radius: 30,
+                      child: Container(child: Text(p.length.toString())),
+                    ),
+                  ],
+                ),
+              )),
           Container(
             width: MediaQuery.of(context).size.width,
             child: DataTable(
@@ -112,7 +135,7 @@ class _ListePatientState extends State<ListePatient> {
                 DataColumn(
                     label: Text("prenom"),
                     numeric: true,
-                    onSort: (_index, ascend) {
+                    onSort: (_index, sort) {
                       setState(() {
                         ascend = !ascend;
                       });
@@ -124,11 +147,11 @@ class _ListePatientState extends State<ListePatient> {
                 ),
                 // DataColumn(label: Text("Adresse"), numeric: false),
                 DataColumn(label: Text("telephone"), numeric: false),
-                DataColumn(label: Text("heure"))
+                DataColumn(label: Text("heure"), numeric: false)
               ],
               rows: p.map((element) {
                 return DataRow(
-                    selected: p.contains(element),
+                    selected: l.contains(element),
                     onSelectChanged: (b) {
                       selctionner(b, element);
                     },
@@ -163,7 +186,7 @@ class _ListePatientState extends State<ListePatient> {
                         Icons.check,
                         color: Colors.green,
                       ),
-                      Text("Selectionner ${p.length}"),
+                      Text("Selectionner ${l.length}"),
                     ],
                   ),
                   onPressed: () {},
@@ -182,7 +205,7 @@ class _ListePatientState extends State<ListePatient> {
                         Text("Supprimer"),
                       ],
                     ),
-                    onPressed: p.isEmpty ? null : supprimer),
+                    onPressed: l.isEmpty ? null : supprimer),
               )
             ],
           )

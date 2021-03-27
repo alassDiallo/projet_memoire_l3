@@ -53,10 +53,10 @@ class MenuCardR2 extends StatelessWidget {
                   ),
                   Divider(
                     height: 10,
-                    color: Colors.blue,
+                    color: Colors.blue[900],
                     thickness: 5,
-                    indent: 40,
-                    endIndent: 40,
+                    indent: 20,
+                    endIndent: 20,
                   ),
                 ],
               ),

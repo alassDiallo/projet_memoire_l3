@@ -41,6 +41,14 @@ class _Rapport_MaintenancevState extends State<Rapport_Maintenancev> {
           endIndent: 10,
         ),
         SizedBox(height: 20),
+        Draggable(
+            child: Column(
+              children: [
+                Text("ordinateur"),
+                Text("telephone"),
+              ],
+            ),
+            feedback: Text('bonjour')),
         Container(
           margin: EdgeInsets.all(15),
           child: Form(

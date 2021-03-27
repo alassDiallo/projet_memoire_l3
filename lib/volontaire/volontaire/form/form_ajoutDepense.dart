@@ -22,7 +22,7 @@ class _AjoutDepenseState extends State<AjoutDepense> {
     final DateTime picked = await showDatePicker(
       context: context,
       initialDate: selectedDate,
-      firstDate: DateTime(2000),
+      firstDate: DateTime(DateTime.now().year),
       lastDate: DateTime(2050),
     );
     if (picked != null && picked != selectedDate)
@@ -49,21 +49,22 @@ class _AjoutDepenseState extends State<AjoutDepense> {
         children: [
           Container(
             padding: EdgeInsets.symmetric(
-              vertical: 20,
+              vertical: 10,
             ),
-            child: Text(
-              "Ajouter une Dépense",
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            child: CircleAvatar(
+              child: Icon(Icons.add),
+              radius: 30,
             ),
           ),
-          Divider(
-            thickness: 2,
-            indent: 10,
-            endIndent: 10,
-          ),
+          // Divider(
+          //   thickness: 2,
+          //   indent: 10,
+          //   endIndent: 10,
+          // ),
           SizedBox(height: 20),
           Container(
             margin: EdgeInsets.all(20),
+            decoration: BoxDecoration(borderRadius: BorderRadius.circular(10)),
             child: Form(
                 key: _formKey,
                 child: Column(

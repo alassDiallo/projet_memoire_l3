@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gestion_materiel_cmu/controllers/Connexion.dart';
 import 'package:gestion_materiel_cmu/jika/accueiljica.dart';
-import 'package:gestion_materiel_cmu/models/Structure.dart';
 import 'dart:convert';
 //import 'package:gestion_materiel_cmu/volontaire/accueil.dart';
 import 'package:gestion_materiel_cmu/volontaire/volontaire/accueil.dart';
@@ -9,8 +8,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'medecin/accueil.dart';
 import 'dart:async';
 import 'package:gestion_materiel_cmu/patient/accueil.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert' as convert;
 
 class Login extends StatefulWidget {
   @override
@@ -35,6 +32,7 @@ class _LoginState extends State<Login> {
       var r = await Connexion().envoideDonnnee(donnee, "auth/login");
       print(r.body);
       var d = json.decode(r.body);
+      print(d);
       if (d['success']) {
         setState(() {
           err = '';
