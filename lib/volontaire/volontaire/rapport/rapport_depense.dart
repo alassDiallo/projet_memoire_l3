@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:gestion_materiel_cmu/controllers/DepenseList.dart';
 import 'package:gestion_materiel_cmu/models/depense.dart';
@@ -137,36 +139,33 @@ class _Rapport_DepenseState extends State<Rapport_Depense> {
                         children: [
                           Padding(
                             padding: EdgeInsets.all(5),
-                            child: TextButton(
-                              // color: Colors.blueGrey,
-                              child: Row(
-                                children: [
-                                  Icon(
-                                    Icons.check,
-                                    color: Colors.green,
-                                  ),
-                                  Text("${listeDep.length} Selectionné(es)"),
-                                ],
-                              ),
+                            child: TextButton.icon(
                               onPressed: () {},
+                              icon: Icon(
+                                Icons.check,
+                                color: Colors.green,
+                              ),
+                              label: listeDep.length == 0
+                                  ? Text(
+                                      "0 Selectionné(es)",
+                                      style: TextStyle(
+                                        color: Colors.blueGrey,
+                                      ),
+                                    )
+                                  : Text("${listeDep.length} Selectionné(es)"),
                             ),
                           ),
                           SizedBox(width: 5),
                           Padding(
-                            padding: EdgeInsets.all(5),
-                            child: OutlineButton(
-                                color: Colors.blueGrey,
-                                child: Row(
-                                  children: [
-                                    Icon(
-                                      Icons.delete_forever,
-                                      color: Colors.red,
-                                    ),
-                                    Text("Supprimer"),
-                                  ],
+                              padding: EdgeInsets.all(5),
+                              child: OutlinedButton.icon(
+                                onPressed: listeDep.isEmpty ? null : supprimer,
+                                icon: Icon(
+                                  Icons.delete_forever,
+                                  color: Colors.red,
                                 ),
-                                onPressed: listeDep.isEmpty ? null : supprimer),
-                          )
+                                label: Text("Supprimer"),
+                              ))
                         ],
                       )
                     ],
