@@ -132,7 +132,7 @@ class _LoginState extends State<Login> {
                                     }
                                   },
                                   decoration: InputDecoration(
-                                      hintText: "entez votre login",
+                                      hintText: "entrez votre login",
                                       icon: Icon(Icons.email),
                                       border: InputBorder.none)),
                             ),
@@ -164,7 +164,7 @@ class _LoginState extends State<Login> {
                                   },
                                   decoration: InputDecoration(
                                       suffixIcon: Icon(Icons.visibility),
-                                      hintText: "entez votre mot de passe",
+                                      hintText: "entrez votre mot de passe",
                                       fillColor: Colors.blue,
                                       icon: Icon(Icons.lock),
                                       border: InputBorder.none)),

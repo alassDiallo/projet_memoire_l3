@@ -100,6 +100,7 @@ class _AjoutDepenseState extends State<AjoutDepense> {
                       ),
                       // autovalidateMode: AutovalidateMode.onUserInteraction,
                       keyboardType: TextInputType.text,
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
                       validator: (value) {
                         if (value.isEmpty) {
                           return "le champs est obligatoire";
@@ -133,6 +134,7 @@ class _AjoutDepenseState extends State<AjoutDepense> {
                         ),
                       ),
                       keyboardType: TextInputType.number,
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
                       validator: (value) {
                         if (value.isEmpty) {
                           return "le champs est obligatoire";
@@ -212,16 +214,15 @@ class _AjoutDepenseState extends State<AjoutDepense> {
       _formKey.currentState.save();
       // Scaffold.of(context)
       //     .showSnackBar(SnackBar(content: Text('Traitement en cours')));
-      var url = Connexion.url + "depenses";
+      var url = "auth/depense";
       print(url);
       Map<String, dynamic> depense = {
         "description": _description,
         "cout": _cout.toString(),
-        "idVolontaire": "4"
       };
       print(depense);
-      var donnee = await http.post(Uri.encodeFull(url), body: depense);
-      print(donnee.statusCode);
+      var donnee = await Connexion().envoideDonnnee(depense, url);
+      print(donnee.body);
       CircularProgressIndicator();
       if (donnee.statusCode == 200) {
         print(donnee.body);

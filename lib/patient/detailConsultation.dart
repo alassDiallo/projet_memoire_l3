@@ -136,7 +136,7 @@ class _DetailState extends State<Detail> {
               child: Column(children: [
                 Text(
                   widget.consultation.nom.toUpperCase(),
-                  style: TextStyle(color: Colors.white, fontSize: 40),
+                  style: TextStyle(color: Colors.white, fontSize: 38),
                 ),
                 Divider(
                   color: Colors.white,

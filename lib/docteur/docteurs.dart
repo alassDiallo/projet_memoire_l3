@@ -126,8 +126,15 @@ class _MedecinsState extends State<Medecins> {
                     child: Container(
                         height: MediaQuery.of(context).size.height * 0.75,
                         child: filtre.isEmpty
-                            ? Container(
-                                height: 50, child: CircularProgressIndicator())
+                            ? Center(
+                                child: Container(
+                                    height: 100,
+                                    width: 100,
+                                    child: CircularProgressIndicator(
+                                      strokeWidth: 8,
+                                      semanticsLabel: "chargement...",
+                                    )),
+                              )
                             : GridView.count(
                                 crossAxisCount: 2,
                                 crossAxisSpacing: 1,

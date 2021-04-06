@@ -26,9 +26,12 @@ class ItemConsultation extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Image.asset(consultation.image, width: 100, height: 130),
-                  Text(
-                    consultation.nom,
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  Expanded(
+                    child: Text(
+                      consultation.nom,
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    ),
                   ),
 
                   // Row(

@@ -63,7 +63,7 @@ class _VolontaireState extends State<Volontaire> {
     Size size = MediaQuery.of(context).size;
 
     return Scaffold(
-        // backgroundColor: coleur,
+        backgroundColor: coleur,
         appBar: AppBar(
           backgroundColor: coleur,
           //automaticallyImplyLeading: false,

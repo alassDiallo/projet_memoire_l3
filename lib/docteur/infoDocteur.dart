@@ -92,10 +92,12 @@ class Docteur extends StatelessWidget {
                         )
                       ],
                     ),
-                    Image.asset(
-                      "images/vol.png",
-                      width: MediaQuery.of(context).size.width * 0.180,
-                      //height: 140,
+                    Expanded(
+                      child: Image.asset(
+                        "images/vol.png",
+                        width: MediaQuery.of(context).size.width * 0.180,
+                        //height: 140,
+                      ),
                     ),
                   ],
                 ),
