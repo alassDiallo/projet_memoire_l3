@@ -9,8 +9,8 @@ class AnalyselistP {
   List<AnalyseM> analyses = [];
 
   Future<List<AnalyseM>> getAnalyse() async {
-    String url = Connexion.url + "analysesPatient";
-    var donneejs = await http.get(url);
+    String url = "auth/analysesPatient";
+    var donneejs = await Connexion().recuperation(url);
     print(url);
     print(donneejs.body);
     if (donneejs.statusCode == 200) {

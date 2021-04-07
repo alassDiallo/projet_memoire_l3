@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:gestion_materiel_cmu/volontaire/volontaire/facturation/analyse.dart';
 import 'package:gestion_materiel_cmu/volontaire/volontaire/patient/consulation.dart';
 import 'package:gestion_materiel_cmu/volontaire/volontaire/form/form_patient.dart';
+import 'package:gestion_materiel_cmu/volontaire/volontaire/patient/patient.dart';
 import 'package:gestion_materiel_cmu/volontaire/volontaire/rapport/rapport.dart';
 import 'package:gestion_materiel_cmu/volontaire/volontaire/rapport/rapport_depense.dart';
 import 'package:gestion_materiel_cmu/volontaire/volontaire/rapport/rapport_maintenance.dart';
@@ -63,9 +64,9 @@ class _VolontaireState extends State<Volontaire> {
     Size size = MediaQuery.of(context).size;
 
     return Scaffold(
-        // backgroundColor: coleur,
+        backgroundColor: coleur,
         appBar: AppBar(
-          backgroundColor: coleur,
+          //backgroundColor: coleur,
           //automaticallyImplyLeading: false,
 
           title: Text(""),
@@ -126,6 +127,23 @@ class _VolontaireState extends State<Volontaire> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
+                                  builder: (context) => Patient()));
+                        },
+                        child: Container(
+                          child: MenuCard(
+                              text: "  Patient ",
+                              icon: Image.asset("images/searche.png"),
+                              couleurCard: Colors.white,
+                              couleurCircle: Colors.red),
+                        ),
+                      )
+                    ]),
+                    TableRow(children: [
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
                                   builder: (context) => FormPatient1(
                                         page: Consultation(),
                                         couleur: Colors.green.withOpacity(0.5),
@@ -138,8 +156,6 @@ class _VolontaireState extends State<Volontaire> {
                           couleurCircle: Colors.green,
                         ),
                       ),
-                    ]),
-                    TableRow(children: [
                       GestureDetector(
                         onTap: () {
                           Navigator.push(
@@ -158,25 +174,6 @@ class _VolontaireState extends State<Volontaire> {
                               couleurCircle: Colors.blue),
                         ),
                       ),
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => Rapport_Maintenance()));
-                        },
-                        child: Container(
-                          child: MenuCard(
-                              text: "  Maintenance ",
-                              icon: Icon(
-                                Icons.miscellaneous_services_outlined,
-                                color: Colors.blue[900],
-                                size: 60,
-                              ),
-                              couleurCard: Colors.white,
-                              couleurCircle: Colors.red),
-                        ),
-                      )
                     ]),
                     TableRow(children: [
                       GestureDetector(
@@ -199,12 +196,16 @@ class _VolontaireState extends State<Volontaire> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => Rapport_Patient()));
+                                  builder: (context) => Rapport_Maintenance()));
                         },
                         child: Container(
                           child: MenuCard(
-                              text: "  Patient ",
-                              icon: Image.asset("images/searche.png"),
+                              text: "  Maintenance ",
+                              icon: Icon(
+                                Icons.miscellaneous_services_outlined,
+                                color: Colors.blue[900],
+                                size: 60,
+                              ),
                               couleurCard: Colors.white,
                               couleurCircle: Colors.red),
                         ),

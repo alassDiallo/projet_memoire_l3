@@ -209,22 +209,26 @@ class _AjoutDepenseState extends State<AjoutDepense> {
   Future<void> _submit() async {
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
-      // Scaffold.of(context)
-      //     .showSnackBar(SnackBar(content: Text('Traitement en cours')));
-      var url = Connexion.url + "depenses";
-      print(url);
       Map<String, dynamic> depense = {
         "description": _description,
         "cout": _cout.toString(),
         "idVolontaire": "4"
       };
       print(depense);
-      var donnee = await http.post(Uri.encodeFull(url), body: depense);
+      var url = "auth/depenses";
+      print(url);
+      var donnee = await Connexion().envoideDonnnee(depense, url);
+      // http.post(Uri.encodeFull(url), body: depense);
       print(donnee.statusCode);
-      CircularProgressIndicator();
       if (donnee.statusCode == 200) {
         print(donnee.body);
         _formKey.currentState.reset();
+        if (donnee['success'] != null) {
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text(donnee['success']),
+            backgroundColor: Colors.greenAccent,
+          ));
+        }
       }
     }
   }

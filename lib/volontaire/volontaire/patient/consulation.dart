@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gestion_materiel_cmu/models/patient.dart';
 import 'package:gestion_materiel_cmu/volontaire/volontaire/form/form_consultation.dart';
 
 class Consultation extends StatefulWidget {
@@ -13,7 +14,10 @@ class _ConsultationState extends State<Consultation> {
   String _reference;
   @override
   Widget build(BuildContext context) {
+    Patient patient = ModalRoute.of(context).settings.arguments;
+
     Size size = MediaQuery.of(context).size;
+
     return Scaffold(
       appBar: AppBar(
         title: Text("Consultation "),

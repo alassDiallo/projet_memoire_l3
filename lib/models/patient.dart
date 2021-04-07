@@ -1,6 +1,6 @@
 class Patient {
   int idPatient;
-  String reference;
+  String referencePatient;
   String nom;
   String prenom;
   String lieuDeNaissance;
@@ -24,7 +24,7 @@ class Patient {
       this.nom,
       this.numeroCIN,
       this.prenom,
-      this.reference,
+      this.referencePatient,
       this.sexe,
       this.date,
       this.heure,

@@ -22,17 +22,19 @@ class _Rapport_MaintenancevState extends State<Rapport_Maintenancev> {
 
   List<Materiel> _materiels = [];
   Future<void> getMateriels() async {
-    var url = Connexion.url + "materielsVolontaire/3";
-    var donnee = await http.get(url);
+    var url = "auth/materielsVolontaire/3";
+    var donnee = await Connexion().recuperation(url);
     if (donnee.statusCode == 200) {
       print(donnee.body);
       var materielV = convert.jsonDecode(donnee.body);
       for (var matV in materielV) {
-        _materiels.add(Materiel(
-            libelle: matV["libelle"],
-            type: matV["type"],
-            reference: matV["reference"],
-            idMateriel: matV["idMateriel"]));
+        setState(() {
+          _materiels.add(Materiel(
+              libelle: matV["libelle"],
+              type: matV["type"],
+              reference: matV["reference"],
+              idMateriel: matV["idMateriel"]));
+        });
       }
       print(_materiels.length);
     }
@@ -169,7 +171,8 @@ class _Rapport_MaintenancevState extends State<Rapport_Maintenancev> {
                 Container(
                   margin: EdgeInsets.all(15),
                   child: TextFormField(
-                    maxLength: 400,
+                    maxLength: 500,
+                    maxLines: null,
                     keyboardType: TextInputType.multiline,
                     decoration: InputDecoration(
                       labelText: 'Description du probleme',

@@ -73,7 +73,7 @@ class _Rapport_DepenseState extends State<Rapport_Depense> {
               //         // padding: EdgeInsets.all(),
               margin: EdgeInsets.all(15),
               child: ExpansionTile(
-                leading:Icon(Icons.list),
+                leading: Icon(Icons.list),
                 title: Text(
                   "Historique ",
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),

@@ -1,9 +1,12 @@
 import 'dart:ffi';
 import 'package:flutter/material.dart';
 import 'package:gestion_materiel_cmu/controllers/Connexion.dart';
+import 'package:gestion_materiel_cmu/models/patient.dart';
 import 'package:http/http.dart' as http;
 
 class AjoutAnalyse extends StatefulWidget {
+  Patient patient;
+  AjoutAnalyse({this.patient});
   @override
   _AjoutAnalyseState createState() => _AjoutAnalyseState();
 }
@@ -31,21 +34,31 @@ class _AjoutAnalyseState extends State<AjoutAnalyse> {
   Future<void> _submit() async {
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
-      // Scaffold.of(context)
-      //     .showSnackBar(SnackBar(content: Text('Traitement en cours')));
-      var url = Connexion.url + "analyses";
-      print(url);
       Map<String, dynamic> analyse = {
         "libelle": _libelle,
         "prix": _prix.toString(),
-        "idPatient": "4"
+        "idPatient": widget.patient.idPatient,
       };
       print(analyse);
-      var donnee = await http.post(Uri.encodeFull(url), body: analyse);
+      var url = "auth/analyses";
+      print(url);
+      var donnee = await Connexion().envoideDonnnee(analyse, url);
+
+      // var url = Connexion.url + "analyses";
+      //  print(url);
+      // var donnee = await http.post(Uri.encodeFull(url), body: analyse);
       print(donnee.statusCode);
       if (donnee.statusCode == 200) {
+        //convert.jsonDecode(donnee.body);
+
         print(donnee.body);
         _formKey.currentState.reset();
+        if (donnee['success'] != null) {
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text(donnee['success']),
+            backgroundColor: Colors.greenAccent,
+          ));
+        }
       }
       Navigator.pop(context);
     }
