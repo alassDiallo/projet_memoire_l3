@@ -61,6 +61,14 @@ class _Rapport_DepenseState extends State<Rapport_Depense> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
+            Container(
+              height: 200,
+              width: 200,
+              decoration: BoxDecoration(
+                  image: DecorationImage(
+                      image: AssetImage("images/comptabilite.png"),
+                      fit: BoxFit.fill)),
+            ),
             AjoutDepense(),
             SizedBox(
               height: 20,

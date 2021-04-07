@@ -83,7 +83,7 @@ class _AjoutAnalyseState extends State<AjoutAnalyse> {
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30)),
                 margin: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                elevation: 7,
+                elevation: 0,
                 color: Colors.blue.withOpacity(0.6),
                 child: Container(
                   child: Image.asset("images/analyse.jpg", fit: BoxFit.cover),

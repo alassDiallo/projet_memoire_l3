@@ -194,12 +194,14 @@ class _ListeCState extends State<ListeC> {
                   )),
               Container(
                 height: MediaQuery.of(context).size.height * 0.35,
-                child: ListView.builder(
-                    itemCount: medecins.length,
-                    scrollDirection: Axis.horizontal,
-                    itemBuilder: (context, index) {
-                      return _medecin(medecins[index]);
-                    }),
+                child: medecins.isEmpty
+                    ? Center(child: CircularProgressIndicator())
+                    : ListView.builder(
+                        itemCount: medecins.length,
+                        scrollDirection: Axis.horizontal,
+                        itemBuilder: (context, index) {
+                          return _medecin(medecins[index]);
+                        }),
               ),
               // Container(
               //     alignment: Alignment.center,

@@ -13,7 +13,7 @@ class Option extends StatelessWidget {
       child: Card(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
         elevation: 10,
-        margin: EdgeInsets.only(right: 15, bottom: 20),
+        margin: EdgeInsets.only(right: 10, bottom: 20),
         color: couleur,
         child: Container(
           padding: EdgeInsets.all(8),
@@ -23,13 +23,11 @@ class Option extends StatelessWidget {
                 alignment: Alignment.topLeft,
                 child: Text(
                   text,
-                  style: TextStyle(
-                    color: Colors.white,
-                  ),
+                  style: TextStyle(color: Colors.white, fontSize: 18),
                 ),
               ),
               SizedBox(
-                height: 20,
+                height: 60,
               ),
               Align(alignment: Alignment.bottomRight, child: icon),
             ],

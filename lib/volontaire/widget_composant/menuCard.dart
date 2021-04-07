@@ -4,13 +4,14 @@ class MenuCard extends StatelessWidget {
   final String text;
   final Widget icon;
   final Color couleurCard;
+  Color ctexte;
   final Color couleurCircle;
-  MenuCard({
-    this.text,
-    this.icon,
-    this.couleurCard,
-    this.couleurCircle,
-  });
+  MenuCard(
+      {this.text,
+      this.icon,
+      this.couleurCard,
+      this.couleurCircle,
+      this.ctexte});
 
   @override
   Widget build(BuildContext context) {
@@ -43,6 +44,7 @@ class MenuCard extends StatelessWidget {
                 children: [
                   Text(text,
                       style: TextStyle(
+                        color: ctexte,
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                       )),

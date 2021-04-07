@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:bubble_bottom_bar/bubble_bottom_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:gestion_materiel_cmu/Login.dart';
 import 'package:gestion_materiel_cmu/composants/drawer.dart';
@@ -11,6 +12,7 @@ import 'package:gestion_materiel_cmu/patient/ItemConsultation.dart';
 import 'package:gestion_materiel_cmu/patient/historique.dart';
 import 'package:gestion_materiel_cmu/patient/option.dart';
 import 'package:gestion_materiel_cmu/patient/slide.dart';
+import 'package:gestion_materiel_cmu/volontaire/widget_composant/menuCard.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'listeConsultation.dart';
 import 'rendez_vous.dart';
@@ -35,6 +37,13 @@ class _AccueilPatientState extends State<AccueilPatient> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        // floatingActionButton: FloatingActionButton(
+        //   child: Icon(Icons.chat),
+        //   onPressed: () {
+        //     Navigator.push(
+        //         context, MaterialPageRoute(builder: (context) => Messagerie()));
+        //   },
+        // ),
         backgroundColor: Colors.white,
         appBar: AppBar(
           actions: [
@@ -45,20 +54,70 @@ class _AccueilPatientState extends State<AccueilPatient> {
           ],
         ),
         drawer: Drawers(),
-        bottomNavigationBar: _bottomNavigationBar(),
+        bottomNavigationBar: BubbleBottomBar(
+          onTap: (index) {
+            setState(() {
+              _currentIndex = index;
+            });
+            redirect(_currentIndex);
+          },
+          opacity: 0.2,
+          backgroundColor: Colors.white,
+          borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+          currentIndex: _currentIndex,
+          hasInk: true,
+          inkColor: Colors.black12,
+          hasNotch: true,
+          fabLocation: BubbleBottomBarFabLocation.end,
+          items: [
+            BubbleBottomBarItem(
+                backgroundColor: Colors.blue[900],
+                activeIcon: Icon(
+                  Icons.home,
+                  color: Colors.blue[900],
+                ),
+                title: Text("Accueil"),
+                icon: Icon(
+                  Icons.home,
+                  color: Colors.black,
+                )),
+            BubbleBottomBarItem(
+                title: Text("message"),
+                activeIcon: Icon(
+                  Icons.chat,
+                  color: Colors.blue[900],
+                ),
+                backgroundColor: Colors.blue[900],
+                icon: Icon(
+                  Icons.chat,
+                  color: Colors.black,
+                )),
+            BubbleBottomBarItem(
+                title: Text("notification"),
+                activeIcon: Icon(
+                  Icons.notifications,
+                  color: Colors.blue[900],
+                ),
+                backgroundColor: Colors.blue[900],
+                icon: Icon(
+                  Icons.notifications,
+                  color: Colors.black,
+                ))
+          ],
+        ),
         body: SingleChildScrollView(
             child: Container(
-                margin: EdgeInsets.only(top: 50),
+                margin: EdgeInsets.only(top: 0),
                 color: Colors.white,
                 child: Column(children: [
                   Container(
                     child: Image.asset(
-                      "images/ac.jpg",
+                      "images/accueilP.jpg",
                     ),
-                    // height: MediaQuery.of(context).size.height / 2,
+                    height: MediaQuery.of(context).size.height * 0.23,
                   ),
                   Container(
-                    padding: EdgeInsets.symmetric(vertical: 20, horizontal: 50),
+                    padding: EdgeInsets.symmetric(vertical: 20, horizontal: 5),
                     child: Table(
                       children: [
                         TableRow(
@@ -70,14 +129,13 @@ class _AccueilPatientState extends State<AccueilPatient> {
                                     MaterialPageRoute(
                                         builder: (context) => ListeC()));
                               },
-                              child: Option(
-                                  couleur: Colors.green,
-                                  icon: Icon(
-                                    Icons.local_hospital,
-                                    color: Colors.white,
-                                    size: 40,
-                                  ),
-                                  text: "Consultation"),
+                              child: MenuCard(
+                                text: "Consultation",
+                                icon: Image.asset("images/ac.jpg"),
+                                couleurCard: Colors.green,
+                                couleurCircle: Colors.green,
+                                ctexte: Colors.white,
+                              ),
                             ),
                             GestureDetector(
                               onTap: () {
@@ -86,15 +144,14 @@ class _AccueilPatientState extends State<AccueilPatient> {
                                     MaterialPageRoute(
                                         builder: (context) => RendezVous()));
                               },
-                              child: Option(
-                                  couleur: Colors.red,
-                                  icon: Icon(
-                                    Icons.calendar_today_rounded,
-                                    color: Colors.white,
-                                    size: 40,
-                                  ),
-                                  text: "Mes Rendez-vous"),
-                            ),
+                              child: MenuCard(
+                                text: "Rendez-vous",
+                                icon: Image.asset("images/rapport2.png"),
+                                couleurCard: Colors.deepPurpleAccent,
+                                couleurCircle: Colors.green,
+                                ctexte: Colors.white,
+                              ),
+                            )
                           ],
                         ),
                         TableRow(children: [
@@ -105,14 +162,13 @@ class _AccueilPatientState extends State<AccueilPatient> {
                                   MaterialPageRoute(
                                       builder: (context) => Localisation()));
                             },
-                            child: Option(
-                                couleur: Colors.blue[900],
-                                icon: Icon(
-                                  Icons.location_pin,
-                                  color: Colors.white,
-                                  size: 40,
-                                ),
-                                text: "Map"),
+                            child: MenuCard(
+                              text: "MAP",
+                              icon: Image.asset("images/map.png"),
+                              couleurCard: Colors.red[900],
+                              couleurCircle: Colors.green,
+                              ctexte: Colors.white,
+                            ),
                           ),
                           GestureDetector(
                             onTap: () {
@@ -121,14 +177,13 @@ class _AccueilPatientState extends State<AccueilPatient> {
                                   MaterialPageRoute(
                                       builder: (context) => Historique()));
                             },
-                            child: Option(
-                                couleur: Colors.yellow[700],
-                                icon: Icon(
-                                  Icons.history,
-                                  color: Colors.white,
-                                  size: 40,
-                                ),
-                                text: "historique"),
+                            child: MenuCard(
+                              text: "Historique",
+                              icon: Image.asset("images/images.png"),
+                              couleurCard: Colors.orange,
+                              couleurCircle: Colors.green,
+                              ctexte: Colors.white,
+                            ),
                           ),
                         ]),
                       ],

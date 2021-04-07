@@ -22,7 +22,7 @@ class _AjoutDepenseState extends State<AjoutDepense> {
     final DateTime picked = await showDatePicker(
       context: context,
       initialDate: selectedDate,
-      firstDate: DateTime(2000),
+      firstDate: DateTime(DateTime.now().year),
       lastDate: DateTime(2050),
     );
     if (picked != null && picked != selectedDate)
@@ -75,14 +75,15 @@ class _AjoutDepenseState extends State<AjoutDepense> {
               ],
             ),
           ),
-          Divider(
-            thickness: 2,
-            indent: 10,
-            endIndent: 10,
-          ),
+          // Divider(
+          //   thickness: 2,
+          //   indent: 10,
+          //   endIndent: 10,
+          // ),
           SizedBox(height: 20),
           Container(
             margin: EdgeInsets.all(20),
+            decoration: BoxDecoration(borderRadius: BorderRadius.circular(10)),
             child: Form(
                 key: _formKey,
                 child: Column(
@@ -99,6 +100,7 @@ class _AjoutDepenseState extends State<AjoutDepense> {
                       ),
                       // autovalidateMode: AutovalidateMode.onUserInteraction,
                       keyboardType: TextInputType.text,
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
                       validator: (value) {
                         if (value.isEmpty) {
                           return "le champs est obligatoire";
@@ -132,6 +134,7 @@ class _AjoutDepenseState extends State<AjoutDepense> {
                         ),
                       ),
                       keyboardType: TextInputType.number,
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
                       validator: (value) {
                         if (value.isEmpty) {
                           return "le champs est obligatoire";
@@ -209,17 +212,18 @@ class _AjoutDepenseState extends State<AjoutDepense> {
   Future<void> _submit() async {
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
+      // Scaffold.of(context)
+      //     .showSnackBar(SnackBar(content: Text('Traitement en cours')));
+      var url = "auth/depense";
+      print(url);
       Map<String, dynamic> depense = {
         "description": _description,
         "cout": _cout.toString(),
-        "idVolontaire": "4"
       };
       print(depense);
-      var url = "auth/depenses";
-      print(url);
       var donnee = await Connexion().envoideDonnnee(depense, url);
-      // http.post(Uri.encodeFull(url), body: depense);
-      print(donnee.statusCode);
+      print(donnee.body);
+      CircularProgressIndicator();
       if (donnee.statusCode == 200) {
         print(donnee.body);
         _formKey.currentState.reset();

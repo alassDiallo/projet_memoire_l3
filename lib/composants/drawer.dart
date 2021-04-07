@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gestion_materiel_cmu/Login.dart';
+import 'package:gestion_materiel_cmu/chat/Discussion.dart';
 import 'package:gestion_materiel_cmu/controllers/Connexion.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:async';
@@ -57,7 +58,10 @@ class _DrawersState extends State<Drawers> {
             ListTile(
               leading: Icon(Icons.help),
               title: Text("Aide"),
-              onTap: () {},
+              onTap: () {
+                return Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => ChatPage()));
+              },
             ),
             Divider(),
           ],
