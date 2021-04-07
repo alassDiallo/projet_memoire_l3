@@ -48,13 +48,13 @@ class _AjoutDepenseState extends State<AjoutDepense> {
       child: Column(
         children: [
           Card(
-            color: Colors.blueAccent.withOpacity(0.1),
+            color: Colors.blue[900],
             // color: coleur.withOpacity(0.4),
-            elevation: 7,
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(40),
-                    bottomRight: Radius.circular(40))),
+            //elevation: 7,
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+            // bottomLeft: Radius.circular(40),
+            // bottomRight: Radius.circular(40))),
             margin: EdgeInsets.fromLTRB(0, 1, 0, 15),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -69,7 +69,10 @@ class _AjoutDepenseState extends State<AjoutDepense> {
                   ),
                   child: Text(
                     "Ajouter une Dépense",
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white),
                   ),
                 ),
               ],

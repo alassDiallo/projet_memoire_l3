@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:gestion_materiel_cmu/Login.dart';
 import 'package:gestion_materiel_cmu/controllers/Connexion.dart';
+import 'package:gestion_materiel_cmu/discussion/messagerie.dart';
+import 'package:gestion_materiel_cmu/medecin/Affichage.dart';
 import 'package:gestion_materiel_cmu/medecin/calendrier.dart';
 import 'package:gestion_materiel_cmu/medecin/listePatientJour.dart';
 import 'package:gestion_materiel_cmu/medecin/parametre.dart';
@@ -26,7 +28,7 @@ class _AccueilMedecinState extends State<AccueilMedecin> {
             color: Colors.white,
             onPressed: () {
               Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => Discussion()));
+                  MaterialPageRoute(builder: (context) => Messagerie()));
             },
           ),
           IconButton(
