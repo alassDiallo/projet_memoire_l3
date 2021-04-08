@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:gestion_materiel_cmu/controllers/Connexion.dart';
+import 'package:gestion_materiel_cmu/models/patient.dart';
+import 'package:gestion_materiel_cmu/volontaire/volontaire/accueil.dart';
+import 'dart:convert' as convert;
 
 class FormPatient1 extends StatefulWidget {
   Widget page;
@@ -9,10 +13,57 @@ class FormPatient1 extends StatefulWidget {
 }
 
 class _FormPatient1State extends State<FormPatient1> {
-  // Widget page;
-  // _FormPatient1State(Widget page) {
-  //   this.page = page;
-  // }
+  List<Patient> patients = [];
+
+  Future<List<Patient>> getPatient() async {
+    String url = "auth/patient";
+    var donneejs = await Connexion().recuperation(url);
+    print(url);
+    print(donneejs.body);
+    if (donneejs.statusCode == 200) {
+      var donnee = convert.jsonDecode(donneejs.body);
+      for (var patient in donnee) {
+        setState(() {
+          patients.add(Patient(
+            idPatient: patient["idPatient"],
+            referencePatient: patient["referencePatient"],
+            nom: patient["nom"],
+            prenom: patient["prenom"],
+            // lieuDeNaissance: patient["lieuDeNaissance"],
+            // adresse: patient["adresse"],
+            // telephone: patient["telephone"],
+            // sexe: patient["sexe"],
+            // dateDeNaissance: patient["dateDeNaissance"],
+            // numeroCIN: patient["numeroCIN"],
+
+            //  email: patient["email"],
+            // etat: patient["etat"],
+            // heure: patient["heure"].toDateTime(),
+            // date: patient["date"].toDateTime(),
+          ));
+        });
+      }
+      return patients;
+    }
+  }
+
+  Patient recherche(List<Patient> patients) {
+    Patient patientR = null;
+    for (var pat in patients) {
+      if (pat.referencePatient == _reference) {
+        patientR = pat;
+      }
+    }
+    return patientR;
+  }
+
+  @override
+  void initState() {
+    getPatient();
+    //filter();
+    super.initState();
+  }
+
   final _formKey = GlobalKey<FormState>();
   String _reference;
   @override
@@ -98,6 +149,7 @@ class _FormPatient1State extends State<FormPatient1> {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: <Widget>[
                                 TextFormField(
+                                  maxLength: 9,
                                   decoration: InputDecoration(
                                     labelText: 'Référence CMU ',
                                     prefixIcon: Icon(Icons.code_rounded),
@@ -110,6 +162,9 @@ class _FormPatient1State extends State<FormPatient1> {
                                   validator: (value) {
                                     if (value.isEmpty) {
                                       return "le champs est obligatoire";
+                                    }
+                                    if (value.length < 9) {
+                                      return "le champs doit avoir 9 caractere";
                                     }
                                   },
                                   onChanged: (value) {
@@ -133,14 +188,137 @@ class _FormPatient1State extends State<FormPatient1> {
                                         // Scaffold.of(context).showSnackBar(SnackBar(
                                         //     content: Text('Traitement en cours')));
                                         _formKey.currentState.save();
-                                        if (_reference == "12345ref") {
-                                          Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
+                                        // if (_reference == "12345ref") {
+                                        //   Navigator.push(
+                                        //       context,
+                                        //       MaterialPageRoute(
+                                        //         builder: (context) =>
+                                        //             widget.page,
+                                        //       ));
+                                        // }
+
+                                        // ScaffoldMessenger.of(context)
+                                        //     .showSnackBar(SnackBar(
+                                        //   content: Text("Traitement en cours"),
+                                        //   backgroundColor: Colors.green,
+                                        // ));
+                                        recherche(patients) == null
+                                            ? showDialog(
+                                                barrierDismissible: false,
+                                                context: context,
                                                 builder: (context) =>
-                                                    widget.page,
-                                              ));
-                                        }
+                                                    AlertDialog(
+                                                      //elevation: 3,
+                                                      // shape:BorderRadius.circular(10)
+                                                      backgroundColor: Colors
+                                                          .white
+                                                          .withOpacity(0.8),
+                                                      // title: Text(
+                                                      //     "Il n'y pas de patient pour ce reference"),
+                                                      content: Container(
+                                                        height: MediaQuery.of(
+                                                                    context)
+                                                                .size
+                                                                .height *
+                                                            0.2,
+                                                        child: Column(
+                                                          children: [
+                                                            // Align(
+                                                            //   alignment:
+                                                            //       Alignment.topRight,
+                                                            //   child: IconButton(
+                                                            //     icon: Icon(
+                                                            //       Icons.close,
+                                                            //       size: 40,
+                                                            //     ),
+                                                            //     onPressed: () {
+                                                            //       Navigator.pop(context);
+                                                            //     },
+                                                            //   ),
+                                                            // ),
+                                                            CircleAvatar(
+                                                              child: Icon(
+                                                                Icons.error,
+                                                                size: 30,
+                                                                color: Colors
+                                                                    .white,
+                                                              ),
+                                                              radius: 40,
+                                                              backgroundColor:
+                                                                  Colors.red,
+                                                            ),
+                                                            SizedBox(
+                                                              height: 10,
+                                                            ),
+                                                            Text(
+                                                              "Il n'y pas de patient pour ce reference",
+                                                              style: TextStyle(
+                                                                fontStyle:
+                                                                    FontStyle
+                                                                        .italic,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                                fontSize: 14,
+                                                              ),
+                                                            ),
+                                                            SizedBox(
+                                                              height: 20,
+                                                            ),
+                                                            Text(
+                                                              "Voulez-vous réessayer ?",
+                                                              textAlign:
+                                                                  TextAlign
+                                                                      .center,
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                      actions: [
+                                                        FlatButton(
+                                                            color: Colors.red,
+                                                            onPressed: () {
+                                                              Navigator.push(
+                                                                  context,
+                                                                  MaterialPageRoute(
+                                                                      builder:
+                                                                          (context) =>
+                                                                              Volontaire()));
+                                                            },
+                                                            child: Text(
+                                                              "Quitter",
+                                                              style: TextStyle(
+                                                                color: Colors
+                                                                    .white,
+                                                              ),
+                                                            )),
+                                                        FlatButton(
+                                                            color: Colors.blue,
+                                                            onPressed: () {
+                                                              Navigator.pop(
+                                                                  context);
+                                                            },
+                                                            child: Text(
+                                                                'Réessayer'))
+                                                      ],
+                                                    ))
+                                            :
+                                            //recherche(patients)
+                                            // Navigator.push(
+                                            //     context,
+                                            //     MaterialPageRoute(
+                                            //         builder: (context) => ProfilPatient(
+                                            //               patient: recherche(patients),
+                                            //             )));
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        widget.page,
+                                                    settings: RouteSettings(
+                                                      arguments:
+                                                          recherche(patients),
+                                                    )));
                                       }
                                     },
                                     child: Text('Enregistrer'),

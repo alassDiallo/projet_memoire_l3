@@ -21,7 +21,7 @@ class _PageMessageState extends State<PageMessage> {
   IO.Socket socket;
 
   connection() {
-    socket = IO.io("http://10.156.81.236:3000/", <String, dynamic>{
+    socket = IO.io("http://192.168.43.100:3000/", <String, dynamic>{
       'transports': ['websocket'],
       'autoConnect': false
     });

@@ -7,6 +7,7 @@ import 'package:gestion_materiel_cmu/medecin/calendrier.dart';
 import 'package:gestion_materiel_cmu/medecin/listePatientJour.dart';
 import 'package:gestion_materiel_cmu/medecin/parametre.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:socket_io_client/socket_io_client.dart' as IO;
 import 'discussion.dart';
 import 'dart:async';
 import 'dart:convert';
@@ -18,28 +19,45 @@ class AccueilMedecin extends StatefulWidget {
 }
 
 class _AccueilMedecinState extends State<AccueilMedecin> {
+  IO.Socket socket;
+
+  @override
+  void initState() {
+    socket = IO.io("http://10.156.81.236:3000/", <String, dynamic>{
+      'transports': ['websocket'],
+    });
+    socket.connect();
+    socket.onConnect((data) => print("bonjour je suis connecter"));
+    socket.on("message", (data) => print("vous avez un nouveau message"));
+    print(socket.connected);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Colors.blue[50],
-        appBar: AppBar(automaticallyImplyLeading: false, actions: [
-          IconButton(
-            icon: Icon(Icons.message),
-            color: Colors.white,
-            onPressed: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => Messagerie()));
-            },
-          ),
-          IconButton(
-            icon: Icon(Icons.notifications),
-            onPressed: () {},
-          ),
-          IconButton(
-            icon: Icon(Icons.logout),
-            onPressed: _logout,
-          )
-        ]),
+        appBar: AppBar(
+            backgroundColor: Colors.blue[900],
+            automaticallyImplyLeading: false,
+            actions: [
+              IconButton(
+                icon: Icon(Icons.message),
+                color: Colors.white,
+                onPressed: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => Messagerie()));
+                },
+              ),
+              IconButton(
+                icon: Icon(Icons.notifications),
+                onPressed: () {},
+              ),
+              IconButton(
+                icon: Icon(Icons.logout),
+                onPressed: _logout,
+              )
+            ]),
         body: SingleChildScrollView(
           child: Container(
             //margin: EdgeInsets.only(left: 10, right: 10),
@@ -60,7 +78,7 @@ class _AccueilMedecinState extends State<AccueilMedecin> {
                       ],
                     ),
                     Container(
-                      margin: EdgeInsets.symmetric(horizontal: 30, vertical: 5),
+                      margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                       child: Table(children: [
                         TableRow(children: [
                           GestureDetector(
@@ -75,9 +93,9 @@ class _AccueilMedecinState extends State<AccueilMedecin> {
                                 //color: Colors.transparent,
                                 //margin: EdgeInsets.only(top: 20, right: 5),
                                 //margin: EdgeInsets.only(right: 20, left: 10),
-                                elevation: 10,
+                                elevation: 5,
                                 shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(30)),
+                                    borderRadius: BorderRadius.circular(20)),
                                 child: Container(
                                     margin: EdgeInsets.symmetric(
                                         vertical: 20, horizontal: 20),
@@ -117,9 +135,9 @@ class _AccueilMedecinState extends State<AccueilMedecin> {
                                 color: Colors.blue[100],
                                 margin: EdgeInsets.only(left: 5, bottom: 20),
                                 //margin: EdgeInsets.only(right: 20, left: 10),
-                                elevation: 10,
+                                elevation: 5,
                                 shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(30)),
+                                    borderRadius: BorderRadius.circular(20)),
                                 child: Container(
                                     margin: EdgeInsets.symmetric(
                                         vertical: 20, horizontal: 20),
@@ -160,9 +178,9 @@ class _AccueilMedecinState extends State<AccueilMedecin> {
                             child: Card(
                                 color: Colors.greenAccent[100],
                                 margin: EdgeInsets.only(right: 5),
-                                elevation: 10,
+                                elevation: 5,
                                 shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(30)),
+                                    borderRadius: BorderRadius.circular(20)),
                                 child: Container(
                                     margin: EdgeInsets.symmetric(
                                         vertical: 20, horizontal: 20),
@@ -202,9 +220,9 @@ class _AccueilMedecinState extends State<AccueilMedecin> {
                                 color: Colors.yellow[100],
                                 // margin: EdgeInsets.only(right: 10, left: 10),
                                 margin: EdgeInsets.only(left: 5),
-                                elevation: 0,
+                                elevation: 5,
                                 shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(30)),
+                                    borderRadius: BorderRadius.circular(20)),
                                 child: Container(
                                     margin: EdgeInsets.symmetric(
                                         vertical: 20, horizontal: 20),

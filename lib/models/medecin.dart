@@ -12,6 +12,7 @@ class Medecin {
       structure,
       region;
   DateTime dateDeNaissance;
+  int experience;
   int idSpecialite;
 
   Medecin(
@@ -27,6 +28,7 @@ class Medecin {
       this.sexe,
       this.libelleSpecialite,
       this.structure,
+      this.experience,
       this.region,
       this.telephone});
 }

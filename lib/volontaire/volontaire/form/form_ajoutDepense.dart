@@ -230,6 +230,12 @@ class _AjoutDepenseState extends State<AjoutDepense> {
       if (donnee.statusCode == 200) {
         print(donnee.body);
         _formKey.currentState.reset();
+        if (donnee['success'] != null) {
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text(donnee['success']),
+            backgroundColor: Colors.greenAccent,
+          ));
+        }
       }
     }
   }

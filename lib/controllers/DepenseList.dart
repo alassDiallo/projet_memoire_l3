@@ -9,8 +9,10 @@ class Depenselist {
   List<Depense> depenses = [];
 
   Future<void> getDepense() async {
-    String url = Connexion.url + "depenses";
-    var donneejs = await http.get(url);
+    String url = "auth/depenses";
+    var donneejs = await Connexion().recuperation(url);
+    // String url = Connexion.url + "depenses";
+    // var donneejs = await http.get(url);
     print(url);
     print(donneejs.body);
     if (donneejs.statusCode == 200) {
