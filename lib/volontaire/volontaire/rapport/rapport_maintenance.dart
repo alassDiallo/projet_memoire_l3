@@ -33,6 +33,8 @@ class _Rapport_MaintenanceState extends State<Rapport_Maintenance> {
         });
       }
       print(_materiels.length);
+      // print(mat());
+
     }
   }
 
@@ -73,12 +75,16 @@ class _Rapport_MaintenanceState extends State<Rapport_Maintenance> {
     } else {
       listeMat.remove(element);
     }
+    print(mat());
+    print(listeMat.length);
   }
 
   String mat() {
+    String mate = "";
     for (var mat in listeMat) {
-      return " ${mat.type}-${mat.libelle} ";
+      mate += " " + mat.type + "-" + mat.libelle;
     }
+    return mate;
   }
 
   void _submit() {
@@ -136,52 +142,54 @@ class _Rapport_MaintenanceState extends State<Rapport_Maintenance> {
             indent: 10,
             endIndent: 10,
           ),
-          Card(
-            // color: Colors.transparent,
-            elevation: 7,
-            shadowColor: Colors.blue,
-            margin: EdgeInsets.all(15),
-            child: DataTable(
-              // dividerThickness: true,
-              showBottomBorder: true,
-              columns: [
-                DataColumn(
-                  label: Text("Type"),
-                  numeric: false,
+          _materiels.isEmpty
+              ? Center(child: CircularProgressIndicator())
+              : Card(
+                  // color: Colors.transparent,
+                  elevation: 7,
+                  shadowColor: Colors.blue,
+                  margin: EdgeInsets.all(15),
+                  child: DataTable(
+                    // dividerThickness: true,
+                    showBottomBorder: true,
+                    columns: [
+                      DataColumn(
+                        label: Text("Type"),
+                        numeric: false,
+                      ),
+                      DataColumn(
+                        label: Text("libelle"),
+                        numeric: false,
+                      ),
+                    ],
+                    rows: _materiels
+                        .map(
+                          (materiel) => DataRow(
+                              selected: listeMat.contains(materiel),
+                              onSelectChanged: (b) {
+                                selctionner(b, materiel);
+                              },
+                              cells: [
+                                DataCell(
+                                  Text(materiel.type),
+                                  onTap: () {
+                                    // write your code..
+                                  },
+                                  // showEditIcon: true,
+                                ),
+                                DataCell(
+                                  Text(materiel.libelle),
+                                  onTap: () {
+                                    // write your code..
+                                  },
+                                  // showEditIcon: true,
+                                ),
+                              ]),
+                        )
+                        .toList(),
+                  ),
                 ),
-                DataColumn(
-                  label: Text("libelle"),
-                  numeric: false,
-                ),
-              ],
-              rows: _materiels
-                  .map(
-                    (materiel) => DataRow(
-                        selected: listeMat.contains(materiel),
-                        onSelectChanged: (b) {
-                          selctionner(b, materiel);
-                        },
-                        cells: [
-                          DataCell(
-                            Text(materiel.type),
-                            onTap: () {
-                              // write your code..
-                            },
-                            // showEditIcon: true,
-                          ),
-                          DataCell(
-                            Text(materiel.libelle),
-                            onTap: () {
-                              // write your code..
-                            },
-                            // showEditIcon: true,
-                          ),
-                        ]),
-                  )
-                  .toList(),
-            ),
-          ),
-          // Divider(),
+
           SizedBox(
             height: 50,
           ),
@@ -194,10 +202,9 @@ class _Rapport_MaintenanceState extends State<Rapport_Maintenance> {
                         barrierDismissible: false,
                         context: context,
                         builder: (context) => AlertDialog(
-                              //elevation: 3,
-                              // shape:BorderRadius.circular(10)
+                              elevation: 3,
                               shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(30)),
+                                  borderRadius: BorderRadius.circular(35)),
                               backgroundColor: Colors.white.withOpacity(0.8),
                               // title: Text(
                               //     "Il n'y pas de patient pour ce reference"),
@@ -266,7 +273,7 @@ class _Rapport_MaintenanceState extends State<Rapport_Maintenance> {
                               //elevation: 3,
                               // shape:BorderRadius.circular(10)
                               shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(20)),
+                                  borderRadius: BorderRadius.circular(35)),
                               backgroundColor: Colors.white.withOpacity(0.8),
 
                               content: Container(
@@ -289,6 +296,7 @@ class _Rapport_MaintenanceState extends State<Rapport_Maintenance> {
                                           readOnly: true,
                                           initialValue: mat(),
                                           //  _materiel,
+
                                           autovalidateMode: AutovalidateMode
                                               .onUserInteraction,
                                           decoration: InputDecoration(
@@ -359,12 +367,9 @@ class _Rapport_MaintenanceState extends State<Rapport_Maintenance> {
                                   ),
                                   child: Text('  Annuler  '),
                                 ),
-                                // Spacer(
-                                //   flex: 2,
-                                // ),
-                                // SizedBox(
-                                //   height: 10,
-                                // ),
+                                SizedBox(
+                                  height: 10,
+                                ),
                                 ElevatedButton(
                                   onPressed: _submit,
                                   style: ElevatedButton.styleFrom(

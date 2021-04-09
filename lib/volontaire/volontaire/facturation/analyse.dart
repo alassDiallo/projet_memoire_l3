@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:gestion_materiel_cmu/controllers/Connexion.dart';
 import 'package:gestion_materiel_cmu/controllers/ListeAnalyseP.dart';
 import 'package:gestion_materiel_cmu/models/Analyse.dart';
 import 'package:gestion_materiel_cmu/models/patient.dart';
 import 'package:gestion_materiel_cmu/volontaire/volontaire/form/form_ajoutAnalyse.dart';
+import 'dart:convert' as convert;
 
 class Analyse extends StatefulWidget {
   Analyse({Key key}) : super(key: key);
@@ -12,18 +14,51 @@ class Analyse extends StatefulWidget {
 }
 
 class _AnalyseState extends State<Analyse> {
-  double total;
-  List<AnalyseM> listeAnalys = [];
+  // double total;
+//  List<AnalyseM> listeAnalys = [];
   List<AnalyseM> listeAna = [];
-  AnalyselistP ana = AnalyselistP();
+//  AnalyselistP ana = AnalyselistP();
+
+  List<AnalyseM> analyses = [];
+
+  Future<void> getAnalyse() async {
+    String url = "auth/analysesPatient";
+    var donneejs = await Connexion().recuperation(url);
+    print(url);
+    print(donneejs.body);
+    if (donneejs.statusCode == 200) {
+      var donnee = convert.jsonDecode(donneejs.body);
+      for (var analyse in donnee) {
+        setState(() {
+          analyses.add(AnalyseM(
+            libelle: analyse["libelle"], prix: analyse["prix"].toDouble(),
+            // idPatient: analyse["idPatient"],
+          ));
+        });
+      }
+    }
+  }
 
   @override
   void initState() {
+    getAnalyse();
     super.initState();
-    listeAnalys = ana.analyses;
-    for (var analyse in listeAnalys) {
+    // listeAnalys = ana.analyses;
+  }
+
+  double somme() {
+    double total = 0;
+    for (var analyse in analyses) {
       total = total + analyse.prix;
     }
+    return total;
+  }
+
+  double montantP() {
+    double montantP = 0;
+    double montant = somme() * 0.8;
+
+    return montantP = somme() - montant;
   }
 
   void selctionner(bool b, AnalyseM element) async {
@@ -75,7 +110,7 @@ class _AnalyseState extends State<Analyse> {
               SizedBox(
                 height: 20,
               ),
-              Text(" Mes Matériels".toUpperCase(),
+              Text(" Analyses ".toUpperCase(),
                   textAlign: TextAlign.center,
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
@@ -99,51 +134,53 @@ class _AnalyseState extends State<Analyse> {
                 indent: 10,
                 endIndent: 10,
               ),
-              Card(
-                // color: Colors.transparent,
-                elevation: 7,
-                shadowColor: Colors.blue,
-                margin: EdgeInsets.all(15),
-                child: DataTable(
-                  // dividerThickness: true,
-                  showBottomBorder: true,
-                  columns: [
-                    DataColumn(
-                      label: Text("Description"),
-                      numeric: false,
+              analyses.isEmpty
+                  ? Center(child: CircularProgressIndicator())
+                  : Card(
+                      // color: Colors.transparent,
+                      elevation: 7,
+                      shadowColor: Colors.blue,
+                      margin: EdgeInsets.all(15),
+                      child: DataTable(
+                        // dividerThickness: true,
+                        showBottomBorder: true,
+                        columns: [
+                          DataColumn(
+                            label: Text("Description"),
+                            numeric: false,
+                          ),
+                          DataColumn(
+                            label: Text("Cout"),
+                            numeric: true,
+                          ),
+                        ],
+                        rows: analyses
+                            .map(
+                              (analyse) => DataRow(
+                                  selected: listeAna.contains(analyse),
+                                  onSelectChanged: (b) {
+                                    selctionner(b, analyse);
+                                  },
+                                  cells: [
+                                    DataCell(
+                                      Text(analyse.libelle),
+                                      onTap: () {
+                                        // write your code..
+                                      },
+                                      // showEditIcon: true,
+                                    ),
+                                    DataCell(
+                                      Text(analyse.prix.toString()),
+                                      onTap: () {
+                                        // write your code..
+                                      },
+                                      // showEditIcon: true,
+                                    ),
+                                  ]),
+                            )
+                            .toList(),
+                      ),
                     ),
-                    DataColumn(
-                      label: Text("Cout"),
-                      numeric: true,
-                    ),
-                  ],
-                  rows: listeAnalys
-                      .map(
-                        (analyse) => DataRow(
-                            selected: listeAna.contains(analyse),
-                            onSelectChanged: (b) {
-                              selctionner(b, analyse);
-                            },
-                            cells: [
-                              DataCell(
-                                Text(analyse.libelle),
-                                onTap: () {
-                                  // write your code..
-                                },
-                                // showEditIcon: true,
-                              ),
-                              DataCell(
-                                Text(analyse.prix.toString()),
-                                onTap: () {
-                                  // write your code..
-                                },
-                                // showEditIcon: true,
-                              ),
-                            ]),
-                      )
-                      .toList(),
-                ),
-              ),
               // Divider(),
               SizedBox(
                 height: 30,
@@ -172,8 +209,9 @@ class _AnalyseState extends State<Analyse> {
                             barrierDismissible: false,
                             context: context,
                             builder: (context) => AlertDialog(
-                                  //elevation: 3,
-                                  // shape:BorderRadius.circular(10)
+                                  elevation: 3,
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(35)),
                                   backgroundColor:
                                       Colors.white.withOpacity(0.8),
                                   // title: Text(
@@ -232,8 +270,9 @@ class _AnalyseState extends State<Analyse> {
                             barrierDismissible: false,
                             context: context,
                             builder: (context) => AlertDialog(
-                                  //elevation: 3,
-                                  // shape:BorderRadius.circular(10)
+                                  elevation: 3,
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(35)),
                                   backgroundColor:
                                       Colors.white.withOpacity(0.8),
                                   // title: Text(
@@ -245,22 +284,11 @@ class _AnalyseState extends State<Analyse> {
                                       mainAxisAlignment:
                                           MainAxisAlignment.start,
                                       children: [
-                                        // CircleAvatar(
-                                        //   child: Icon(
-                                        //     Icons.error,
-                                        //     size: 30,
-                                        //     color: Colors.white,
-                                        //   ),
-                                        //   radius: 40,
-                                        //   backgroundColor: Colors.red,
-                                        // ),
                                         Card(
-                                          // color: Colors.transparent,
                                           elevation: 2,
                                           shadowColor: Colors.blue,
                                           margin: EdgeInsets.all(5),
                                           child: DataTable(
-                                            // dividerThickness: true,
                                             showBottomBorder: true,
                                             columns: [
                                               DataColumn(
@@ -298,30 +326,118 @@ class _AnalyseState extends State<Analyse> {
                                         SizedBox(
                                           height: 10,
                                         ),
-                                        Text(
-                                          "Total :",
-                                          style: TextStyle(
-                                            fontStyle: FontStyle.italic,
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 14,
-                                          ),
+                                        Row(
+                                          children: [
+                                            Column(
+                                              children: [
+                                                Text(
+                                                  " Total    : ",
+                                                  style: TextStyle(
+                                                    fontStyle: FontStyle.italic,
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 17,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            Column(
+                                              children: [
+                                                Text(
+                                                  "   ${somme()} ",
+                                                  style: TextStyle(
+                                                    // fontStyle: FontStyle.normal,
+                                                    fontWeight: FontWeight.w700,
+                                                    fontSize: 14,
+                                                  ),
+                                                ),
+                                                // Divider(
+                                                //   thickness: 1,
+                                                //   color: Colors.black,
+                                                // )
+                                              ],
+                                            ),
+                                          ],
                                         ),
-                                        Text(
-                                          "Taux de Prise en charge :",
-                                          style: TextStyle(
-                                            fontStyle: FontStyle.italic,
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 14,
-                                          ),
+                                        Row(
+                                          children: [
+                                            Column(
+                                              children: [
+                                                Text(
+                                                  " % Prise en charge   : ",
+                                                  style: TextStyle(
+                                                    fontStyle: FontStyle.italic,
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 17,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            Column(
+                                              children: [
+                                                Text(
+                                                  "  80%  ",
+                                                  style: TextStyle(
+                                                    // fontStyle: FontStyle.normal,
+                                                    fontWeight: FontWeight.w700,
+                                                    fontSize: 14,
+                                                  ),
+                                                ),
+                                                // Divider(
+                                                //   thickness: 1,
+                                                //   color: Colors.black,
+                                                // )
+                                              ],
+                                            ),
+                                          ],
                                         ),
-                                        Text(
-                                          "Montant à payer :",
-                                          style: TextStyle(
-                                            fontStyle: FontStyle.italic,
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 14,
-                                          ),
+                                        Row(
+                                          children: [
+                                            Column(
+                                              children: [
+                                                Text(
+                                                  " Montant à payer   : ",
+                                                  style: TextStyle(
+                                                    fontStyle: FontStyle.italic,
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 17,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            Column(
+                                              children: [
+                                                Text(
+                                                  "   ${montantP()} ",
+                                                  style: TextStyle(
+                                                    // fontStyle: FontStyle.normal,
+                                                    fontWeight: FontWeight.w700,
+                                                    fontSize: 14,
+                                                  ),
+                                                ),
+                                                // Divider(
+                                                //   thickness: 1,
+                                                //   color: Colors.black,
+                                                // )
+                                              ],
+                                            ),
+                                          ],
                                         ),
+                                        // Text(
+                                        //   "Taux de Prise en charge   : ",
+                                        //   style: TextStyle(
+                                        //     fontStyle: FontStyle.italic,
+                                        //     fontWeight: FontWeight.bold,
+                                        //     fontSize: 17,
+                                        //   ),
+                                        // ),
+                                        // Text(
+                                        //   "Montant à payer   : ",
+                                        //   style: TextStyle(
+                                        //     fontStyle: FontStyle.italic,
+                                        //     fontWeight: FontWeight.bold,
+                                        //     fontSize: 17,
+                                        //   ),
+                                        // ),
                                       ],
                                     ),
                                   ),
@@ -339,17 +455,6 @@ class _AnalyseState extends State<Analyse> {
                   ),
                   child: Text('  Valider  '),
                 ),
-                // RaisedButton(
-                //   child: Text('Valider'),
-                //   onPressed: () {},
-                //   color: Colors.blueAccent,
-                //   textColor: Colors.white,
-                //   shape: RoundedRectangleBorder(
-                //     borderRadius: BorderRadius.circular(20),
-                //   ),
-                //   padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
-                //   splashColor: Colors.grey,
-                // ),
               ),
             ],
           ),
@@ -365,7 +470,6 @@ class _AnalyseState extends State<Analyse> {
                           patient: patient,
                         )));
           }),
-      // floatingActionButtonLocation: FloatingActionButtonLocation.,
     );
   }
 }

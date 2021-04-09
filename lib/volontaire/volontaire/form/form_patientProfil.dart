@@ -179,8 +179,10 @@ class _FormPatientProfilState extends State<FormPatientProfil> {
                                       barrierDismissible: false,
                                       context: context,
                                       builder: (context) => AlertDialog(
-                                            //elevation: 3,
-                                            // shape:BorderRadius.circular(10)
+                                            elevation: 3,
+                                            shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(35)),
                                             backgroundColor:
                                                 Colors.white.withOpacity(0.8),
                                             // title: Text(

@@ -208,8 +208,13 @@ class _FormPatient1State extends State<FormPatient1> {
                                                 context: context,
                                                 builder: (context) =>
                                                     AlertDialog(
-                                                      //elevation: 3,
-                                                      // shape:BorderRadius.circular(10)
+                                                      elevation: 3,
+                                                      shape:
+                                                          RoundedRectangleBorder(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          35)),
                                                       backgroundColor: Colors
                                                           .white
                                                           .withOpacity(0.8),

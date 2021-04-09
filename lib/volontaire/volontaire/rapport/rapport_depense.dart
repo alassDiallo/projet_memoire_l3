@@ -1,9 +1,11 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:gestion_materiel_cmu/controllers/Connexion.dart';
 import 'package:gestion_materiel_cmu/controllers/DepenseList.dart';
 import 'package:gestion_materiel_cmu/models/depense.dart';
 import 'package:gestion_materiel_cmu/volontaire/volontaire/form/form_ajoutDepense.dart';
+import 'dart:convert' as convert;
 
 class Rapport_Depense extends StatefulWidget {
   @override
@@ -11,15 +13,37 @@ class Rapport_Depense extends StatefulWidget {
 }
 
 class _Rapport_DepenseState extends State<Rapport_Depense> {
-  List<Depense> listeDepense = [];
+  List<Depense> depenses = [];
   List<Depense> listeDep = [];
 
-  Depenselist dep = Depenselist();
+//   Depenselist dep = Depenselist();
+//  List<Depense> depenses = [];
+
+  Future<void> getDepense() async {
+    String url = "auth/depenses";
+    var donneejs = await Connexion().recuperation(url);
+    // String url = Connexion.url + "depenses";
+    // var donneejs = await http.get(url);
+    print(url);
+    print(donneejs.body);
+    if (donneejs.statusCode == 200) {
+      var donnee = convert.jsonDecode(donneejs.body);
+      for (var depense in donnee) {
+        setState(() {
+          depenses.add(Depense(
+            description: depense["description"],
+            cout: depense["cout"].toDouble(),
+          ));
+        });
+      }
+    }
+  }
 
   @override
   void initState() {
+    getDepense();
     super.initState();
-    listeDepense = dep.depenses;
+    // listeDepense = dep.depenses;
   }
 
   void selctionner(bool b, Depense element) async {
@@ -39,7 +63,7 @@ class _Rapport_DepenseState extends State<Rapport_Depense> {
         List<Depense> tmp = [];
         tmp.addAll(listeDep);
         for (Depense dep in tmp) {
-          listeDepense.remove(dep);
+          depenses.remove(dep);
           listeDep.remove(dep);
         }
       }
@@ -97,39 +121,41 @@ class _Rapport_DepenseState extends State<Rapport_Depense> {
                   // ),
                   Column(
                     children: [
-                      DataTable(
-                        // dividerThickness: true,
-                        //showBottomBorder: true,
-                        columns: [
-                          DataColumn(
-                            label: Text("Description"),
-                          ),
-                          DataColumn(
-                            label: Text("Cout"),
-                          ),
-                          // DataColumn(
-                          //   label: Text("date"),
-                          //   numeric: false,
-                          // ),
-                        ],
-                        rows: listeDepense
-                            .map(
-                              (Depense depense) => DataRow(
-                                  selected: listeDep.contains(depense),
-                                  onSelectChanged: (b) {
-                                    selctionner(b, depense);
-                                  },
-                                  cells: [
-                                    DataCell(
-                                      Text(depense.description),
-                                    ),
-                                    DataCell(
-                                      Text(depense.cout.toString()),
-                                    ),
-                                  ]),
-                            )
-                            .toList(),
-                      ),
+                      depenses.isEmpty
+                          ? Center(child: CircularProgressIndicator())
+                          : DataTable(
+                              // dividerThickness: true,
+                              //showBottomBorder: true,
+                              columns: [
+                                DataColumn(
+                                  label: Text("Description"),
+                                ),
+                                DataColumn(
+                                  label: Text("Cout"),
+                                ),
+                                // DataColumn(
+                                //   label: Text("date"),
+                                //   numeric: false,
+                                // ),
+                              ],
+                              rows: depenses
+                                  .map(
+                                    (Depense depense) => DataRow(
+                                        selected: listeDep.contains(depense),
+                                        onSelectChanged: (b) {
+                                          selctionner(b, depense);
+                                        },
+                                        cells: [
+                                          DataCell(
+                                            Text(depense.description),
+                                          ),
+                                          DataCell(
+                                            Text(depense.cout.toString()),
+                                          ),
+                                        ]),
+                                  )
+                                  .toList(),
+                            ),
                       SizedBox(
                         height: 15,
                       ),

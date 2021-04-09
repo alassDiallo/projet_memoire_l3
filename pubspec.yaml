@@ -59,7 +59,6 @@ dependencies:
   web_socket_channel: ^2.0.0
   flutter_socket_io: ^0.6.0
   socket_io_client: ^0.9.12
-  
 
 dev_dependencies:
   flutter_test:

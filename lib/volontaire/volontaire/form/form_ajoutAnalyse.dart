@@ -40,7 +40,7 @@ class _AjoutAnalyseState extends State<AjoutAnalyse> {
         "idPatient": widget.patient.idPatient,
       };
       print(analyse);
-      var url = "auth/analyses";
+      var url = "auth/analyse";
       print(url);
       var donnee = await Connexion().envoideDonnnee(analyse, url);
 
