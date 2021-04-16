@@ -9,21 +9,21 @@ class Depenselist {
   List<Depense> depenses = [];
 
   Future<void> getDepense() async {
-    String url = "auth/depenses";
-    var donneejs = await Connexion().recuperation(url);
-    // String url = Connexion.url + "depenses";
-    // var donneejs = await http.get(url);
-    print(url);
-    print(donneejs.body);
-    if (donneejs.statusCode == 200) {
-      var donnee = convert.jsonDecode(donneejs.body);
-      for (var depense in donnee) {
-        depenses.add(Depense(
-          description: depense["description"],
-          cout: depense["cout"].toDouble(),
-        ));
-      }
-    }
+    String url = "auth/depense";
+    // var donneejs = await Connexion().recuperation(url);
+    // // String url = Connexion.url + "depenses";
+    // // var donneejs = await http.get(url);
+    // print(url);
+    // print(donneejs.body);
+    // if (donneejs.statusCode == 200) {
+    //   var donnee = convert.jsonDecode(donneejs.body);
+    //   for (var depense in donnee) {
+    //     depenses.add(Depense(
+    //       description: depense["description"],
+    //       cout: depense["cout"].toDouble(),
+    //     ));
+    //   }
+    // }
   }
 //    Future<void> addDepense(String description, String coup) async {
 

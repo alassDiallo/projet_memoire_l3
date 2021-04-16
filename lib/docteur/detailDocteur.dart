@@ -2,6 +2,7 @@ import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_formfield/flutter_datetime_formfield.dart';
 import 'package:gestion_materiel_cmu/controllers/Connexion.dart';
+import 'package:gestion_materiel_cmu/discussion/PageMessage.dart';
 import 'package:gestion_materiel_cmu/models/medecin.dart';
 import 'package:intl/intl.dart';
 import 'package:http/http.dart' as http;
@@ -146,7 +147,13 @@ class _DetailDocteurState extends State<DetailDocteur> {
                                     Icons.chat,
                                     color: Colors.yellow,
                                   ),
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                PageMessage()));
+                                  },
                                 )),
                             Container(
                               margin: EdgeInsets.symmetric(horizontal: 10),
@@ -182,7 +189,15 @@ class _DetailDocteurState extends State<DetailDocteur> {
                   height: 20,
                 ),
                 Text(
-                  "Notre choix est porté sur le modèle vu contrôleur (MVC) qui présente beaucoup d’avantages.Ce modèle permet de classer les différentes parties de l’application. Le modèle représente la partie logique de l’application c’est à dire les interactions avec la base de données, les traitements des opérations correspondants",
+                  "Dr. " +
+                      widget.medecin.prenom +
+                      "  " +
+                      widget.medecin.nom +
+                      "  specialite en " +
+                      widget.medecin.libelleSpecialite +
+                      " doté d'une experience de " +
+                      widget.medecin.experience +
+                      " ans dans ce domaine",
                   style: TextStyle(color: Colors.black.withOpacity(0.5)),
                 ),
               ],

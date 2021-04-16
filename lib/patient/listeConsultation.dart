@@ -43,7 +43,7 @@ class _ListeCState extends State<ListeC> {
               region: med["region"],
               telephone: med["telephone"],
               idMedecin: med["idMedecin"],
-              experience: int.parse(med["experience"]),
+              experience: med["experience"],
               structure: med["nomStructure"]));
         });
       }
@@ -330,7 +330,7 @@ class _ListeCState extends State<ListeC> {
                                   fontWeight: FontWeight.w200, fontSize: 16),
                             ),
                             Text(
-                              m.experience.toString() + " ans" ?? "2 ans",
+                              m.experience + " ans" ?? "2 ans",
                               style: TextStyle(
                                   fontSize: 18, fontWeight: FontWeight.bold),
                             )

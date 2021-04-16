@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:badges/badges.dart';
 import 'package:bubble_bottom_bar/bubble_bottom_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:gestion_materiel_cmu/Login.dart';
@@ -10,9 +11,10 @@ import 'package:gestion_materiel_cmu/map/map.dart';
 import 'package:gestion_materiel_cmu/notification/notification.dart';
 import 'package:gestion_materiel_cmu/patient/ItemConsultation.dart';
 import 'package:gestion_materiel_cmu/patient/historique.dart';
+import 'package:gestion_materiel_cmu/patient/MenuOption.dart';
 import 'package:gestion_materiel_cmu/patient/option.dart';
 import 'package:gestion_materiel_cmu/patient/slide.dart';
-import 'package:gestion_materiel_cmu/volontaire/widget_composant/menuCard.dart';
+import 'package:gestion_materiel_cmu/patient/MenuOption.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'listeConsultation.dart';
 import 'rendez_vous.dart';
@@ -30,15 +32,27 @@ class _AccueilPatientState extends State<AccueilPatient> {
   IO.Socket socket;
   int _currentIndex = 0;
   var patient;
+  int nbr = 0;
   @override
   void initState() {
+    // http://10.156.81.236
+
     token();
-    socket = IO.io("http://192.168.43.100:3000/", <String, dynamic>{
+    socket = IO.io("http://10.156.57.145:3000/", <String, dynamic>{
       'transports': ['websocket'],
     });
     socket.connect();
     socket.onConnect((data) => print("bonjour je suis connecter"));
-    socket.on("message", (data) => print("vous avez un nouveau message"));
+    socket.on("message", (data) {
+      setState(() {
+        nbr++;
+      });
+      print("vous avez un nouveau message");
+      return ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text("vous avez un nouveau message"),
+        backgroundColor: Colors.greenAccent,
+      ));
+    });
     print(socket.connected);
     super.initState();
   }
@@ -55,6 +69,12 @@ class _AccueilPatientState extends State<AccueilPatient> {
         // ),
         backgroundColor: Colors.white,
         appBar: AppBar(
+          backgroundColor: Colors.blue[900],
+          centerTitle: true,
+          title: Text(
+            "SENJICA",
+            style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+          ),
           actions: [
             PopupMenuButton(
                 //offset: Offset(100, 40),
@@ -63,6 +83,30 @@ class _AccueilPatientState extends State<AccueilPatient> {
           ],
         ),
         drawer: Drawers(),
+        // bottomNavigationBar: BottomNavigationBar(
+        //   onTap: (index) {
+        //     setState(() {
+        //       _currentIndex = index;
+        //     });
+        //     redirect(_currentIndex);
+        //   },
+        //   items: [
+        //     BottomNavigationBarItem(
+        //       title: Text("accueil"),
+        //       icon: Icon(Icons.home),
+        //     ),
+        //     BottomNavigationBarItem(
+        //       title: Text("message"),
+        //       icon: Icon(Icons.chat),
+        //     ),
+        //     BottomNavigationBarItem(
+        //       backgroundColor: Colors.blue,
+        //       // activeIcon: ,
+        //       title: Text("notification"),
+        //       icon: Icon(Icons.home),
+        //     )
+        //   ],
+        // ),
         bottomNavigationBar: BubbleBottomBar(
           onTap: (index) {
             setState(() {
@@ -86,21 +130,43 @@ class _AccueilPatientState extends State<AccueilPatient> {
                   color: Colors.blue[900],
                 ),
                 title: Text("Accueil"),
-                icon: Icon(
-                  Icons.home,
-                  color: Colors.black,
+                icon: Column(
+                  children: [
+                    Icon(
+                      Icons.home,
+                      color: Colors.black,
+                    ),
+                    Text("accueil"),
+                  ],
                 )),
             BubbleBottomBarItem(
-                title: Text("message"),
-                activeIcon: Icon(
-                  Icons.chat,
-                  color: Colors.blue[900],
-                ),
-                backgroundColor: Colors.blue[900],
-                icon: Icon(
-                  Icons.chat,
-                  color: Colors.black,
-                )),
+              title: Text("message"),
+              activeIcon: Icon(
+                Icons.chat,
+                color: Colors.blue[900],
+              ),
+              backgroundColor: Colors.red[900],
+              icon: nbr < 1
+                  ? Column(
+                      children: [
+                        Icon(Icons.chat, color: Colors.black),
+                        Text("Message")
+                      ],
+                    )
+                  : Badge(
+                      badgeColor: Colors.red,
+                      badgeContent: Text(
+                        nbr.toString(),
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      child: Column(
+                        children: [
+                          Icon(Icons.chat, color: Colors.black),
+                          Text("message")
+                        ],
+                      ),
+                    ),
+            ),
             BubbleBottomBarItem(
                 title: Text("notification"),
                 activeIcon: Icon(
@@ -108,25 +174,55 @@ class _AccueilPatientState extends State<AccueilPatient> {
                   color: Colors.blue[900],
                 ),
                 backgroundColor: Colors.blue[900],
-                icon: Icon(
-                  Icons.notifications,
-                  color: Colors.black,
+                icon: Column(
+                  children: [
+                    Icon(
+                      Icons.notifications,
+                      color: Colors.black,
+                    ),
+                    Text("notification")
+                  ],
                 ))
           ],
         ),
         body: SingleChildScrollView(
             child: Container(
                 margin: EdgeInsets.only(top: 0),
-                color: Colors.white,
+                //color: Colors.white,
                 child: Column(children: [
                   Container(
-                    child: Image.asset(
-                      "images/accueilP.jpg",
+                    height: MediaQuery.of(context).size.height * 0.3,
+                    child: Container(
+                      color: Colors.white.withOpacity(0.7),
+                      width: double.infinity,
+                      child: Container(
+                          child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            "Al Hassane Diallo",
+                            style: TextStyle(
+                                color: Colors.blue[900],
+                                fontSize: 40,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          Container(
+                            width: 100,
+                            child: Divider(
+                              thickness: 5,
+                              color: Colors.blue[900],
+                            ),
+                          )
+                        ],
+                      )),
                     ),
-                    height: MediaQuery.of(context).size.height * 0.23,
+                    decoration: BoxDecoration(
+                        image: DecorationImage(
+                            image: AssetImage("images/accueilP.jpg"),
+                            fit: BoxFit.contain)),
                   ),
                   Container(
-                    padding: EdgeInsets.symmetric(vertical: 20, horizontal: 5),
+                    padding: EdgeInsets.symmetric(vertical: 0, horizontal: 5),
                     child: Table(
                       children: [
                         TableRow(
@@ -138,12 +234,12 @@ class _AccueilPatientState extends State<AccueilPatient> {
                                     MaterialPageRoute(
                                         builder: (context) => ListeC()));
                               },
-                              child: MenuCard(
+                              child: MenuOption(
                                 text: "Consultation",
                                 icon: Image.asset("images/ac.jpg"),
-                                couleurCard: Colors.green,
+                                //couleurCard: Colors.green,
                                 couleurCircle: Colors.green,
-                                ctexte: Colors.white,
+                                //ctexte: Colors.white,
                               ),
                             ),
                             GestureDetector(
@@ -153,14 +249,14 @@ class _AccueilPatientState extends State<AccueilPatient> {
                                     MaterialPageRoute(
                                         builder: (context) => RendezVous()));
                               },
-                              child: MenuCard(
+                              child: MenuOption(
                                 text: "Rendez-vous",
                                 icon: Image.asset("images/rapport2.png"),
                                 couleurCard: Colors.deepPurpleAccent,
                                 couleurCircle: Colors.green,
                                 ctexte: Colors.white,
                               ),
-                            )
+                            ),
                           ],
                         ),
                         TableRow(children: [
@@ -171,7 +267,7 @@ class _AccueilPatientState extends State<AccueilPatient> {
                                   MaterialPageRoute(
                                       builder: (context) => Localisation()));
                             },
-                            child: MenuCard(
+                            child: MenuOption(
                               text: "MAP",
                               icon: Image.asset("images/map.png"),
                               couleurCard: Colors.red[900],
@@ -186,7 +282,7 @@ class _AccueilPatientState extends State<AccueilPatient> {
                                   MaterialPageRoute(
                                       builder: (context) => Historique()));
                             },
-                            child: MenuCard(
+                            child: MenuOption(
                               text: "Historique",
                               icon: Image.asset("images/images.png"),
                               couleurCard: Colors.orange,

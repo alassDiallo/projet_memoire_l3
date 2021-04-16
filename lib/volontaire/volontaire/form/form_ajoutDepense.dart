@@ -1,8 +1,9 @@
 import 'dart:ffi';
-import 'package:http/http.dart' as http;
+import 'package:gestion_materiel_cmu/models/depense.dart';
 import 'package:flutter/material.dart';
 import 'package:gestion_materiel_cmu/controllers/Connexion.dart';
-import 'package:gestion_materiel_cmu/controllers/DepenseList.dart';
+import 'dart:async';
+import 'dart:convert' as convert;
 
 class AjoutDepense extends StatefulWidget {
   @override
@@ -10,10 +11,12 @@ class AjoutDepense extends StatefulWidget {
 }
 
 class _AjoutDepenseState extends State<AjoutDepense> {
+  List<Depense> depenses = [];
   final _formKey = GlobalKey<FormState>();
   String _description;
   double _cout;
   DateTime _date;
+
   // Depenselist dep = Depenselist();
 
   DateTime selectedDate = DateTime.now();
@@ -32,6 +35,11 @@ class _AjoutDepenseState extends State<AjoutDepense> {
   }
 
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return
@@ -47,37 +55,6 @@ class _AjoutDepenseState extends State<AjoutDepense> {
       // height: size.height,
       child: Column(
         children: [
-          Card(
-            color: Colors.blue[900],
-            // color: coleur.withOpacity(0.4),
-            //elevation: 7,
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-            // bottomLeft: Radius.circular(40),
-            // bottomRight: Radius.circular(40))),
-            margin: EdgeInsets.fromLTRB(0, 1, 0, 15),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                SizedBox(
-                  height: 30,
-                ),
-                Container(
-                  padding: EdgeInsets.symmetric(
-                    vertical: 20,
-                  ),
-                  child: Text(
-                    "Ajouter une Dépense",
-                    style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white),
-                  ),
-                ),
-              ],
-            ),
-          ),
           // Divider(
           //   thickness: 2,
           //   indent: 10,
@@ -102,7 +79,8 @@ class _AjoutDepenseState extends State<AjoutDepense> {
                         ),
                       ),
                       // autovalidateMode: AutovalidateMode.onUserInteraction,
-                      keyboardType: TextInputType.text,
+                      keyboardType: TextInputType.multiline,
+                      maxLines: 5,
                       autovalidateMode: AutovalidateMode.onUserInteraction,
                       validator: (value) {
                         if (value.isEmpty) {
@@ -185,17 +163,17 @@ class _AjoutDepenseState extends State<AjoutDepense> {
                     Row(
                       children: [
                         Container(
-                          width: MediaQuery.of(context).size.width - 80,
+                          width: MediaQuery.of(context).size.width - 50,
                           child: ElevatedButton(
                             onPressed: _submit,
                             style: ElevatedButton.styleFrom(
-                              padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
+                              padding: EdgeInsets.symmetric(vertical: 20),
                               primary: Colors.blue,
                               textStyle: TextStyle(
                                 color: Colors.white,
                               ),
                               shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20),
+                                borderRadius: BorderRadius.circular(10),
                               ),
                             ),
                             child: Text('  Enregistrer  '),

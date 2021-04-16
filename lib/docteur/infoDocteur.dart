@@ -86,7 +86,7 @@ class Docteur extends StatelessWidget {
                               fontWeight: FontWeight.w200, fontSize: 12),
                         ),
                         Text(
-                          "2 ans",
+                          "${medecin.experience} ans" ?? "neant",
                           style: TextStyle(
                               fontSize: 12, fontWeight: FontWeight.bold),
                         )

@@ -32,6 +32,7 @@ class _MedecinsState extends State<Medecins> {
               region: med["region"],
               telephone: med['telephone'],
               idMedecin: med["idMedecin"],
+              experience: med["experience"],
               structure: med["nomStructure"]));
         });
       }
