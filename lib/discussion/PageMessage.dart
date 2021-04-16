@@ -17,11 +17,12 @@ class PageMessage extends StatefulWidget {
 enum MessageType { sender, receiver }
 
 class _PageMessageState extends State<PageMessage> {
+  ScrollController scrollController;
   var cle = GlobalKey<FormState>();
   IO.Socket socket;
 
   connection() {
-    socket = IO.io("http://192.168.43.100:3000/", <String, dynamic>{
+    socket = IO.io("http://10.156.57.145:3000/", <String, dynamic>{
       'transports': ['websocket'],
       'autoConnect': false
     });
@@ -34,6 +35,12 @@ class _PageMessageState extends State<PageMessage> {
         (data) => setState(() {
               list.add(Mess(message: data, type: MessageType.receiver));
             }));
+    // scrollController = ScrollController();
+    // scrollController.animateTo(
+    //   scrollController.position.maxScrollExtent,
+    //   duration: Duration(milliseconds: 600),
+    //   curve: Curves.ease,
+    // );
   }
 
   String mess = '';
@@ -47,12 +54,12 @@ class _PageMessageState extends State<PageMessage> {
         type: MessageType.receiver),
     Mess(message: "d'accord pour quand ?", type: MessageType.sender),
     Mess(
-        message: "bon c'est temps si j'ai souvent mal à la téte",
+        message: "bon ces temps si j'ai souvent mal à la téte",
         type: MessageType.receiver),
     Mess(
         message: "d'accords je vois tu as pris des medicaments",
         type: MessageType.sender),
-    Mess(message: "non j'en ai pas encore prix", type: MessageType.receiver),
+    Mess(message: "non pas encore", type: MessageType.receiver),
     // Mess(message: "Bonjour asane comment tu vas", type: MessageType.receiver),
     // Mess(message: "oui cva et toi", type: MessageType.sender),
     // Mess(message: "cva cool lou bess", type: MessageType.receiver),

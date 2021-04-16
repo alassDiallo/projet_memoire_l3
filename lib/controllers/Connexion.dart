@@ -7,9 +7,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class Connexion {
   //static final url = "http://10.156.91.79:51789/api/";
-
+  //static final url = "http://10.156.48.153:8000/api/";
   // static final url = "http://192.168.43.100:8000/api/";
-  static final url = "http://10.156.81.236:8000/api/";
+  static final url = "http://10.156.57.145:8000/api/";
+  //static final url = "http://10.156.81.236:8000/api/";
   //static final url = "http://10.156.49.249:8000/api/";
   //  static final url = "http://192.168.1.5:8080/api/";
 

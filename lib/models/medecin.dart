@@ -12,7 +12,7 @@ class Medecin {
       structure,
       region;
   DateTime dateDeNaissance;
-  int experience;
+  String experience;
   int idSpecialite;
 
   Medecin(

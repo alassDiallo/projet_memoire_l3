@@ -19,6 +19,7 @@ class _DrawersState extends State<Drawers> {
         child: ListView(
           children: [
             DrawerHeader(
+              decoration: BoxDecoration(color: Colors.blue[900]),
               child: Center(
                   child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -29,9 +30,19 @@ class _DrawersState extends State<Drawers> {
                     radius: 30,
                     foregroundColor: Colors.red,
                   ),
-                  Text(
-                    "Al Hassane Diallo",
-                    style: TextStyle(fontSize: 22),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "Al Hassane Diallo",
+                        style: TextStyle(fontSize: 22, color: Colors.white),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Text("774298343",
+                          style: TextStyle(fontSize: 22, color: Colors.white))
+                    ],
                   ),
                 ],
               )),
