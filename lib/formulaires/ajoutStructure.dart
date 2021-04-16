@@ -26,7 +26,7 @@ class _AjoutStructureState extends State<AjoutStructure> {
       // var donnee = convert.jsonDecode(data.body);
       // print(donnee);
       Map<String, dynamic> donnees = {
-        "nom": _nom,
+        "nomStructure": _nom,
         "region": _region,
         "adresse": _adresse,
         "telephone": _telephone

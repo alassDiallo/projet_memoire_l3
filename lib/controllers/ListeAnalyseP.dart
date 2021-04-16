@@ -9,7 +9,7 @@ class AnalyselistP {
   List<AnalyseM> analyses = [];
 
   Future<List<AnalyseM>> getAnalyse() async {
-    String url = "auth/analysesPatient";
+    String url = "auth/analyse";
     var donneejs = await Connexion().recuperation(url);
     print(url);
     print(donneejs.body);

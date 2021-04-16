@@ -94,22 +94,29 @@ class _ListePatientState extends State<ListePatient> {
     DateFormat df = DateFormat("dd/MM/yyyy");
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.pink,
         title: Text("Liste de mes patients du jour"),
       ),
       body: Column(
         children: [
           Card(
-              margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+              margin: EdgeInsets.symmetric(horizontal: 0, vertical: 0),
               color: Colors.pink,
               child: Container(
-                padding: EdgeInsets.only(left: 20),
-                height: MediaQuery.of(context).size.height * 0.15,
+                padding: EdgeInsets.only(left: 20, top: 20),
+                height: MediaQuery.of(context).size.height * 0.18,
                 width: double.infinity,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     Text(df.format(DateTime.now()).toString(),
                         style: TextStyle(color: Colors.white, fontSize: 20)),
+                    Divider(
+                      indent: 80,
+                      endIndent: 80,
+                      thickness: 5,
+                      color: Colors.white,
+                    ),
                     CircleAvatar(
                       backgroundColor: Colors.blue[900],
                       radius: 30,
@@ -173,41 +180,44 @@ class _ListePatientState extends State<ListePatient> {
                 //fit: BoxFit.cover)
                 ),
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Padding(
-                padding: EdgeInsets.all(20),
-                child: OutlineButton(
-                  child: Row(
-                    children: [
-                      Icon(
-                        Icons.check,
-                        color: Colors.green,
-                      ),
-                      Text("Selectionner ${l.length}"),
-                    ],
-                  ),
-                  onPressed: () {},
-                ),
-              ),
-              SizedBox(width: 20),
-              Padding(
-                padding: EdgeInsets.all(20),
-                child: OutlineButton(
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Padding(
+                  padding: EdgeInsets.all(20),
+                  child: OutlineButton(
                     child: Row(
                       children: [
                         Icon(
-                          Icons.delete_forever,
-                          color: Colors.red,
+                          Icons.check,
+                          color: Colors.green,
                         ),
-                        Text("Supprimer"),
+                        Text("Selectionner ${l.length}"),
                       ],
                     ),
-                    onPressed: l.isEmpty ? null : supprimer),
-              )
-            ],
+                    onPressed: () {},
+                  ),
+                ),
+                SizedBox(width: 20),
+                Padding(
+                  padding: EdgeInsets.all(20),
+                  child: OutlineButton(
+                      child: Row(
+                        children: [
+                          Icon(
+                            Icons.delete_forever,
+                            color: Colors.red,
+                          ),
+                          Text("Supprimer"),
+                        ],
+                      ),
+                      onPressed: l.isEmpty ? null : supprimer),
+                )
+              ],
+            ),
           )
         ],
       ),

@@ -17,6 +17,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'listeConsultation.dart';
 import 'rendez_vous.dart';
 import 'package:gestion_materiel_cmu/medecin/discussion.dart';
+import 'package:socket_io_client/socket_io_client.dart' as IO;
 import 'dart:convert' as convert;
 //import 'package:badges/badges.dart';
 
@@ -26,11 +27,19 @@ class AccueilPatient extends StatefulWidget {
 }
 
 class _AccueilPatientState extends State<AccueilPatient> {
+  IO.Socket socket;
   int _currentIndex = 0;
   var patient;
   @override
   void initState() {
     token();
+    socket = IO.io("http://192.168.43.100:3000/", <String, dynamic>{
+      'transports': ['websocket'],
+    });
+    socket.connect();
+    socket.onConnect((data) => print("bonjour je suis connecter"));
+    socket.on("message", (data) => print("vous avez un nouveau message"));
+    print(socket.connected);
     super.initState();
   }
 

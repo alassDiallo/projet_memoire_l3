@@ -48,7 +48,7 @@ class _AnalyseState extends State<Analyse> {
 
   double somme() {
     double total = 0;
-    for (var analyse in analyses) {
+    for (var analyse in listeAna) {
       total = total + analyse.prix;
     }
     return total;
@@ -285,9 +285,12 @@ class _AnalyseState extends State<Analyse> {
                                           MainAxisAlignment.start,
                                       children: [
                                         Card(
-                                          elevation: 2,
+                                          shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(13)),
+                                          elevation: 5,
                                           shadowColor: Colors.blue,
-                                          margin: EdgeInsets.all(5),
+                                          margin: EdgeInsets.all(7),
                                           child: DataTable(
                                             showBottomBorder: true,
                                             columns: [
@@ -324,7 +327,7 @@ class _AnalyseState extends State<Analyse> {
                                           ),
                                         ),
                                         SizedBox(
-                                          height: 10,
+                                          height: 20,
                                         ),
                                         Row(
                                           children: [
@@ -358,6 +361,9 @@ class _AnalyseState extends State<Analyse> {
                                             ),
                                           ],
                                         ),
+                                        SizedBox(
+                                          height: 10,
+                                        ),
                                         Row(
                                           children: [
                                             Column(
@@ -389,6 +395,9 @@ class _AnalyseState extends State<Analyse> {
                                               ],
                                             ),
                                           ],
+                                        ),
+                                        SizedBox(
+                                          height: 10,
                                         ),
                                         Row(
                                           children: [

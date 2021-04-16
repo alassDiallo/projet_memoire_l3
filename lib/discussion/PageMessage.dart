@@ -4,8 +4,10 @@ import 'package:gestion_materiel_cmu/discussion/chart_bubble.dart';
 import 'package:gestion_materiel_cmu/discussion/menu_plus.dart';
 import 'package:gestion_materiel_cmu/models/Message.dart';
 import 'appbar_disc.dart';
+import 'package:socket_io_client/socket_io_client.dart' as IO;
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
+import 'dart:convert';
 
 class PageMessage extends StatefulWidget {
   @override
@@ -16,6 +18,24 @@ enum MessageType { sender, receiver }
 
 class _PageMessageState extends State<PageMessage> {
   var cle = GlobalKey<FormState>();
+  IO.Socket socket;
+
+  connection() {
+    socket = IO.io("http://192.168.43.100:3000/", <String, dynamic>{
+      'transports': ['websocket'],
+      'autoConnect': false
+    });
+    socket.connect();
+    socket.onConnect((data) => print("bonjour je suis connecter"));
+    print(socket.connected);
+    //socket.emit("message", "bonjour serveur");
+    socket.on(
+        "message",
+        (data) => setState(() {
+              list.add(Mess(message: data, type: MessageType.receiver));
+            }));
+  }
+
   String mess = '';
   List<Mess> list = [
     Mess(
@@ -45,6 +65,8 @@ class _PageMessageState extends State<PageMessage> {
   void _enregistrer() {
     if (cle.currentState.validate()) {
       cle.currentState.save();
+      var message = Mess(message: mess, type: MessageType.sender);
+      socket.emit("message", mess);
       setState(() {
         list.add(
           Mess(message: mess, type: MessageType.sender),
@@ -210,6 +232,12 @@ class _PageMessageState extends State<PageMessage> {
                 ],
               ));
         });
+  }
+
+  @override
+  void initState() {
+    connection();
+    super.initState();
   }
 
   @override

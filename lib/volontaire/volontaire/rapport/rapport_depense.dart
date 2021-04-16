@@ -20,7 +20,7 @@ class _Rapport_DepenseState extends State<Rapport_Depense> {
 //  List<Depense> depenses = [];
 
   Future<void> getDepense() async {
-    String url = "auth/depenses";
+    String url = "auth/depense";
     var donneejs = await Connexion().recuperation(url);
     // String url = Connexion.url + "depenses";
     // var donneejs = await http.get(url);

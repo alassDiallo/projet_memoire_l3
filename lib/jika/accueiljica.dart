@@ -7,7 +7,11 @@ import 'package:gestion_materiel_cmu/formulaires/ajoutFournisseur.dart';
 import 'package:gestion_materiel_cmu/formulaires/ajoutMAteriel.dart';
 import 'package:gestion_materiel_cmu/formulaires/ajoutStructure.dart';
 import 'package:gestion_materiel_cmu/formulaires/ajoutVolontaire.dart';
+import 'package:gestion_materiel_cmu/jika/MaterielJica.dart';
+import 'package:gestion_materiel_cmu/jika/fournisseurJica.dart';
 import 'package:gestion_materiel_cmu/jika/statistique.dart';
+import 'package:gestion_materiel_cmu/jika/structureJica.dart';
+import 'package:gestion_materiel_cmu/jika/volontaireJica.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert' as convert;
 import 'comptabilite.dart';
@@ -240,8 +244,7 @@ class _AccueilJicaState extends State<AccueilJica> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) =>
-                                        AjoutVolontaireFormulaire()));
+                                    builder: (context) => VolontaireJica()));
                           },
                           child: option(
                               "13",
@@ -257,7 +260,7 @@ class _AccueilJicaState extends State<AccueilJica> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => AjoutStructure()));
+                                    builder: (context) => StructureJica()));
                           },
                           child: option(
                               "22",
@@ -275,7 +278,7 @@ class _AccueilJicaState extends State<AccueilJica> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => AjoutMateriel()));
+                                    builder: (context) => MaterielJica()));
                           },
                           child: option(
                             "13",
@@ -292,7 +295,7 @@ class _AccueilJicaState extends State<AccueilJica> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => AjoutFournisseur()));
+                                    builder: (context) => FournisseurJica()));
                           },
                           child: option(
                             "22",

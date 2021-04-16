@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:gestion_materiel_cmu/Login.dart';
+import 'package:gestion_materiel_cmu/controllers/Connexion.dart';
 
 import 'package:gestion_materiel_cmu/volontaire/volontaire/facturation/analyse.dart';
 import 'package:gestion_materiel_cmu/volontaire/volontaire/patient/consulation.dart';
@@ -12,6 +14,8 @@ import 'package:gestion_materiel_cmu/volontaire/widget_composant/menuCard.dart';
 import 'package:gestion_materiel_cmu/volontaire/widget_composant/menuItems_Drawer.dart';
 import 'package:gestion_materiel_cmu/volontaire/widget_composant/menucardR.dart';
 import 'package:gestion_materiel_cmu/volontaire/widget_composant/menucardR2.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:convert' as convert;
 
 class Volontaire extends StatefulWidget {
   @override
@@ -95,20 +99,27 @@ class _VolontaireState extends State<Volontaire> {
                   colors: [Colors.blue, Colors.white, Colors.blueAccent]),
             ),
           ),
-          ...this.menus.map((item) {
-            return Column(
-              children: <Widget>[
-                MenuItemsDrawer(item['title'], item['icon'], (context) {
-                  Navigator.pop(context);
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => item['page']));
-                }),
-                Divider(
-                  color: Colors.grey,
-                ),
-              ],
-            );
-          }),
+          ListTile(
+            leading: Icon(Icons.person),
+            title: Text('profil'),
+          ),
+          Divider(),
+          ListTile(
+            leading: Icon(Icons.lock),
+            title: Text('Modifer mot de passe'),
+          ),
+          Divider(),
+          ListTile(
+            leading: Icon(Icons.share),
+            title: Text("partager l'application"),
+          ),
+          Divider(),
+          ListTile(
+            leading: Icon(Icons.logout),
+            title: Text('se deconnecter'),
+            onTap: _logout,
+          ),
+          Divider(),
         ])),
         body: SingleChildScrollView(
           child: Container(
@@ -311,5 +322,17 @@ class _VolontaireState extends State<Volontaire> {
             ),
           ),
         ));
+  }
+
+  void _logout() async {
+    var res = await Connexion().deconnexion('auth/logout');
+    var body = convert.jsonDecode(res.body);
+    print(body);
+    if (body['success']) {
+      SharedPreferences localStorage = await SharedPreferences.getInstance();
+      localStorage.remove('user');
+      localStorage.remove('token');
+      Navigator.push(context, MaterialPageRoute(builder: (context) => Login()));
+    }
   }
 }

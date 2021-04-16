@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
@@ -7,13 +6,12 @@ import 'dart:async';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Connexion {
-  static final url = "http://192.168.43.25:8000/api/";
+  // static final url = "http://192.168.43.25:8000/api/";
   // static final url = "http://10.156.117.195:8000/api/";
   // static final url = "http://10.156.81.236:8000/api/";
-  // static final url = "http://10.156.91.86:8000/api/";
+  static final url = "http://192.168.43.25:8000/api/";
   // static final url = "http://10.156.112.139:8080/api/";
   // static final url = "http://169.254.88.50:8000/api/";
-
   var token;
 
   supprimer(lien) async {
