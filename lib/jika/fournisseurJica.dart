@@ -98,7 +98,7 @@ class _FournisseurJicaState extends State<FournisseurJica> {
               fournisseurs.isEmpty
                   ? Center(child: CircularProgressIndicator())
                   : SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
+                      scrollDirection: Axis.vertical,
                       child: Card(
                         // color: Colors.transparent,
                         elevation: 5,

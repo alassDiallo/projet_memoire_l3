@@ -1,7 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:gestion_materiel_cmu/controllers/Connexion.dart';
+import 'package:gestion_materiel_cmu/models/patient.dart';
+import 'dart:async';
+import 'dart:convert' as convert;
+
+import 'package:gestion_materiel_cmu/models/specialite.dart';
 
 class FormConsultation extends StatefulWidget {
-  FormConsultation({Key key}) : super(key: key);
+  Patient p;
+  FormConsultation({this.p});
 
   @override
   _FormConsultationState createState() => _FormConsultationState();
@@ -9,9 +16,25 @@ class FormConsultation extends StatefulWidget {
 
 class _FormConsultationState extends State<FormConsultation> {
   final _formKey = GlobalKey<FormState>();
+  List<Specialite> specialite = [];
   String _reference;
   String _specialite;
 
+  Future<void> listConsultation() async {
+    String url = "auth/listeC";
+    var donnee = await Connexion().recuperation(url);
+    print(donnee.body);
+    if (donnee.statusCode == 200) {
+      var d = convert.jsonDecode(donnee.body);
+      for (var sp in d) {
+        setState(() {
+          specialite.add(
+              Specialite(libelle: sp["libelle"], prix: sp["prixConsultation"]));
+        });
+      }
+      print(specialite);
+    }
+  }
   //   List<Materiel> _Specialites = [];
   // Future<void> getSpecialite() async {
   //   var url = Connexion.url + "prixConsultation";
@@ -40,6 +63,14 @@ class _FormConsultationState extends State<FormConsultation> {
   //   }
   //   return l;
   // }
+
+  @override
+  void initState() {
+    print(widget.p.telephone);
+    listConsultation();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -47,40 +78,72 @@ class _FormConsultationState extends State<FormConsultation> {
         Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Card(
-              color: Colors.blueAccent.withOpacity(0.1),
-              // color: coleur.withOpacity(0.4),
-              elevation: 7,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.circular(40),
-                      bottomRight: Radius.circular(40))),
-              margin: EdgeInsets.fromLTRB(0, 1, 0, 15),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  SizedBox(
-                    height: 30,
-                  ),
-                  Container(
-                    padding: EdgeInsets.symmetric(
-                      vertical: 20,
+            // Card(
+            //   color: Colors.blueAccent.withOpacity(0.1),
+            //   // color: coleur.withOpacity(0.4),
+            //   elevation: 7,
+            //   shape: RoundedRectangleBorder(
+            //       borderRadius: BorderRadius.only(
+            //           bottomLeft: Radius.circular(40),
+            //           bottomRight: Radius.circular(40))),
+            //   margin: EdgeInsets.fromLTRB(0, 1, 0, 15),
+            //   child: Row(
+            //     mainAxisAlignment: MainAxisAlignment.center,
+            //     crossAxisAlignment: CrossAxisAlignment.center,
+            //     children: [
+            //       SizedBox(
+            //         height: 30,
+            //       ),
+            Container(
+              height: 300,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                  image: DecorationImage(
+                      image: AssetImage("images/m.jpg"), fit: BoxFit.cover)),
+              child: Container(
+                child: Center(
+                    child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "Espace Consultation",
+                      style: TextStyle(
+                          fontSize: 40,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.blue[900]),
                     ),
-                    child: Text(
-                      "Choix spécialité et prix",
-                      style:
-                          TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
+                    Divider(
+                      color: Colors.blue[900],
+                      thickness: 8,
+                      indent: 50,
+                      endIndent: 50,
                     ),
-                  ),
-                ],
+                    Divider(
+                      color: Colors.blue[900],
+                      thickness: 8,
+                      indent: 70,
+                      endIndent: 50,
+                    ),
+                    Divider(
+                      color: Colors.blue[900],
+                      thickness: 8,
+                      indent: 90,
+                      endIndent: 50,
+                    ),
+                  ],
+                )),
+                color: Colors.white.withOpacity(.4),
               ),
             ),
-            Divider(
-              thickness: 5,
-              indent: 10,
-              endIndent: 10,
-            ),
+            //       ),
+            //     ],
+            //   ),
+            // ),
+            // Divider(
+            //   thickness: 5,
+            //   indent: 10,
+            //   endIndent: 10,
+            // ),
             Container(
               margin: EdgeInsets.all(20),
               child: Form(
@@ -89,7 +152,7 @@ class _FormConsultationState extends State<FormConsultation> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
                       SizedBox(
-                        height: 20,
+                        height: 10,
                       ),
 
                       // TextFormField(
@@ -111,26 +174,16 @@ class _FormConsultationState extends State<FormConsultation> {
                       //   height: 20,
                       // ),
                       DropdownButtonFormField<String>(
-                        items: [
-                          DropdownMenuItem<String>(
-                            value: "17000",
-                            child: Text(
-                              "General",
-                            ),
-                          ),
-                          DropdownMenuItem<String>(
-                            value: "7000",
-                            child: Text(
-                              "Gynécologie",
-                            ),
-                          ),
-                          DropdownMenuItem<String>(
-                            value: "13000",
-                            child: Text(
-                              "Cardiologie",
-                            ),
-                          ),
-                        ],
+                        items: specialite
+                            .map(
+                              (e) => DropdownMenuItem<String>(
+                                value: e.prix.toString(),
+                                child: Text(
+                                  e.libelle,
+                                ),
+                              ),
+                            )
+                            .toList(),
                         validator: (value) {
                           if (value == null) {
                             return "le champs est obligatoire";
@@ -171,70 +224,154 @@ class _FormConsultationState extends State<FormConsultation> {
                       //shape:,
 
                       Card(
-                        color: Colors.green.withOpacity(0.5),
+                        color: Colors.blue[900],
                         // color: coleur.withOpacity(0.4),
                         elevation: 7,
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.only(
                                 topRight: Radius.circular(10),
-                                bottomLeft: Radius.circular(60),
-                                bottomRight: Radius.circular(60))),
+                                bottomLeft: Radius.circular(10),
+                                bottomRight: Radius.circular(10))),
                         margin: EdgeInsets.fromLTRB(10, 10, 10, 15),
                         child: Container(
                           margin: EdgeInsets.all(30),
                           child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              TextFormField(
-                                readOnly: true,
-                                initialValue: _specialite,
-                                decoration: InputDecoration(
-                                    prefixIcon:
-                                        Icon(Icons.monetization_on_outlined),
-                                    labelText: 'Prix',
-                                    hintText: _specialite,
-                                    border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(25.0),
-                                      borderSide: BorderSide(),
-                                    )),
+                              Text(
+                                "Detail Consultation",
+                                style: TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white),
+                              ),
+                              Divider(
+                                color: Colors.white,
+                              ),
+                              SizedBox(
+                                height: 6,
+                              ),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    "Prix Consultation : ",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white),
+                                  ),
+                                  Text(
+                                    _specialite != null
+                                        ? _specialite + " Fcfa"
+                                        : "",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white),
+                                  )
+                                ],
                               ),
                               SizedBox(
                                 height: 20,
                               ),
-                              TextField(
-                                readOnly: true,
-                                decoration: InputDecoration(
-                                    prefixIcon:
-                                        Icon(Icons.monetization_on_outlined),
-                                    labelText: 'Total à payer',
-                                    border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(25.0),
-                                      borderSide: BorderSide(),
-                                    )),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    "Prise en Charge (80%) : ",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white),
+                                  ),
+                                  Text(
+                                    _specialite != null
+                                        ? (int.parse(_specialite) * 0.8)
+                                                .toString() +
+                                            " Fcfa"
+                                        : "",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white),
+                                  )
+                                ],
                               ),
+                              SizedBox(
+                                height: 20,
+                              ),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    "Charge Patient (20%) : ",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white),
+                                  ),
+                                  Text(
+                                    _specialite != null
+                                        ? (int.parse(_specialite) * 0.2)
+                                                .toString() +
+                                            " Fcfa"
+                                        : "",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white),
+                                  )
+                                ],
+                              )
+                              // TextFormField(
+                              //   readOnly: true,
+                              //   initialValue: _specialite,
+                              //   decoration: InputDecoration(
+                              //       prefixIcon:
+                              //           Icon(Icons.monetization_on_outlined),
+                              //       labelText: 'Prix',
+                              //       hintText: _specialite,
+                              //       border: OutlineInputBorder(
+                              //         borderRadius: BorderRadius.circular(25.0),
+                              //         borderSide: BorderSide(),
+                              //       )),
+                              // ),
+                              // SizedBox(
+                              //   height: 20,
+                              // ),
+                              // TextField(
+                              //   readOnly: true,
+                              //   decoration: InputDecoration(
+                              //       prefixIcon:
+                              //           Icon(Icons.monetization_on_outlined),
+                              //       labelText: 'Total à payer',
+                              //       border: OutlineInputBorder(
+                              //         borderRadius: BorderRadius.circular(25.0),
+                              //         borderSide: BorderSide(),
+                              //       )),
+                              // ),
                             ],
                           ),
                         ),
                       ),
 
                       SizedBox(
-                        height: 30,
+                        height: 5,
                       ),
 
                       Container(
-                        width: MediaQuery.of(context).size.width - 100,
+                        width: MediaQuery.of(context).size.width - 60,
                         child: ElevatedButton(
                           onPressed: _submit,
                           style: ElevatedButton.styleFrom(
-                            padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
-                            primary: Colors.blue,
+                            padding: EdgeInsets.fromLTRB(10, 20, 20, 20),
+                            primary: Colors.blue[900],
                             textStyle: TextStyle(
                               color: Colors.white,
                             ),
                             shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20),
+                              borderRadius: BorderRadius.circular(10),
                             ),
                           ),
-                          child: Text('  Enregistrer  '),
+                          child: Text('  valider  '),
                         ),
                       ),
                     ]),
@@ -246,11 +383,38 @@ class _FormConsultationState extends State<FormConsultation> {
     );
   }
 
-  void _submit() {
+  Future<void> _submit() async {
     if (_formKey.currentState.validate()) {
-      Scaffold.of(context)
-          .showSnackBar(SnackBar(content: Text('Traitement en cours')));
+      // _formKey.currentState.save();
+
+      // Scaffold.of(context)
+      //     .showSnackBar(SnackBar(content: Text('Traitement en cours')));
       _formKey.currentState.save();
+      Map<String, dynamic> patient = {
+        "infoPatient": widget.p.telephone,
+        "cout": _specialite,
+        "type": "consultation"
+      };
+      String url = "auth/facture";
+
+      var donnee = await Connexion().envoideDonnnee(patient, url);
+      print(donnee.body);
+      if (donnee.statusCode == 200) {
+        print(url);
+        var d = convert.jsonDecode(donnee.body);
+        if (d['success']) {
+          Scaffold.of(context).showSnackBar(SnackBar(
+            content: Text("consultation enregistrée avec succées"),
+            backgroundColor: Colors.greenAccent,
+          ));
+          _formKey.currentState.reset();
+        } else {
+          Scaffold.of(context).showSnackBar(SnackBar(
+            content: Text("erreur d'enregistrement vueillez reésseyer"),
+            backgroundColor: Colors.red,
+          ));
+        }
+      }
     }
   }
 }

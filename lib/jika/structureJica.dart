@@ -27,7 +27,7 @@ class _StructureJicaState extends State<StructureJica> {
         setState(() {
           structures.add(Structure(
             nom: structure["nomStructure"],
-            telephone: structure["telephone"],
+            telephone: structure["telephoneStructure"],
             region: structure["region"],
             adresse: structure["adresse"],
 
@@ -49,7 +49,7 @@ class _StructureJicaState extends State<StructureJica> {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
-        title: Text('Materiel'),
+        title: Text('Structures'),
         centerTitle: true,
       ),
       body: SingleChildScrollView(
@@ -66,7 +66,7 @@ class _StructureJicaState extends State<StructureJica> {
               SizedBox(
                 height: 20,
               ),
-              Text(" Materiel ".toUpperCase(),
+              Text(" Structures ".toUpperCase(),
                   textAlign: TextAlign.center,
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
@@ -84,12 +84,12 @@ class _StructureJicaState extends State<StructureJica> {
               structures.isEmpty
                   ? Center(child: CircularProgressIndicator())
                   : SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
+                      ///scrollDirection: Axis.horizontal,
                       child: Card(
                         // color: Colors.transparent,
                         elevation: 5,
                         shadowColor: Colors.blue,
-                        margin: EdgeInsets.all(10),
+                        //margin: EdgeInsets.all(10),
                         child: DataTable(
                           //  dividerThickness: true,
                           showBottomBorder: true,

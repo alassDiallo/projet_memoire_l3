@@ -161,7 +161,7 @@ class _VolontaireState extends State<Volontaire> {
                                       )));
                         },
                         child: MenuCard(
-                          text: "Consultation",
+                          text: "Consultation\n",
                           icon: Image.asset("images/ac.jpg"),
                           couleurCard: Colors.white,
                           couleurCircle: Colors.green,
@@ -179,7 +179,7 @@ class _VolontaireState extends State<Volontaire> {
                         },
                         child: Container(
                           child: MenuCard(
-                              text: "  Analyse ",
+                              text: "Ordonnace \net Analyse ",
                               icon: Image.asset("images/rapport2.png"),
                               couleurCard: Colors.white,
                               couleurCircle: Colors.blue),

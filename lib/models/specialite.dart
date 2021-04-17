@@ -2,7 +2,7 @@ class Specialite {
   int idSpecialite;
   String reference;
   String libelle;
-  double prix;
+  int prix;
 
   Specialite({this.idSpecialite, this.libelle, this.prix, this.reference});
 }

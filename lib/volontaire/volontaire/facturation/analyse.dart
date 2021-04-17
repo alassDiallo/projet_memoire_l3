@@ -14,6 +14,7 @@ class Analyse extends StatefulWidget {
 }
 
 class _AnalyseState extends State<Analyse> {
+  Widget page;
   // double total;
 //  List<AnalyseM> listeAnalys = [];
   List<AnalyseM> listeAna = [];
@@ -90,6 +91,7 @@ class _AnalyseState extends State<Analyse> {
       ),
       body: SingleChildScrollView(
         child: Container(
+          margin: EdgeInsets.symmetric(vertical: 20),
           // width: double.infinity,
           // //height: size.height,
           // decoration: BoxDecoration(
@@ -100,25 +102,38 @@ class _AnalyseState extends State<Analyse> {
           // ),
           child: Column(
             children: [
-              SizedBox(
-                height: 10,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  OutlineButton(
+                    onPressed: () {},
+                    child: Text("Orodnnance"),
+                  ),
+                  OutlineButton(
+                    onPressed: () {},
+                    child: Text("Analyse"),
+                  )
+                ],
               ),
-              CircleAvatar(
-                radius: 35,
-                child: Icon(Icons.toll_rounded),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              Text(" Analyses ".toUpperCase(),
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 15,
-                      fontStyle: FontStyle.italic)),
-              SizedBox(
-                height: 10,
-              ),
+              // SizedBox(
+              //   height: 10,
+              // ),
+              // CircleAvatar(
+              //   radius: 35,
+              //   child: Icon(Icons.toll_rounded),
+              // ),
+              // SizedBox(
+              //   height: 20,
+              // ),
+              // Text(" Analyses ".toUpperCase(),
+              //     textAlign: TextAlign.center,
+              //     style: TextStyle(
+              //         fontWeight: FontWeight.bold,
+              //         fontSize: 15,
+              //         fontStyle: FontStyle.italic)),
+              // SizedBox(
+              //   height: 10,
+              // ),
               // Container(
               //   width: double.infinity,
 

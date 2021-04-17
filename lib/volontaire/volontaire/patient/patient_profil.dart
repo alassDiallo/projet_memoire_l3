@@ -128,17 +128,17 @@ class _ProfilPatientState extends State<ProfilPatient> {
                               ],
                             ),
                             SizedBox(height: 25),
-                            // Row(
-                            //   children: [
-                            //     Icon(
-                            //       Icons.date_range_sharp,
-                            //       color: Colors.red,
-                            //     ),
-                            //     Text("Date de naissance : "),
-                            //     Text("${widget.patient.dateDeNaissance}"),
-                            //   ],
-                            // ),
-                            // SizedBox(height: 30),
+                            Row(
+                              children: [
+                                Icon(
+                                  Icons.date_range_sharp,
+                                  color: Colors.blue,
+                                ),
+                                Text("Date de naissance : "),
+                                Text("${widget.patient.dateDeNaissance}"),
+                              ],
+                            ),
+                            SizedBox(height: 30),
                             Row(
                               children: [
                                 Icon(
@@ -156,7 +156,7 @@ class _ProfilPatientState extends State<ProfilPatient> {
                             Row(
                               children: [
                                 Icon(
-                                  Icons.location_city_outlined,
+                                  Icons.home,
                                   color: Colors.blue,
                                 ),
                                 Text("Adresse : ",
@@ -183,7 +183,7 @@ class _ProfilPatientState extends State<ProfilPatient> {
                                   Icons.format_list_numbered_rounded,
                                   color: Colors.blue,
                                 ),
-                                Text("C N I : ",
+                                Text("Numero CIN/Passe-port : ",
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 17)),
