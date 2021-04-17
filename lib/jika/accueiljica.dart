@@ -23,10 +23,29 @@ class AccueilJica extends StatefulWidget {
 
 class _AccueilJicaState extends State<AccueilJica> {
   var admin;
+  double _total, _achatMat, _anaOrd, _consul, _depV;
+  double depI = 2000.00;
+
+  Future<void> finance() async {
+    var url = "auth/finance";
+    var donnee = await Connexion().recuperation(url);
+    print(donnee.body);
+    if (donnee.statusCode == 200) {
+      var d = convert.jsonDecode(donnee.body);
+      setState(() {
+        _achatMat = double.parse(d['achatM'].toString());
+        _anaOrd = double.parse(d['anaOrd'].toString());
+        _consul = double.parse(d['cons'].toString());
+        _depV = double.parse(d['depenseV'].toString());
+        _total = _achatMat + _anaOrd + _consul + _depV + depI;
+      });
+    }
+  }
 
   @override
   void initState() {
     token();
+    finance();
     super.initState();
   }
 
@@ -80,7 +99,14 @@ class _AccueilJicaState extends State<AccueilJica> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => Comptabilite()));
+                                builder: (context) => Comptabilite(
+                                      achatMat: _achatMat,
+                                      anaOrd: _anaOrd,
+                                      consul: _consul,
+                                      depI: depI,
+                                      depV: _depV,
+                                      total: _total,
+                                    )));
                       },
                       child: Card(
                         margin:
@@ -113,9 +139,16 @@ class _AccueilJicaState extends State<AccueilJica> {
                                         height: 10,
                                       ),
                                       Text(
-                                        "15000000 ",
+                                        _total.toString(),
                                         style: TextStyle(
                                             color: Colors.white, fontSize: 30),
+                                      ),
+                                      Divider(
+                                        color: Colors.white,
+                                      ),
+                                      Text(
+                                        "Fcfa",
+                                        style: TextStyle(color: Colors.white),
                                       ),
                                     ],
                                   ),

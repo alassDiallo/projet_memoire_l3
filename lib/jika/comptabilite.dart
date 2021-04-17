@@ -1,6 +1,48 @@
 import 'package:flutter/material.dart';
+import 'dart:async';
+import 'dart:convert' as convert;
 
-class Comptabilite extends StatelessWidget {
+import 'package:gestion_materiel_cmu/controllers/Connexion.dart';
+
+class Comptabilite extends StatefulWidget {
+  double total, achatMat, anaOrd, consul, depV, depI;
+
+  Comptabilite(
+      {this.achatMat,
+      this.anaOrd,
+      this.consul,
+      this.depV,
+      this.total,
+      this.depI});
+  @override
+  _ComptabiliteState createState() => _ComptabiliteState();
+}
+
+class _ComptabiliteState extends State<Comptabilite> {
+  //double depI = 2000.00;
+
+  // Future<void> finance() async {
+  //   var url = "auth/finance";
+  //   var donnee = await Connexion().recuperation(url);
+  //   print(donnee.body);
+  //   if (donnee.statusCode == 200) {
+  //     var d = convert.jsonDecode(donnee.body);
+  //     setState(() {
+  //       _achatMat = double.parse(d['achatM'].toString());
+  //       _anaOrd = double.parse(d['anaOrd'].toString());
+  //       _consul = double.parse(d['cons'].toString());
+  //       _depV = double.parse(d['depenseV'].toString());
+  //       _total = _achatMat + _anaOrd + _consul + _depV + depI;
+  //     });
+  //   }
+  // }
+
+  @override
+  void initState() {
+    // finance();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -18,7 +60,7 @@ class Comptabilite extends StatelessWidget {
               child: Container(
                 margin: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Text(
                       "Votre Comptabilite finance",
@@ -29,8 +71,17 @@ class Comptabilite extends StatelessWidget {
                       height: 6,
                     ),
                     Text(
-                      "15000000.00  Franc CFA",
+                      widget.total.toString(),
                       style: TextStyle(color: Colors.white, fontSize: 30),
+                    ),
+                    Divider(
+                      indent: 80,
+                      endIndent: 80,
+                      color: Colors.white,
+                    ),
+                    Text(
+                      "Fcfa",
+                      style: TextStyle(color: Colors.white),
                     ),
                     Row(
                       children: [
@@ -227,7 +278,7 @@ class Comptabilite extends StatelessWidget {
                           backgroundColor: Colors.green,
                         ),
                         trailing: Text(
-                          "145390",
+                          widget.achatMat.toString(),
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
                       ),
@@ -243,7 +294,7 @@ class Comptabilite extends StatelessWidget {
                           backgroundColor: Colors.deepPurple[900],
                         ),
                         trailing: Text(
-                          "145390",
+                          widget.anaOrd.toString(),
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
                       ),
@@ -259,7 +310,7 @@ class Comptabilite extends StatelessWidget {
                           backgroundColor: Colors.orange,
                         ),
                         trailing: Text(
-                          "145390",
+                          widget.consul.toString(),
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
                       ),
@@ -275,7 +326,7 @@ class Comptabilite extends StatelessWidget {
                           backgroundColor: Colors.greenAccent,
                         ),
                         trailing: Text(
-                          "145390",
+                          widget.depV.toString(),
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
                       ),
@@ -291,7 +342,7 @@ class Comptabilite extends StatelessWidget {
                           backgroundColor: Colors.redAccent,
                         ),
                         trailing: Text(
-                          "145390",
+                          widget.depI.toString(),
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
                       ),

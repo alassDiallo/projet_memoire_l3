@@ -20,6 +20,7 @@ class _LoginState extends State<Login> {
   final cle = GlobalKey<FormState>();
   String _login;
   String _motDePass;
+  bool _obscureText = true;
 
   Future<void> _connexion() async {
     if (cle.currentState.validate()) {
@@ -146,7 +147,7 @@ class _LoginState extends State<Login> {
                                 borderRadius: BorderRadius.circular(29),
                               ),
                               child: TextFormField(
-                                  obscureText: true,
+                                  obscureText: _obscureText,
                                   onSaved: (String mp) {
                                     setState(() {
                                       _motDePass = mp;
@@ -163,7 +164,15 @@ class _LoginState extends State<Login> {
                                     }
                                   },
                                   decoration: InputDecoration(
-                                      suffixIcon: Icon(Icons.visibility),
+                                      suffixIcon: GestureDetector(
+                                          onTap: () {
+                                            setState(() {
+                                              _obscureText = !_obscureText;
+                                            });
+                                          },
+                                          child: _obscureText
+                                              ? Icon(Icons.visibility)
+                                              : Icon(Icons.visibility_off)),
                                       hintText: "entrez votre mot de passe",
                                       fillColor: Colors.blue,
                                       icon: Icon(Icons.lock),

@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:charts_flutter/flutter.dart' as chart;
+import 'package:gestion_materiel_cmu/controllers/Connexion.dart';
 import 'package:gestion_materiel_cmu/jika/statMois.dart';
+import 'dart:async';
+import 'dart:convert' as convert;
+
+import 'package:intl/intl.dart';
 
 class Statistique extends StatefulWidget {
   @override
@@ -8,9 +13,59 @@ class Statistique extends StatefulWidget {
 }
 
 class _StatistiqueState extends State<Statistique> {
+  var f = NumberFormat("###.0#", "en_US");
+  double _total, _achatMat, _anaOrd, _consul, _depV;
+  double depI = 2000.00;
+  List<Tache> _d = [];
   List<chart.Series<Tache, String>> serie;
   List<chart.Series<Structures, String>> strc;
   List<chart.Series<Annee, int>> annees;
+  Future<void> finance() async {
+    var url = "auth/finance";
+    var donnee = await Connexion().recuperation(url);
+    print(donnee.body);
+    if (donnee.statusCode == 200) {
+      var d = convert.jsonDecode(donnee.body);
+      setState(() {
+        _achatMat = double.parse(d['achatM'].toString());
+        _anaOrd = double.parse(d['anaOrd'].toString());
+        _consul = double.parse(d['cons'].toString());
+        _depV = double.parse(d['depenseV'].toString());
+        _total = _achatMat + _anaOrd + _consul + _depV + depI;
+      });
+    }
+    _d.add(
+      Tache(
+          couleur: Color(0xff3366cc),
+          nom: "Achat de materiel",
+          valeur: _achatMat > 0
+              ? double.parse(f.format(_achatMat * 100 / _total))
+              : 0),
+    );
+    _d.add(Tache(
+        couleur: Color(0xff990099),
+        nom: "analyse et ordonnance",
+        valeur:
+            _anaOrd > 0 ? double.parse(f.format(_anaOrd * 100 / _total)) : 0));
+    _d.add(Tache(
+        couleur: Color(0xff109618),
+        nom: "consultation",
+        valeur:
+            _consul > 0 ? double.parse(f.format(_consul * 100 / _total)) : 0));
+    _d.add(
+      Tache(
+          couleur: Color(0xfffdbe19),
+          nom: "depense volontaire",
+          valeur: _depV > 0 ? double.parse(f.format(_depV * 100 / _total)) : 0),
+    );
+    _d.add(
+      Tache(
+          couleur: Color(0xffff9900),
+          nom: "Depense interne",
+          valeur: depI > 0 ? double.parse(f.format(depI * 100 / _total)) : 0),
+    );
+    // _d.add(Tache(couleur: Color(0xffdc3912), nom: "autre", valeur: 10.3));
+  }
 
   _genererDonnees() {
     var an1 = [
@@ -103,18 +158,29 @@ class _StatistiqueState extends State<Statistique> {
           chart.ColorUtil.fromDartColor(Color(0xffff9900)),
     ));
 
-    var _d = [
-      Tache(couleur: Color(0xff3366cc), nom: "Achat de materiel", valeur: 38.5),
-      Tache(
-          couleur: Color(0xff990099),
-          nom: "analyse et ordonnance",
-          valeur: 8.3),
-      Tache(couleur: Color(0xff109618), nom: "consultation", valeur: 10.8),
-      Tache(
-          couleur: Color(0xfffdbe19), nom: "depense volontaire", valeur: 19.2),
-      Tache(couleur: Color(0xffff9900), nom: "Depense interne", valeur: 38.5),
-      Tache(couleur: Color(0xffdc3912), nom: "autre", valeur: 10.3),
-    ];
+    // var _d = [
+    //   Tache(
+    //       couleur: Color(0xff3366cc),
+    //       nom: "Achat de materiel",
+    //       valeur: _achatMat > 0 ? (_achatMat * 100 / _total) : 0),
+    //   Tache(
+    //       couleur: Color(0xff990099),
+    //       nom: "analyse et ordonnance",
+    //       valeur: _anaOrd > 0 ? (_anaOrd * 100 / _total) : 0),
+    //   Tache(
+    //       couleur: Color(0xff109618),
+    //       nom: "consultation",
+    //       valeur: _consul > 0 ? (_consul * 100 / _total) : 0),
+    //   Tache(
+    //       couleur: Color(0xfffdbe19),
+    //       nom: "depense volontaire",
+    //       valeur: _depV > 0 ? (_depV * 100 / _total) : 0),
+    //   Tache(
+    //       couleur: Color(0xffff9900),
+    //       nom: "Depense interne",
+    //       valeur: depI > 0 ? (depI * 100 / _total) : 0),
+    //   Tache(couleur: Color(0xffdc3912), nom: "autre", valeur: 10.3),
+    // ];
 
     annees.add(chart.Series(
         data: an1,
@@ -149,6 +215,7 @@ class _StatistiqueState extends State<Statistique> {
 
   @override
   void initState() {
+    finance();
     super.initState();
     serie = List<chart.Series<Tache, String>>();
     strc = List<chart.Series<Structures, String>>();
@@ -206,14 +273,14 @@ class _StatistiqueState extends State<Statistique> {
                           chart.DatumLegend(
                               outsideJustification:
                                   chart.OutsideJustification.endDrawArea,
-                              horizontalFirst: false,
+                              horizontalFirst: true,
                               desiredMaxColumns: 2,
                               cellPadding: EdgeInsets.only(right: 4, bottom: 4),
                               entryTextStyle: chart.TextStyleSpec(
                                 color:
                                     chart.MaterialPalette.purple.shadeDefault,
                                 fontFamily: 'Georgia',
-                                fontSize: 11,
+                                fontSize: 14,
                               ))
                         ],
                         defaultRenderer: chart.ArcRendererConfig(

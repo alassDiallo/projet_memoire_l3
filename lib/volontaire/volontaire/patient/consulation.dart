@@ -15,12 +15,14 @@ class _ConsultationState extends State<Consultation> {
   @override
   Widget build(BuildContext context) {
     Patient patient = ModalRoute.of(context).settings.arguments;
+    print("--------------" + patient.nom);
 
     Size size = MediaQuery.of(context).size;
 
     return Scaffold(
       appBar: AppBar(
         title: Text("Consultation "),
+        backgroundColor: Colors.blue[900],
         centerTitle: true,
       ),
       body: SingleChildScrollView(
@@ -28,7 +30,7 @@ class _ConsultationState extends State<Consultation> {
           width: double.infinity,
           //height: size.height,
 
-          child: FormConsultation(),
+          child: FormConsultation(p: patient),
         ),
       ),
     );

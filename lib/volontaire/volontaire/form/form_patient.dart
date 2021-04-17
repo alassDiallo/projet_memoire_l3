@@ -25,6 +25,13 @@ class _FormPatient1State extends State<FormPatient1> {
       for (var patient in donnee) {
         setState(() {
           patients.add(Patient(
+            dateDeNaissance: patient["dataDeNaissance"],
+            telephone: patient["telephone"],
+            email: patient["email"],
+            numeroCIN: patient["numeroCIN"],
+            sexe: patient["sexe"],
+            adresse: patient["adresse"],
+            lieuDeNaissance: patient["lieuDeNaissance"],
             idPatient: patient["idPatient"],
             referencePatient: patient["referencePatient"],
             nom: patient["nom"],
@@ -50,7 +57,10 @@ class _FormPatient1State extends State<FormPatient1> {
   Patient recherche(List<Patient> patients) {
     Patient patientR = null;
     for (var pat in patients) {
-      if (pat.referencePatient == _reference) {
+      if (pat.referencePatient == _reference ||
+          pat.numeroCIN == _reference ||
+          pat.telephone == _reference ||
+          pat.email == _reference) {
         patientR = pat;
       }
     }
@@ -69,72 +79,116 @@ class _FormPatient1State extends State<FormPatient1> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text("  "),
-          centerTitle: true,
-        ),
-        body: Center(
-          child: SingleChildScrollView(
-            child: Container(
-              //  width: double.infinity,
-              // height: size.height,
-              // decoration: BoxDecoration(
-              //     image: DecorationImage(
-              //   image: AssetImage("images/i3.jpg"),
-              //   fit: BoxFit.contain,
-              // )),
-              child: Column(
-                // mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Card(
-                    color: Colors.blueAccent,
-                    // color: coleur.withOpacity(0.4),
-                    elevation: 7,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.only(
-                            bottomLeft: Radius.circular(40),
-                            bottomRight: Radius.circular(40))),
-                    margin: EdgeInsets.fromLTRB(0, 1, 0, 15),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        SizedBox(
-                          height: 30,
-                        ),
-                        Container(
-                          padding: EdgeInsets.symmetric(
-                            vertical: 20,
-                          ),
-                          child: Text(
-                            "Entrer la référence CMU du patient",
-                            style: TextStyle(
-                                fontSize: 18, fontWeight: FontWeight.w500),
-                          ),
-                        ),
-                      ],
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Container(
+            //  width: double.infinity,
+            // height: size.height,
+            // decoration: BoxDecoration(
+            //     image: DecorationImage(
+            //   image: AssetImage("images/i3.jpg"),
+            //   fit: BoxFit.contain,
+            // )),
+            child: Column(
+              //mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Container(
+                    child: Column(
+                  children: [
+                    Text(
+                      "SENJICA",
+                      style: TextStyle(
+                          color: Colors.blue[900],
+                          fontSize: 40,
+                          fontWeight: FontWeight.bold),
                     ),
-                  ),
-                  // Container(
-                  //   padding: EdgeInsets.symmetric(
-                  //     vertical: 20,
-                  //   ),
-                  //   child: Text(
-                  //     "Entrer la référence CMU du patient",
-                  //     style:
-                  //         TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
-                  //   ),
-                  // ),
-                  Divider(
-                    thickness: 5,
-                    indent: 10,
-                    endIndent: 10,
-                  ),
-                  SizedBox(height: 20),
-                  Card(
+                    SizedBox(
+                      height: 6,
+                    ),
+                    Container(
+                      padding: EdgeInsets.symmetric(horizontal: 10),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Espace",
+                                style: TextStyle(
+                                    //color: Colors.blue[900],
+                                    fontSize: 25,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              Text(
+                                "Consultation",
+                                style: TextStyle(
+                                    //color: Colors.blue[900],
+                                    fontSize: 25,
+                                    fontWeight: FontWeight.bold),
+                              )
+                            ],
+                          ),
+                          Icon(
+                            Icons.medical_services_rounded,
+                            color: Colors.green,
+                            size: 60,
+                          ),
+                        ],
+                      ),
+                    )
+                  ],
+                )),
+                // Card(
+                //   color: Colors.blueAccent,
+                //   // color: coleur.withOpacity(0.4),
+                //   elevation: 7,
+                //   shape: RoundedRectangleBorder(
+                //       borderRadius: BorderRadius.only(
+                //           bottomLeft: Radius.circular(40),
+                //           bottomRight: Radius.circular(40))),
+                //   margin: EdgeInsets.fromLTRB(0, 1, 0, 15),
+                //   child: Row(
+                //     mainAxisAlignment: MainAxisAlignment.center,
+                //     crossAxisAlignment: CrossAxisAlignment.center,
+                //     children: [
+                //       SizedBox(
+                //         height: 30,
+                //       ),
+                //       Container(
+                //         padding: EdgeInsets.symmetric(
+                //           vertical: 20,
+                //         ),
+                //         child: Text(
+                //           "Entrer la référence CMU du patient",
+                //           style: TextStyle(
+                //               fontSize: 18, fontWeight: FontWeight.w500),
+                //         ),
+                //       ),
+                //     ],
+                //   ),
+                // ),
+                // Container(
+                //   padding: EdgeInsets.symmetric(
+                //     vertical: 20,
+                //   ),
+                //   child: Text(
+                //     "Entrer la référence CMU du patient",
+                //     style:
+                //         TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                //   ),
+                // ),
+                Divider(
+                  thickness: 5,
+                  indent: 10,
+                  endIndent: 10,
+                ),
+                SizedBox(height: 50),
+                Center(
+                  child: Card(
                     color: widget.couleur,
                     // color: coleur.withOpacity(0.4),
-                    elevation: 10,
+                    elevation: 0,
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.only(
                             topRight: Radius.circular(40),
@@ -149,7 +203,7 @@ class _FormPatient1State extends State<FormPatient1> {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: <Widget>[
                                 TextFormField(
-                                  maxLength: 9,
+                                  maxLength: 12,
                                   decoration: InputDecoration(
                                     labelText: 'Référence CMU ',
                                     prefixIcon: Icon(Icons.code_rounded),
@@ -331,11 +385,13 @@ class _FormPatient1State extends State<FormPatient1> {
                                 )
                               ])),
                     ),
-                  )
-                ],
-              ),
+                  ),
+                )
+              ],
             ),
           ),
-        ));
+        ),
+      ),
+    );
   }
 }
