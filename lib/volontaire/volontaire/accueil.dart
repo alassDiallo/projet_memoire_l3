@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gestion_materiel_cmu/Login.dart';
 import 'package:gestion_materiel_cmu/controllers/Connexion.dart';
-
+import 'package:gestion_materiel_cmu/volontaire/volontaire/Statistique.dart';
 import 'package:gestion_materiel_cmu/volontaire/volontaire/facturation/analyse.dart';
 import 'package:gestion_materiel_cmu/volontaire/volontaire/patient/consulation.dart';
 import 'package:gestion_materiel_cmu/volontaire/volontaire/form/form_patient.dart';
@@ -132,7 +132,14 @@ class _VolontaireState extends State<Volontaire> {
                 Table(
                   children: [
                     TableRow(children: [
-                      MenuCardR2(),
+                      GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => StatistiqueV()));
+                          },
+                          child: MenuCardR2()),
                       GestureDetector(
                         onTap: () {
                           Navigator.push(
@@ -142,7 +149,7 @@ class _VolontaireState extends State<Volontaire> {
                         },
                         child: Container(
                           child: MenuCard(
-                              text: "  Patient ",
+                              text: "  Patients ",
                               icon: Image.asset("images/searche.png"),
                               couleurCard: Colors.white,
                               couleurCircle: Colors.red),

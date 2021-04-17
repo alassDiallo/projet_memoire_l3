@@ -130,7 +130,7 @@ class _FormPatient1State extends State<FormPatient1> {
                             ],
                           ),
                           Icon(
-                            Icons.local_hospital_sharp,
+                            Icons.medical_services_rounded,
                             color: Colors.green,
                             size: 60,
                           ),
