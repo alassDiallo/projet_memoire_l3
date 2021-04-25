@@ -15,15 +15,13 @@ class Analyse extends StatefulWidget {
 
 class _AnalyseState extends State<Analyse> {
   Widget page;
-  // double total;
-//  List<AnalyseM> listeAnalys = [];
+  Patient patientf;
   List<AnalyseM> listeAna = [];
-//  AnalyselistP ana = AnalyselistP();
 
   List<AnalyseM> analyses = [];
 
   Future<void> getAnalyse() async {
-    String url = "auth/analysesPatient";
+    String url = "auth/analyse";
     var donneejs = await Connexion().recuperation(url);
     print(url);
     print(donneejs.body);
@@ -36,6 +34,118 @@ class _AnalyseState extends State<Analyse> {
             // idPatient: analyse["idPatient"],
           ));
         });
+      }
+    }
+  }
+
+  Future<void> enregistrerFacture() async {
+    Navigator.pop(context);
+    Map<String, dynamic> patient = {
+      "infoPatient": patientf.referencePatient,
+      "cout": somme().toString(),
+      "type": "analyse"
+    };
+    String url = "auth/facture";
+
+    var donnee = await Connexion().envoideDonnnee(patient, url);
+    print(donnee.body);
+    if (donnee.statusCode == 200) {
+      print(url);
+      var d = convert.jsonDecode(donnee.body);
+      if (d['success']) {
+        showDialog(
+            barrierDismissible: false,
+            context: context,
+            builder: (context) => AlertDialog(
+                elevation: 3,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(40)),
+                backgroundColor: Colors.white.withOpacity(0.8),
+                content: Container(
+                    height: MediaQuery.of(context).size.height * 0.2,
+                    child: Center(
+                        child: Column(children: [
+                      Align(
+                          alignment: Alignment.topRight,
+                          child: CircleAvatar(
+                            child: IconButton(
+                              icon: Icon(
+                                Icons.close,
+                                size: 15,
+                              ),
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                            ),
+                          )),
+                      CircleAvatar(
+                        child: Icon(
+                          Icons.check,
+                          size: 25,
+                          color: Colors.white,
+                        ),
+                        radius: 35,
+                        backgroundColor: Colors.greenAccent,
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Text(
+                        "Facture enregistrée \n     avec succés",
+                        style: TextStyle(
+                          fontStyle: FontStyle.italic,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 14,
+                        ),
+                      ),
+                    ])))));
+      } else {
+        showDialog(
+            barrierDismissible: false,
+            context: context,
+            builder: (context) => AlertDialog(
+                elevation: 3,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(40)),
+                backgroundColor: Colors.white.withOpacity(0.8),
+                content: Container(
+                    height: MediaQuery.of(context).size.height * 0.15,
+                    child: Center(
+                        child: Column(children: [
+                      Align(
+                          alignment: Alignment.topRight,
+                          child: CircleAvatar(
+                            child: IconButton(
+                              icon: Icon(
+                                Icons.close,
+                                size: 15,
+                              ),
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                            ),
+                          )),
+                      CircleAvatar(
+                        child: Icon(
+                          Icons.error,
+                          size: 25,
+                          color: Colors.white,
+                        ),
+                        radius: 35,
+                        backgroundColor: Colors.redAccent,
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Text(
+                        "Erreur d'enregistrement \n    veuillez reéssayer ",
+                        style: TextStyle(
+                          fontStyle: FontStyle.italic,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 14,
+                        ),
+                      ),
+                    ])))));
       }
     }
   }
@@ -75,75 +185,19 @@ class _AnalyseState extends State<Analyse> {
 
   @override
   Widget build(BuildContext context) {
-    // for (var depense in listeAnalys) {
-    //   total += depense.prix;
-    // }
-    // return total;
-    //
-    //
-    Patient patient = ModalRoute.of(context).settings.arguments;
+    patientf = ModalRoute.of(context).settings.arguments;
 
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Analyse'),
-        centerTitle: true,
-      ),
+      // appBar: AppBar(
+      //   title: Text('Analyse'),
+      //   centerTitle: true,
+      // ),
       body: SingleChildScrollView(
         child: Container(
           margin: EdgeInsets.symmetric(vertical: 20),
-          // width: double.infinity,
-          // //height: size.height,
-          // decoration: BoxDecoration(
-          //   image: DecorationImage(
-          //     image: AssetImage("images/accueil.jpg"),
-          //     fit: BoxFit.,
-          //   ),
-          // ),
           child: Column(
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  OutlineButton(
-                    onPressed: () {},
-                    child: Text("Orodnnance"),
-                  ),
-                  OutlineButton(
-                    onPressed: () {},
-                    child: Text("Analyse"),
-                  )
-                ],
-              ),
-              // SizedBox(
-              //   height: 10,
-              // ),
-              // CircleAvatar(
-              //   radius: 35,
-              //   child: Icon(Icons.toll_rounded),
-              // ),
-              // SizedBox(
-              //   height: 20,
-              // ),
-              // Text(" Analyses ".toUpperCase(),
-              //     textAlign: TextAlign.center,
-              //     style: TextStyle(
-              //         fontWeight: FontWeight.bold,
-              //         fontSize: 15,
-              //         fontStyle: FontStyle.italic)),
-              // SizedBox(
-              //   height: 10,
-              // ),
-              // Container(
-              //   width: double.infinity,
-
-              //   decoration: BoxDecoration(
-              //     image: DecorationImage(
-              //       image: AssetImage("images/accueil.jpg"),
-              //       fit: BoxFit.cover,
-              //     ),
-              //   ),
-              // ),
               Divider(
                 thickness: 5,
                 indent: 10,
@@ -200,20 +254,6 @@ class _AnalyseState extends State<Analyse> {
               SizedBox(
                 height: 30,
               ),
-              // Container(
-              //   margin: EdgeInsets.all(15),
-              //   child: TextField(
-              //     readOnly: true,
-              //     decoration: InputDecoration(
-              //         prefixIcon: Icon(Icons.monetization_on_outlined),
-              //         labelText: 'Total à payer',
-              //         hintText: total.toString(),
-              //         border: OutlineInputBorder(
-              //           borderRadius: BorderRadius.circular(15.0),
-              //           borderSide: BorderSide(),
-              //         )),
-              //   ),
-              // ),
 
               Container(
                 width: MediaQuery.of(context).size.width - 80,
@@ -290,11 +330,9 @@ class _AnalyseState extends State<Analyse> {
                                       borderRadius: BorderRadius.circular(35)),
                                   backgroundColor:
                                       Colors.white.withOpacity(0.8),
-                                  // title: Text(
-                                  //     "Il n'y pas de patient pour ce reference"),
                                   content: Container(
                                     height: MediaQuery.of(context).size.height *
-                                        0.4,
+                                        0.5,
                                     child: Column(
                                       mainAxisAlignment:
                                           MainAxisAlignment.start,
@@ -303,7 +341,7 @@ class _AnalyseState extends State<Analyse> {
                                           shape: RoundedRectangleBorder(
                                               borderRadius:
                                                   BorderRadius.circular(13)),
-                                          elevation: 5,
+                                          elevation: 3,
                                           shadowColor: Colors.blue,
                                           margin: EdgeInsets.all(7),
                                           child: DataTable(
@@ -342,14 +380,23 @@ class _AnalyseState extends State<Analyse> {
                                           ),
                                         ),
                                         SizedBox(
-                                          height: 20,
+                                          height: 13,
+                                        ),
+                                        Divider(
+                                          endIndent: 30,
+                                          indent: 30,
+                                          height: 3,
+                                          thickness: 5,
+                                        ),
+                                        SizedBox(
+                                          height: 15,
                                         ),
                                         Row(
                                           children: [
                                             Column(
                                               children: [
                                                 Text(
-                                                  " Total    : ",
+                                                  " Monta,t    : ",
                                                   style: TextStyle(
                                                     fontStyle: FontStyle.italic,
                                                     fontWeight: FontWeight.bold,
@@ -419,7 +466,7 @@ class _AnalyseState extends State<Analyse> {
                                             Column(
                                               children: [
                                                 Text(
-                                                  " Montant à payer   : ",
+                                                  " Total à payer   : ",
                                                   style: TextStyle(
                                                     fontStyle: FontStyle.italic,
                                                     fontWeight: FontWeight.bold,
@@ -446,22 +493,63 @@ class _AnalyseState extends State<Analyse> {
                                             ),
                                           ],
                                         ),
-                                        // Text(
-                                        //   "Taux de Prise en charge   : ",
-                                        //   style: TextStyle(
-                                        //     fontStyle: FontStyle.italic,
-                                        //     fontWeight: FontWeight.bold,
-                                        //     fontSize: 17,
-                                        //   ),
-                                        // ),
-                                        // Text(
-                                        //   "Montant à payer   : ",
-                                        //   style: TextStyle(
-                                        //     fontStyle: FontStyle.italic,
-                                        //     fontWeight: FontWeight.bold,
-                                        //     fontSize: 17,
-                                        //   ),
-                                        // ),
+                                        SizedBox(
+                                          height: 15,
+                                        ),
+                                        Divider(
+                                          endIndent: 30,
+                                          indent: 30,
+                                          height: 3,
+                                          thickness: 5,
+                                        ),
+                                        SizedBox(
+                                          height: 10,
+                                        ),
+                                        Row(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceEvenly,
+                                          children: [
+                                            ElevatedButton(
+                                              onPressed: () {
+                                                Navigator.pop(context);
+                                              },
+                                              style: ElevatedButton.styleFrom(
+                                                padding: EdgeInsets.fromLTRB(
+                                                    5, 5, 5, 5),
+                                                primary: Colors.redAccent,
+                                                textStyle: TextStyle(
+                                                  color: Colors.white,
+                                                ),
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(10),
+                                                ),
+                                              ),
+                                              child: Text('  Annuler  '),
+                                            ),
+                                            // SizedBox(
+                                            //   height: 15,
+                                            // ),
+                                            ElevatedButton(
+                                              onPressed: enregistrerFacture,
+                                              style: ElevatedButton.styleFrom(
+                                                padding: EdgeInsets.fromLTRB(
+                                                    5, 5, 5, 5),
+                                                primary: Colors.greenAccent,
+                                                textStyle: TextStyle(
+                                                  color: Colors.white,
+                                                ),
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(10),
+                                                ),
+                                              ),
+                                              child: Text('  Enregistrer  '),
+                                            ),
+                                          ],
+                                        )
                                       ],
                                     ),
                                   ),
@@ -491,7 +579,7 @@ class _AnalyseState extends State<Analyse> {
                 context,
                 MaterialPageRoute(
                     builder: (context) => AjoutAnalyse(
-                          patient: patient,
+                          patient: patientf,
                         )));
           }),
     );

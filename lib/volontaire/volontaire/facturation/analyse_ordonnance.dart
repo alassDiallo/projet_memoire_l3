@@ -22,9 +22,9 @@ class _Analyse_OrdonnanceState extends State<Analyse_Ordonnance> {
                 Tab(icon: Icon(Icons.post_add), text: "Analyse"),
                 Tab(icon: Icon(Icons.local_hospital_sharp), text: "Ordonnance"),
               ],
-              indicatorColor: Colors.redAccent.shade400,
+              indicatorColor: Colors.redAccent,
               indicatorWeight: 7,
-              labelColor: Colors.redAccent.shade400,
+              labelColor: Colors.redAccent,
               labelStyle: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 15,
@@ -33,8 +33,6 @@ class _Analyse_OrdonnanceState extends State<Analyse_Ordonnance> {
           ),
           body: TabBarView(
             children: [
-              // Liste_Analyse(),
-              // Liste_Ordonnance(),
               Analyse(),
               Ordonnance(),
             ],
