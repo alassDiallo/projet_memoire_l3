@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:gestion_materiel_cmu/controllers/Connexion.dart';
 import 'package:gestion_materiel_cmu/discussion/echange.dart';
 import 'package:gestion_materiel_cmu/discussion/recherche.dart';
 import 'package:gestion_materiel_cmu/models/utilisateur.dart';
+import 'dart:async';
+import 'dart:convert' as convert;
 
 class Discussion extends StatefulWidget {
   @override
@@ -9,6 +12,7 @@ class Discussion extends StatefulWidget {
 }
 
 class _DiscussionState extends State<Discussion> {
+  List<Utilisateur> messagerie = [];
   List<Utilisateur> list = [
     Utilisateur(
         nom: "assane",
@@ -61,6 +65,48 @@ class _DiscussionState extends State<Discussion> {
         image: "images/ophtalmologie.png",
         heure: "21/02/2020"),
   ];
+
+  Future<void> getMessagerie() async {
+    // Utilisateur(
+    //     nom: "assane",
+    //     contenu: "bonjour comment tu vas",
+    //     image: "images/vol.png",
+    //     heure: "21/02/2020");
+    String url = "auth/messagerie";
+    var donnee = await Connexion().recuperation(url);
+    print(donnee.body);
+    if (donnee.statusCode == 200) {
+      var d = convert.jsonDecode(donnee.body);
+      for (var u in d) {
+        // print(u['idMessagerie']);
+        // var mess;
+        // var dern = Connexion()
+        //     .recuperation("auth/messagerie/" + u['idMessagerie'].toString());
+        // print(dern.body);
+        // if (dern.statusCode == 200) {
+        //   var dr = convert.jsonDecode(dern.body);
+        //   mess = dr["message"];
+        // }
+        // print(mess);
+        setState(() {
+          messagerie.add(Utilisateur(
+            nom: "Dr. " + u['prenom'] + " " + u['nom'],
+            idMessagerie: u['idMessagerie'],
+            //contenu: "bonjour comment tu vas",
+            image: "images/vol.png",
+            // heure: "21/02/2020"
+          ));
+        });
+      }
+    }
+  }
+
+  @override
+  void initState() {
+    getMessagerie();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -117,18 +163,17 @@ class _DiscussionState extends State<Discussion> {
                   ],
                 ),
               )),
-              ListView.builder(
-                  itemCount: list.length,
-                  shrinkWrap: true,
-                  physics: NeverScrollableScrollPhysics(),
-                  itemBuilder: (context, index) {
-                    return Echange(
-                        nom: list[index].nom,
-                        contenu: list[index].contenu,
-                        image: list[index].image,
-                        heure: list[index].heure,
-                        lu: (index == 0 || index == 3) ? false : true);
-                  })
+              messagerie.isEmpty
+                  ? Center(
+                      child: Text("Vous n'avez pas de discussion"),
+                    )
+                  : ListView.builder(
+                      itemCount: messagerie.length,
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      itemBuilder: (context, index) {
+                        return Echange(u: messagerie[index]);
+                      })
             ],
           ),
         ));

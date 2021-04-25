@@ -22,7 +22,7 @@ class _PageMessageState extends State<PageMessage> {
   IO.Socket socket;
 
   connection() {
-    socket = IO.io("http://10.156.57.145:3000/", <String, dynamic>{
+    socket = IO.io("http://192.168.43.100:3000/", <String, dynamic>{
       'transports': ['websocket'],
       'autoConnect': false
     });
@@ -32,9 +32,13 @@ class _PageMessageState extends State<PageMessage> {
     //socket.emit("message", "bonjour serveur");
     socket.on(
         "message",
-        (data) => setState(() {
-              list.add(Mess(message: data, type: MessageType.receiver));
-            }));
+        (data) => {
+              if (data['recipient_id'] == "patient@gmail.com")
+                setState(() {
+                  list.add(Mess(
+                      message: data['contenu'], type: MessageType.receiver));
+                })
+            });
     // scrollController = ScrollController();
     // scrollController.animateTo(
     //   scrollController.position.maxScrollExtent,
@@ -45,21 +49,21 @@ class _PageMessageState extends State<PageMessage> {
 
   String mess = '';
   List<Mess> list = [
+    Mess(message: "Bonjour docteur ", type: MessageType.receiver),
     Mess(
-        message: "Bonjour doctor comment vous allez",
-        type: MessageType.receiver),
-    Mess(message: "oui cva monsieur Diallo", type: MessageType.sender),
-    Mess(
-        message: "cva bien oui enfet je voudrais un rendez-vous",
-        type: MessageType.receiver),
-    Mess(message: "d'accord pour quand ?", type: MessageType.sender),
-    Mess(
-        message: "bon ces temps si j'ai souvent mal à la téte",
-        type: MessageType.receiver),
-    Mess(
-        message: "d'accords je vois tu as pris des medicaments",
+        message: "oui bonjour monsieur Diallo comment vous-allez",
         type: MessageType.sender),
-    Mess(message: "non pas encore", type: MessageType.receiver),
+    Mess(
+        message: "oui je vais bien et j'espere que vous allez bien aussi",
+        type: MessageType.receiver),
+    // Mess(message: "d'accord pour quand ?", type: MessageType.sender),
+    // Mess(
+    //     message: "bon ces temps si j'ai souvent mal à la téte",
+    //     type: MessageType.receiver),
+    // Mess(
+    //     message: "d'accords je vois tu as pris des medicaments",
+    //     type: MessageType.sender),
+    // Mess(message: "non pas encore", type: MessageType.receiver),
     // Mess(message: "Bonjour asane comment tu vas", type: MessageType.receiver),
     // Mess(message: "oui cva et toi", type: MessageType.sender),
     // Mess(message: "cva cool lou bess", type: MessageType.receiver),

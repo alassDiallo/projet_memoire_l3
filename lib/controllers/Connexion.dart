@@ -6,15 +6,17 @@ import 'dart:async';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Connexion {
-  //static final url = "http://192.168.43.100:8000/api/";
+  static final url = "http://192.168.43.100:8000/api/";
   // static final url = "http://10.156.117.195:8000/api/";
   // static final url = "http://10.156.112.75:8000/api/";
   //static final url = "http://192.168.43.25:8000/api/";
-  static final url = "http://192.168.1.6:8000/api/";
+  // static final url = "http://192.168.1.6:8000/api/";
   // static final url = "http://10.156.112.139:8080/api/";
   // static final url = "http://169.254.88.50:800s0/api/";
-  //
+  // static final url = "http://192.168.1.19:8000/api/";
+
   var token;
+  var user;
 
   supprimer(lien) async {
     var fullUrl = url + lien;
@@ -52,4 +54,10 @@ class Connexion {
         'Accept': 'application/json',
         'Authorization': 'Bearer $token'
       };
+
+  getUser() async {
+    SharedPreferences localstorage = await SharedPreferences.getInstance();
+    user = localstorage.getString("user");
+    return user;
+  }
 }

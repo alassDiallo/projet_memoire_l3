@@ -18,7 +18,7 @@ class _Rapport_MaintenanceState extends State<Rapport_Maintenance> {
   List<Materiel> _materiels = [];
   List<Materiel> listeMat = [];
   Future<void> getMateriels() async {
-    var url = "auth/materielsVolontaire/3";
+    var url = "auth/materielsVolontaire";
     var donnee = await Connexion().recuperation(url);
     if (donnee.statusCode == 200) {
       print(donnee.body);
