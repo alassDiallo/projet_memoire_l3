@@ -3,6 +3,7 @@ import 'package:gestion_materiel_cmu/Login.dart';
 import 'package:gestion_materiel_cmu/controllers/Connexion.dart';
 import 'package:gestion_materiel_cmu/volontaire/volontaire/Statistique.dart';
 import 'package:gestion_materiel_cmu/volontaire/volontaire/facturation/analyse.dart';
+import 'package:gestion_materiel_cmu/volontaire/volontaire/facturation/analyse_ordonnance.dart';
 import 'package:gestion_materiel_cmu/volontaire/volontaire/patient/consulation.dart';
 import 'package:gestion_materiel_cmu/volontaire/volontaire/form/form_patient.dart';
 import 'package:gestion_materiel_cmu/volontaire/volontaire/patient/patient.dart';
@@ -164,6 +165,7 @@ class _VolontaireState extends State<Volontaire> {
                               MaterialPageRoute(
                                   builder: (context) => FormPatient1(
                                         page: Consultation(),
+                                        nom: "Espace  \ Consultation",
                                         couleur: Colors.green.withOpacity(0.5),
                                       )));
                         },
@@ -180,7 +182,8 @@ class _VolontaireState extends State<Volontaire> {
                               context,
                               MaterialPageRoute(
                                   builder: (context) => FormPatient1(
-                                        page: Analyse(),
+                                        page: Analyse_Ordonnance(),
+                                        nom: "Espace  \ Facturation",
                                         couleur: Colors.red.withOpacity(0.5),
                                       )));
                         },

@@ -7,7 +7,8 @@ import 'dart:convert' as convert;
 class FormPatient1 extends StatefulWidget {
   Widget page;
   Color couleur;
-  FormPatient1({this.page, this.couleur});
+  String nom;
+  FormPatient1({this.page, this.nom, this.couleur});
   @override
   _FormPatient1State createState() => _FormPatient1State();
 }
@@ -114,19 +115,19 @@ class _FormPatient1State extends State<FormPatient1> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                "Espace",
+                                widget.nom,
                                 style: TextStyle(
                                     //color: Colors.blue[900],
                                     fontSize: 25,
                                     fontWeight: FontWeight.bold),
                               ),
-                              Text(
-                                "Consultation",
-                                style: TextStyle(
-                                    //color: Colors.blue[900],
-                                    fontSize: 25,
-                                    fontWeight: FontWeight.bold),
-                              )
+                              //   Text(
+                              //     "Consultation",
+                              //     style: TextStyle(
+                              //         //color: Colors.blue[900],
+                              //         fontSize: 25,
+                              //         fontWeight: FontWeight.bold),
+                              //   )
                             ],
                           ),
                           Icon(
@@ -139,45 +140,6 @@ class _FormPatient1State extends State<FormPatient1> {
                     )
                   ],
                 )),
-                // Card(
-                //   color: Colors.blueAccent,
-                //   // color: coleur.withOpacity(0.4),
-                //   elevation: 7,
-                //   shape: RoundedRectangleBorder(
-                //       borderRadius: BorderRadius.only(
-                //           bottomLeft: Radius.circular(40),
-                //           bottomRight: Radius.circular(40))),
-                //   margin: EdgeInsets.fromLTRB(0, 1, 0, 15),
-                //   child: Row(
-                //     mainAxisAlignment: MainAxisAlignment.center,
-                //     crossAxisAlignment: CrossAxisAlignment.center,
-                //     children: [
-                //       SizedBox(
-                //         height: 30,
-                //       ),
-                //       Container(
-                //         padding: EdgeInsets.symmetric(
-                //           vertical: 20,
-                //         ),
-                //         child: Text(
-                //           "Entrer la référence CMU du patient",
-                //           style: TextStyle(
-                //               fontSize: 18, fontWeight: FontWeight.w500),
-                //         ),
-                //       ),
-                //     ],
-                //   ),
-                // ),
-                // Container(
-                //   padding: EdgeInsets.symmetric(
-                //     vertical: 20,
-                //   ),
-                //   child: Text(
-                //     "Entrer la référence CMU du patient",
-                //     style:
-                //         TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
-                //   ),
-                // ),
                 Divider(
                   thickness: 5,
                   indent: 10,
@@ -239,23 +201,8 @@ class _FormPatient1State extends State<FormPatient1> {
                                   child: ElevatedButton(
                                     onPressed: () {
                                       if (_formKey.currentState.validate()) {
-                                        // Scaffold.of(context).showSnackBar(SnackBar(
-                                        //     content: Text('Traitement en cours')));
                                         _formKey.currentState.save();
-                                        // if (_reference == "12345ref") {
-                                        //   Navigator.push(
-                                        //       context,
-                                        //       MaterialPageRoute(
-                                        //         builder: (context) =>
-                                        //             widget.page,
-                                        //       ));
-                                        // }
 
-                                        // ScaffoldMessenger.of(context)
-                                        //     .showSnackBar(SnackBar(
-                                        //   content: Text("Traitement en cours"),
-                                        //   backgroundColor: Colors.green,
-                                        // ));
                                         recherche(patients) == null
                                             ? showDialog(
                                                 barrierDismissible: false,
@@ -272,8 +219,6 @@ class _FormPatient1State extends State<FormPatient1> {
                                                       backgroundColor: Colors
                                                           .white
                                                           .withOpacity(0.8),
-                                                      // title: Text(
-                                                      //     "Il n'y pas de patient pour ce reference"),
                                                       content: Container(
                                                         height: MediaQuery.of(
                                                                     context)
@@ -282,19 +227,6 @@ class _FormPatient1State extends State<FormPatient1> {
                                                             0.2,
                                                         child: Column(
                                                           children: [
-                                                            // Align(
-                                                            //   alignment:
-                                                            //       Alignment.topRight,
-                                                            //   child: IconButton(
-                                                            //     icon: Icon(
-                                                            //       Icons.close,
-                                                            //       size: 40,
-                                                            //     ),
-                                                            //     onPressed: () {
-                                                            //       Navigator.pop(context);
-                                                            //     },
-                                                            //   ),
-                                                            // ),
                                                             CircleAvatar(
                                                               child: Icon(
                                                                 Icons.error,
@@ -361,15 +293,7 @@ class _FormPatient1State extends State<FormPatient1> {
                                                                 'Réessayer'))
                                                       ],
                                                     ))
-                                            :
-                                            //recherche(patients)
-                                            // Navigator.push(
-                                            //     context,
-                                            //     MaterialPageRoute(
-                                            //         builder: (context) => ProfilPatient(
-                                            //               patient: recherche(patients),
-                                            //             )));
-                                            Navigator.push(
+                                            : Navigator.push(
                                                 context,
                                                 MaterialPageRoute(
                                                     builder: (context) =>
