@@ -4,6 +4,7 @@ import 'package:gestion_materiel_cmu/chat/Discussion.dart';
 import 'package:gestion_materiel_cmu/controllers/Connexion.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:async';
+import 'dart:convert';
 import 'dart:convert' as convert;
 
 class Drawers extends StatefulWidget {
@@ -12,6 +13,21 @@ class Drawers extends StatefulWidget {
 }
 
 class _DrawersState extends State<Drawers> {
+  var user;
+
+  getUser() async {
+    SharedPreferences localstorage = await SharedPreferences.getInstance();
+    setState(() {
+      user = json.decode(localstorage.getString("user"));
+    });
+  }
+
+  @override
+  void initState() {
+    getUser();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -26,7 +42,7 @@ class _DrawersState extends State<Drawers> {
                 children: [
                   CircleAvatar(
                     backgroundColor: Colors.blue[100],
-                    child: Text("AHD"),
+                    child: Text(""),
                     radius: 30,
                     foregroundColor: Colors.red,
                   ),

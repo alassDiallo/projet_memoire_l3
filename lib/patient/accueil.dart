@@ -38,7 +38,7 @@ class _AccueilPatientState extends State<AccueilPatient> {
     // http://10.156.81.236
 
     token();
-    socket = IO.io("http://10.156.57.145:3000/", <String, dynamic>{
+    socket = IO.io("http://192.168.43.100:3000/", <String, dynamic>{
       'transports': ['websocket'],
     });
     socket.connect();
@@ -199,20 +199,20 @@ class _AccueilPatientState extends State<AccueilPatient> {
                           child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text(
-                            "Al Hassane Diallo",
-                            style: TextStyle(
-                                color: Colors.blue[900],
-                                fontSize: 40,
-                                fontWeight: FontWeight.bold),
-                          ),
-                          Container(
-                            width: 100,
-                            child: Divider(
-                              thickness: 5,
-                              color: Colors.blue[900],
-                            ),
-                          )
+                          // Text(
+                          //   "Al Hassane Diallo",
+                          //   style: TextStyle(
+                          //       color: Colors.blue[900],
+                          //       fontSize: 40,
+                          //       fontWeight: FontWeight.bold),
+                          // ),
+                          // Container(
+                          //   width: 100,
+                          //   child: Divider(
+                          //     thickness: 5,
+                          //     color: Colors.blue[900],
+                          //   ),
+                          // )
                         ],
                       )),
                     ),
@@ -237,9 +237,9 @@ class _AccueilPatientState extends State<AccueilPatient> {
                               child: MenuOption(
                                 text: "Consultation",
                                 icon: Image.asset("images/ac.jpg"),
-                                //couleurCard: Colors.green,
+                                couleurCard: Colors.green,
                                 couleurCircle: Colors.green,
-                                //ctexte: Colors.white,
+                                ctexte: Colors.white,
                               ),
                             ),
                             GestureDetector(

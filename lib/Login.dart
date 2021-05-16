@@ -95,9 +95,9 @@ class _LoginState extends State<Login> {
                         //         color: Colors.black,
                         //         fontWeight: FontWeight.bold)),
                         ClipRRect(
-                          // borderRadius: BorderRadius.circular(100),
+                          borderRadius: BorderRadius.circular(100),
                           child: Image.asset(
-                            "images/accueilauth.jpg",
+                            "images/connexion.jpg",
                             // height: size.height * 0.35,
                             // width: size.width * 0.9,
                           ),

@@ -228,7 +228,7 @@ class _StatistiqueState extends State<Statistique> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 4,
+      length: 1,
       initialIndex: 0,
       child: Scaffold(
           appBar: AppBar(
@@ -238,15 +238,15 @@ class _StatistiqueState extends State<Statistique> {
                 Tab(
                   child: Text("comptablite"),
                 ),
-                Tab(
-                  child: Text("depense"),
-                ),
-                Tab(
-                  child: Text("activite"),
-                ),
-                Tab(
-                  child: Text("activite Mois"),
-                ),
+                // Tab(
+                //   child: Text("depense"),
+                // ),
+                // Tab(
+                //   child: Text("activite"),
+                // ),
+                // Tab(
+                //   child: Text("activite Mois"),
+                // ),
               ],
             ),
           ),
@@ -297,74 +297,74 @@ class _StatistiqueState extends State<Statistique> {
                 ),
               ),
             ),
-            Padding(
-                padding: EdgeInsets.all(8.0),
-                child: Container(
-                  child: Center(
-                    child: Column(
-                      children: [
-                        Text(
-                          "Statistique des Structuress",
-                          style: TextStyle(
-                              fontSize: 24, fontWeight: FontWeight.bold),
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Expanded(
-                            child: chart.BarChart(
-                          strc,
-                          animate: true,
-                          barGroupingType: chart.BarGroupingType.grouped,
-                          animationDuration: Duration(seconds: 5),
-                        ))
-                      ],
-                    ),
-                  ),
-                )),
-            Padding(
-                padding: EdgeInsets.all(8.0),
-                child: Container(
-                  child: Center(
-                    child: Column(
-                      children: [
-                        Text(
-                          "Statistique des annees",
-                          style: TextStyle(
-                              fontSize: 24, fontWeight: FontWeight.bold),
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Expanded(
-                            child: chart.LineChart(
-                          annees,
-                          animate: true,
-                          defaultRenderer: chart.LineRendererConfig(
-                            includeArea: true,
-                            stacked: true,
-                          ),
-                          animationDuration: Duration(seconds: 5),
-                          behaviors: [
-                            chart.ChartTitle("Annees",
-                                behaviorPosition: chart.BehaviorPosition.bottom,
-                                titleOutsideJustification:
-                                    chart.OutsideJustification.middleDrawArea),
-                            chart.ChartTitle("Annees",
-                                behaviorPosition: chart.BehaviorPosition.start,
-                                titleOutsideJustification:
-                                    chart.OutsideJustification.middleDrawArea),
-                            chart.ChartTitle("Annees",
-                                behaviorPosition: chart.BehaviorPosition.end,
-                                titleOutsideJustification:
-                                    chart.OutsideJustification.middleDrawArea),
-                          ],
-                        ))
-                      ],
-                    ),
-                  ),
-                )),
-            StatM()
+            // Padding(
+            //     padding: EdgeInsets.all(8.0),
+            //     child: Container(
+            //       child: Center(
+            //         child: Column(
+            //           children: [
+            //             Text(
+            //               "Statistique des Structuress",
+            //               style: TextStyle(
+            //                   fontSize: 24, fontWeight: FontWeight.bold),
+            //             ),
+            //             SizedBox(
+            //               height: 10,
+            //             ),
+            //             Expanded(
+            //                 child: chart.BarChart(
+            //               strc,
+            //               animate: true,
+            //               barGroupingType: chart.BarGroupingType.grouped,
+            //               animationDuration: Duration(seconds: 5),
+            //             ))
+            //           ],
+            //         ),
+            //       ),
+            //     )),
+            // Padding(
+            //     padding: EdgeInsets.all(8.0),
+            //     child: Container(
+            //       child: Center(
+            //         child: Column(
+            //           children: [
+            //             Text(
+            //               "Statistique des annees",
+            //               style: TextStyle(
+            //                   fontSize: 24, fontWeight: FontWeight.bold),
+            //             ),
+            //             SizedBox(
+            //               height: 10,
+            //             ),
+            //             Expanded(
+            //                 child: chart.LineChart(
+            //               annees,
+            //               animate: true,
+            //               defaultRenderer: chart.LineRendererConfig(
+            //                 includeArea: true,
+            //                 stacked: true,
+            //               ),
+            //               animationDuration: Duration(seconds: 5),
+            //               behaviors: [
+            //                 chart.ChartTitle("Annees",
+            //                     behaviorPosition: chart.BehaviorPosition.bottom,
+            //                     titleOutsideJustification:
+            //                         chart.OutsideJustification.middleDrawArea),
+            //                 chart.ChartTitle("Annees",
+            //                     behaviorPosition: chart.BehaviorPosition.start,
+            //                     titleOutsideJustification:
+            //                         chart.OutsideJustification.middleDrawArea),
+            //                 chart.ChartTitle("Annees",
+            //                     behaviorPosition: chart.BehaviorPosition.end,
+            //                     titleOutsideJustification:
+            //                         chart.OutsideJustification.middleDrawArea),
+            //               ],
+            //             ))
+            //           ],
+            //         ),
+            //       ),
+            //     )),
+            // StatM()
           ]))),
     );
   }
