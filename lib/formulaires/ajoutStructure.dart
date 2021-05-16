@@ -57,244 +57,287 @@ class _AjoutStructureState extends State<AjoutStructure> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(),
+        appBar: AppBar(
+          title: Text("Ajouter une structure"),
+        ),
         body: SingleChildScrollView(
-          child: Container(
-            margin: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-            child: Column(
-              children: [
-                Container(
-                    padding: EdgeInsets.symmetric(vertical: 10),
-                    child: Text(
-                      "Ajouter une Structure",
-                      style:
-                          TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
-                    )),
-                Divider(),
-                SizedBox(
-                  height: 20,
+            child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  color: Colors.blue[900],
                 ),
-                Form(
-                    key: cle,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "nom de la Structure",
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 16),
-                        ),
-                        SizedBox(height: 10),
-                        TextFormField(
-                          decoration: InputDecoration(
-                              // labelText: "nom structure",
-                              // floatingLabelBehavior:
-                              //     FloatingLabelBehavior.always,
-                              hintText: "entrer le nom de la structure",
-                              border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(20))),
-                          validator: (value) {
-                            if (value.isEmpty) {
-                              return "le champs est obligatoire";
-                            }
-                          },
-                          onChanged: (value) {
-                            setState(() {
-                              _nom = value;
-                            });
-                          },
-                          onSaved: (value) {
-                            setState(() {
-                              _nom = value;
-                            });
-                          },
-                        ),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        Text(
-                          "region",
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 16),
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        DropdownButtonFormField(
-                            validator: (value) {
-                              if (value == null) {
-                                return "veuillez selectionner une region";
-                              }
-                            },
-                            onSaved: (value) {
-                              setState(() {
-                                _region = value;
-                              });
-                            },
-                            value: _region,
-                            onChanged: (value) {
-                              setState(() {
-                                _region = value;
-                              });
-                            },
-                            decoration: InputDecoration(
-                                hintText: "selectionner le region",
-                                border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(20))),
-                            items: [
-                              DropdownMenuItem(
-                                child: Text("Dakar"),
-                                value: "Dakar",
+                margin: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+                child: Column(
+                  children: [
+                    Card(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10)),
+                      child: Container(
+                        padding: EdgeInsets.all(20),
+                        child: Column(
+                          children: [
+                            Container(
+                              padding: EdgeInsets.symmetric(),
+                              child: CircleAvatar(
+                                radius: 40,
+                                backgroundColor: Colors.blue[900],
+                                child: Icon(
+                                  Icons.home_work,
+                                  size: 30,
+                                  color: Colors.white,
+                                ),
                               ),
-                              DropdownMenuItem(
-                                child: Text("Thies"),
-                                value: "Thies",
-                              ),
-                              DropdownMenuItem(
-                                  child: Text("Diourbel"), value: "Diourbel"),
-                              DropdownMenuItem(
-                                  child: Text("Kaolack"), value: "Kaolack"),
-                              DropdownMenuItem(
-                                  child: Text("Fatick"), value: "Fatick"),
-                              DropdownMenuItem(
-                                child: Text("Kolda"),
-                                value: "Kolda",
-                              ),
-                              DropdownMenuItem(
-                                child: Text("Sedhiou"),
-                                value: "Sedhiou",
-                              ),
-                              DropdownMenuItem(
-                                  child: Text("Matam"), value: "Matam"),
-                              DropdownMenuItem(
-                                  child: Text("Saint-Louis"),
-                                  value: "Saint-Louis"),
-                              DropdownMenuItem(
-                                  child: Text("Kedougou"), value: "Kedougou"),
-                              DropdownMenuItem(
-                                child: Text("Ziguinchor"),
-                                value: "Zinguichor",
-                              ),
-                              DropdownMenuItem(
-                                child: Text("Kaffrine"),
-                                value: "Kaffrine",
-                              ),
-                              DropdownMenuItem(
-                                  child: Text("Tambacounda"),
-                                  value: "Tambacounda"),
-                              DropdownMenuItem(
-                                  child: Text("Louga"), value: "Louga"),
-                            ]),
-                        /*TextFormField(
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Divider(),
+                            SizedBox(
+                              height: 15,
+                            ),
+                            Form(
+                                key: cle,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "nom de la Structure",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 16),
+                                    ),
+                                    SizedBox(height: 10),
+                                    TextFormField(
+                                      decoration: InputDecoration(
+                                          // labelText: "nom structure",
+                                          // floatingLabelBehavior:
+                                          //     FloatingLabelBehavior.always,
+                                          hintText:
+                                              "entrer le nom de la structure",
+                                          border: OutlineInputBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(20))),
+                                      validator: (value) {
+                                        if (value.isEmpty) {
+                                          return "le champs est obligatoire";
+                                        }
+                                      },
+                                      onChanged: (value) {
+                                        setState(() {
+                                          _nom = value;
+                                        });
+                                      },
+                                      onSaved: (value) {
+                                        setState(() {
+                                          _nom = value;
+                                        });
+                                      },
+                                    ),
+                                    SizedBox(
+                                      height: 20,
+                                    ),
+                                    Text(
+                                      "region",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 16),
+                                    ),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                    DropdownButtonFormField(
+                                        validator: (value) {
+                                          if (value == null) {
+                                            return "veuillez selectionner une region";
+                                          }
+                                        },
+                                        onSaved: (value) {
+                                          setState(() {
+                                            _region = value;
+                                          });
+                                        },
+                                        value: _region,
+                                        onChanged: (value) {
+                                          setState(() {
+                                            _region = value;
+                                          });
+                                        },
+                                        decoration: InputDecoration(
+                                            hintText: "selectionner le region",
+                                            border: OutlineInputBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(20))),
+                                        items: [
+                                          DropdownMenuItem(
+                                            child: Text("Dakar"),
+                                            value: "Dakar",
+                                          ),
+                                          DropdownMenuItem(
+                                            child: Text("Thies"),
+                                            value: "Thies",
+                                          ),
+                                          DropdownMenuItem(
+                                              child: Text("Diourbel"),
+                                              value: "Diourbel"),
+                                          DropdownMenuItem(
+                                              child: Text("Kaolack"),
+                                              value: "Kaolack"),
+                                          DropdownMenuItem(
+                                              child: Text("Fatick"),
+                                              value: "Fatick"),
+                                          DropdownMenuItem(
+                                            child: Text("Kolda"),
+                                            value: "Kolda",
+                                          ),
+                                          DropdownMenuItem(
+                                            child: Text("Sedhiou"),
+                                            value: "Sedhiou",
+                                          ),
+                                          DropdownMenuItem(
+                                              child: Text("Matam"),
+                                              value: "Matam"),
+                                          DropdownMenuItem(
+                                              child: Text("Saint-Louis"),
+                                              value: "Saint-Louis"),
+                                          DropdownMenuItem(
+                                              child: Text("Kedougou"),
+                                              value: "Kedougou"),
+                                          DropdownMenuItem(
+                                            child: Text("Ziguinchor"),
+                                            value: "Zinguichor",
+                                          ),
+                                          DropdownMenuItem(
+                                            child: Text("Kaffrine"),
+                                            value: "Kaffrine",
+                                          ),
+                                          DropdownMenuItem(
+                                              child: Text("Tambacounda"),
+                                              value: "Tambacounda"),
+                                          DropdownMenuItem(
+                                              child: Text("Louga"),
+                                              value: "Louga"),
+                                        ]),
+                                    /*TextFormField(
                       decoration: InputDecoration(
                           hintText: "choisir la region",
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(20))),
                     ),*/
-                        SizedBox(
-                          height: 20,
-                        ),
-                        Text(
-                          "adresse",
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 16),
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        TextFormField(
-                          validator: (value) {
-                            if (value.isEmpty) {
-                              return "le champs est obligatoire";
-                            }
-                          },
-                          onChanged: (value) {
-                            setState(() {
-                              _adresse = value;
-                            });
-                          },
-                          onSaved: (value) {
-                            setState(() {
-                              _adresse = value;
-                            });
-                          },
-                          decoration: InputDecoration(
-                              hintText: "entrer l'adresse",
-                              border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(20))),
-                        ),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        Text(
-                          "telephone",
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 16),
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        TextFormField(
-                          autovalidateMode: AutovalidateMode.onUserInteraction,
-                          validator: (value) {
-                            if (value.isEmpty) {
-                              return "le champs est obligatoire";
-                            } else {
-                              if (value.length > 1) {
-                                if (value.substring(0, 2) != "78" &&
-                                    value.substring(0, 2) != "77" &&
-                                    value.substring(0, 2) != "76" &&
-                                    value.substring(0, 2) != "75" &&
-                                    value.substring(0, 2) != "70" &&
-                                    value.substring(0, 2) != "33" &&
-                                    value.substring(0, 2) != "30") {
-                                  return "le numero commence par 77,78,76,75,70,33,30";
-                                }
-                              }
-                              if (value.length < 9) {
-                                return "veullez entrer un numero valide de 9 chiffre";
-                              }
-                            }
-                          },
-                          onChanged: (value) {
-                            setState(() {
-                              _telephone = value;
-                            });
-                          },
-                          onSaved: (value) {
-                            setState(() {
-                              _telephone = value;
-                            });
-                          },
-                          maxLength: 9,
-                          keyboardType: TextInputType.number,
-                          inputFormatters: [
-                            WhitelistingTextInputFormatter.digitsOnly
+                                    SizedBox(
+                                      height: 20,
+                                    ),
+                                    Text(
+                                      "adresse",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 16),
+                                    ),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                    TextFormField(
+                                      validator: (value) {
+                                        if (value.isEmpty) {
+                                          return "le champs est obligatoire";
+                                        }
+                                      },
+                                      onChanged: (value) {
+                                        setState(() {
+                                          _adresse = value;
+                                        });
+                                      },
+                                      onSaved: (value) {
+                                        setState(() {
+                                          _adresse = value;
+                                        });
+                                      },
+                                      decoration: InputDecoration(
+                                          hintText: "entrer l'adresse",
+                                          border: OutlineInputBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(20))),
+                                    ),
+                                    SizedBox(
+                                      height: 20,
+                                    ),
+                                    Text(
+                                      "telephone",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 16),
+                                    ),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                    TextFormField(
+                                      autovalidateMode:
+                                          AutovalidateMode.onUserInteraction,
+                                      validator: (value) {
+                                        if (value.isEmpty) {
+                                          return "le champs est obligatoire";
+                                        } else {
+                                          if (value.length > 1) {
+                                            if (value.substring(0, 2) != "78" &&
+                                                value.substring(0, 2) != "77" &&
+                                                value.substring(0, 2) != "76" &&
+                                                value.substring(0, 2) != "75" &&
+                                                value.substring(0, 2) != "70" &&
+                                                value.substring(0, 2) != "33" &&
+                                                value.substring(0, 2) != "30") {
+                                              return "le numero commence par 77,78,76,75,70,33,30";
+                                            }
+                                          }
+                                          if (value.length < 9) {
+                                            return "veullez entrer un numero valide de 9 chiffre";
+                                          }
+                                        }
+                                      },
+                                      onChanged: (value) {
+                                        setState(() {
+                                          _telephone = value;
+                                        });
+                                      },
+                                      onSaved: (value) {
+                                        setState(() {
+                                          _telephone = value;
+                                        });
+                                      },
+                                      maxLength: 9,
+                                      keyboardType: TextInputType.number,
+                                      inputFormatters: [
+                                        WhitelistingTextInputFormatter
+                                            .digitsOnly
+                                      ],
+                                      decoration: InputDecoration(
+                                          hintText:
+                                              "entrer le numero de telephone",
+                                          border: OutlineInputBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(20))),
+                                    ),
+                                    SizedBox(
+                                      height: 20,
+                                    ),
+                                    FlatButton(
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(20)),
+                                      onPressed: _valider,
+                                      child: Text("enregistrer"),
+                                      color: Colors.blue,
+                                      textColor: Colors.white,
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 10, vertical: 20),
+                                      minWidth:
+                                          MediaQuery.of(context).size.width,
+                                    )
+                                  ],
+                                ))
                           ],
-                          decoration: InputDecoration(
-                              hintText: "entrer le numero de telephone",
-                              border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(20))),
                         ),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        FlatButton(
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20)),
-                          onPressed: _valider,
-                          child: Text("enregistrer"),
-                          color: Colors.blue,
-                          textColor: Colors.white,
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 10, vertical: 20),
-                          minWidth: MediaQuery.of(context).size.width,
-                        )
-                      ],
-                    ))
-              ],
-            ),
-          ),
-        ));
+                      ),
+                    )
+                  ],
+                ))));
   }
 }

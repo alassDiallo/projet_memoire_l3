@@ -15,7 +15,7 @@ class Statistique extends StatefulWidget {
 class _StatistiqueState extends State<Statistique> {
   var f = NumberFormat("###.0#", "en_US");
   double _total, _achatMat, _anaOrd, _consul, _depV;
-  double depI = 2000.00;
+  // double depI = 2000.00;
   List<Tache> _d = [];
   List<chart.Series<Tache, String>> serie;
   List<chart.Series<Structures, String>> strc;
@@ -31,7 +31,8 @@ class _StatistiqueState extends State<Statistique> {
         _anaOrd = double.parse(d['anaOrd'].toString());
         _consul = double.parse(d['cons'].toString());
         _depV = double.parse(d['depenseV'].toString());
-        _total = _achatMat + _anaOrd + _consul + _depV + depI;
+        _total = _achatMat + _anaOrd + _consul + _depV;
+        // + depI;
       });
     }
     _d.add(
@@ -58,12 +59,12 @@ class _StatistiqueState extends State<Statistique> {
           nom: "depense volontaire",
           valeur: _depV > 0 ? double.parse(f.format(_depV * 100 / _total)) : 0),
     );
-    _d.add(
-      Tache(
-          couleur: Color(0xffff9900),
-          nom: "Depense interne",
-          valeur: depI > 0 ? double.parse(f.format(depI * 100 / _total)) : 0),
-    );
+    // _d.add(
+    //   Tache(
+    //       couleur: Color(0xffff9900),
+    //       nom: "Depense interne",
+    //       valeur: depI > 0 ? double.parse(f.format(depI * 100 / _total)) : 0),
+    // );
     // _d.add(Tache(couleur: Color(0xffdc3912), nom: "autre", valeur: 10.3));
   }
 
@@ -205,11 +206,12 @@ class _StatistiqueState extends State<Statistique> {
 
     serie.add(chart.Series(
       data: _d,
-      domainFn: (Tache tache, _) => tache.nom,
-      measureFn: (Tache tache, _) => tache.valeur,
-      colorFn: (Tache tache, _) => chart.ColorUtil.fromDartColor(tache.couleur),
+      domainFn: (Tache tache, _d) => tache.nom,
+      measureFn: (Tache tache, _d) => tache.valeur,
+      colorFn: (Tache tache, _d) =>
+          chart.ColorUtil.fromDartColor(tache.couleur),
       id: "Comptabilite",
-      labelAccessorFn: (Tache tache, _) => '${tache.valeur}',
+      labelAccessorFn: (Tache tache, _d) => '${tache.valeur}',
     ));
   }
 
