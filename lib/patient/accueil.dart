@@ -44,14 +44,16 @@ class _AccueilPatientState extends State<AccueilPatient> {
     socket.connect();
     socket.onConnect((data) => print("bonjour je suis connecter"));
     socket.on("message", (data) {
-      setState(() {
-        nbr++;
-      });
-      print("vous avez un nouveau message");
-      return ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text("vous avez un nouveau message"),
-        backgroundColor: Colors.greenAccent,
-      ));
+      if (data['recipient_id'] == patient['email']) {
+        setState(() {
+          nbr++;
+        });
+        print("vous avez un nouveau message");
+        return ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text("vous avez un nouveau message"),
+          backgroundColor: Colors.greenAccent,
+        ));
+      }
     });
     print(socket.connected);
     super.initState();
@@ -59,242 +61,245 @@ class _AccueilPatientState extends State<AccueilPatient> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        // floatingActionButton: FloatingActionButton(
-        //   child: Icon(Icons.chat),
-        //   onPressed: () {
-        //     Navigator.push(
-        //         context, MaterialPageRoute(builder: (context) => Messagerie()));
-        //   },
-        // ),
-        backgroundColor: Colors.white,
-        appBar: AppBar(
-          backgroundColor: Colors.blue[900],
-          centerTitle: true,
-          title: Text(
-            "SENJICA",
-            style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
-          ),
-          actions: [
-            PopupMenuButton(
-                //offset: Offset(100, 40),
-                icon: Icon(Icons.more_vert),
-                itemBuilder: (context) => _popup())
-          ],
-        ),
-        drawer: Drawers(),
-        // bottomNavigationBar: BottomNavigationBar(
-        //   onTap: (index) {
-        //     setState(() {
-        //       _currentIndex = index;
-        //     });
-        //     redirect(_currentIndex);
-        //   },
-        //   items: [
-        //     BottomNavigationBarItem(
-        //       title: Text("accueil"),
-        //       icon: Icon(Icons.home),
-        //     ),
-        //     BottomNavigationBarItem(
-        //       title: Text("message"),
-        //       icon: Icon(Icons.chat),
-        //     ),
-        //     BottomNavigationBarItem(
-        //       backgroundColor: Colors.blue,
-        //       // activeIcon: ,
-        //       title: Text("notification"),
-        //       icon: Icon(Icons.home),
-        //     )
-        //   ],
-        // ),
-        bottomNavigationBar: BubbleBottomBar(
-          onTap: (index) {
-            setState(() {
-              _currentIndex = index;
-            });
-            redirect(_currentIndex);
-          },
-          opacity: 0.2,
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: Scaffold(
+          // floatingActionButton: FloatingActionButton(
+          //   child: Icon(Icons.chat),
+          //   onPressed: () {
+          //     Navigator.push(
+          //         context, MaterialPageRoute(builder: (context) => Messagerie()));
+          //   },
+          // ),
           backgroundColor: Colors.white,
-          borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
-          currentIndex: _currentIndex,
-          hasInk: true,
-          inkColor: Colors.black12,
-          hasNotch: true,
-          fabLocation: BubbleBottomBarFabLocation.end,
-          items: [
-            BubbleBottomBarItem(
-                backgroundColor: Colors.blue[900],
+          appBar: AppBar(
+            backgroundColor: Colors.blue[900],
+            centerTitle: true,
+            title: Text(
+              "SENJICA",
+              style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+            ),
+            actions: [
+              PopupMenuButton(
+                  //offset: Offset(100, 40),
+                  icon: Icon(Icons.more_vert),
+                  itemBuilder: (context) => _popup())
+            ],
+          ),
+          drawer: Drawers(),
+          // bottomNavigationBar: BottomNavigationBar(
+          //   onTap: (index) {
+          //     setState(() {
+          //       _currentIndex = index;
+          //     });
+          //     redirect(_currentIndex);
+          //   },
+          //   items: [
+          //     BottomNavigationBarItem(
+          //       title: Text("accueil"),
+          //       icon: Icon(Icons.home),
+          //     ),
+          //     BottomNavigationBarItem(
+          //       title: Text("message"),
+          //       icon: Icon(Icons.chat),
+          //     ),
+          //     BottomNavigationBarItem(
+          //       backgroundColor: Colors.blue,
+          //       // activeIcon: ,
+          //       title: Text("notification"),
+          //       icon: Icon(Icons.home),
+          //     )
+          //   ],
+          // ),
+          bottomNavigationBar: BubbleBottomBar(
+            onTap: (index) {
+              setState(() {
+                _currentIndex = index;
+              });
+              redirect(_currentIndex);
+            },
+            opacity: 0.2,
+            backgroundColor: Colors.white,
+            borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+            currentIndex: _currentIndex,
+            hasInk: true,
+            inkColor: Colors.black12,
+            hasNotch: true,
+            fabLocation: BubbleBottomBarFabLocation.end,
+            items: [
+              BubbleBottomBarItem(
+                  backgroundColor: Colors.blue[900],
+                  activeIcon: Icon(
+                    Icons.home,
+                    color: Colors.blue[900],
+                  ),
+                  title: Text("Accueil"),
+                  icon: Column(
+                    children: [
+                      Icon(
+                        Icons.home,
+                        color: Colors.black,
+                      ),
+                      Text("accueil"),
+                    ],
+                  )),
+              BubbleBottomBarItem(
+                title: Text("message"),
                 activeIcon: Icon(
-                  Icons.home,
+                  Icons.chat,
                   color: Colors.blue[900],
                 ),
-                title: Text("Accueil"),
-                icon: Column(
-                  children: [
-                    Icon(
-                      Icons.home,
-                      color: Colors.black,
-                    ),
-                    Text("accueil"),
-                  ],
-                )),
-            BubbleBottomBarItem(
-              title: Text("message"),
-              activeIcon: Icon(
-                Icons.chat,
-                color: Colors.blue[900],
-              ),
-              backgroundColor: Colors.red[900],
-              icon: nbr < 1
-                  ? Column(
-                      children: [
-                        Icon(Icons.chat, color: Colors.black),
-                        Text("Message")
-                      ],
-                    )
-                  : Badge(
-                      badgeColor: Colors.red,
-                      badgeContent: Text(
-                        nbr.toString(),
-                        style: TextStyle(color: Colors.white),
-                      ),
-                      child: Column(
+                backgroundColor: Colors.red[900],
+                icon: nbr < 1
+                    ? Column(
                         children: [
                           Icon(Icons.chat, color: Colors.black),
-                          Text("message")
+                          Text("Message")
                         ],
-                      ),
-                    ),
-            ),
-            BubbleBottomBarItem(
-                title: Text("notification"),
-                activeIcon: Icon(
-                  Icons.notifications,
-                  color: Colors.blue[900],
-                ),
-                backgroundColor: Colors.blue[900],
-                icon: Column(
-                  children: [
-                    Icon(
-                      Icons.notifications,
-                      color: Colors.black,
-                    ),
-                    Text("notification")
-                  ],
-                ))
-          ],
-        ),
-        body: SingleChildScrollView(
-            child: Container(
-                margin: EdgeInsets.only(top: 0),
-                //color: Colors.white,
-                child: Column(children: [
-                  Container(
-                    height: MediaQuery.of(context).size.height * 0.3,
-                    child: Container(
-                      color: Colors.white.withOpacity(0.7),
-                      width: double.infinity,
-                      child: Container(
-                          child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          // Text(
-                          //   "Al Hassane Diallo",
-                          //   style: TextStyle(
-                          //       color: Colors.blue[900],
-                          //       fontSize: 40,
-                          //       fontWeight: FontWeight.bold),
-                          // ),
-                          // Container(
-                          //   width: 100,
-                          //   child: Divider(
-                          //     thickness: 5,
-                          //     color: Colors.blue[900],
-                          //   ),
-                          // )
-                        ],
-                      )),
-                    ),
-                    decoration: BoxDecoration(
-                        image: DecorationImage(
-                            image: AssetImage("images/accueilP.jpg"),
-                            fit: BoxFit.contain)),
-                  ),
-                  Container(
-                    padding: EdgeInsets.symmetric(vertical: 0, horizontal: 5),
-                    child: Table(
-                      children: [
-                        TableRow(
+                      )
+                    : Badge(
+                        badgeColor: Colors.red,
+                        badgeContent: Text(
+                          nbr.toString(),
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        child: Column(
                           children: [
-                            GestureDetector(
-                              onTap: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => ListeC()));
-                              },
-                              child: MenuOption(
-                                text: "Consultation",
-                                icon: Image.asset("images/ac.jpg"),
-                                couleurCard: Colors.green,
-                                couleurCircle: Colors.green,
-                                ctexte: Colors.white,
-                              ),
-                            ),
-                            GestureDetector(
-                              onTap: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => RendezVous()));
-                              },
-                              child: MenuOption(
-                                text: "Rendez-vous",
-                                icon: Image.asset("images/rapport2.png"),
-                                couleurCard: Colors.deepPurpleAccent,
-                                couleurCircle: Colors.green,
-                                ctexte: Colors.white,
-                              ),
-                            ),
+                            Icon(Icons.chat, color: Colors.black),
+                            Text("message")
                           ],
                         ),
-                        TableRow(children: [
-                          GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => Localisation()));
-                            },
-                            child: MenuOption(
-                              text: "MAP",
-                              icon: Image.asset("images/map.png"),
-                              couleurCard: Colors.red[900],
-                              couleurCircle: Colors.green,
-                              ctexte: Colors.white,
-                            ),
-                          ),
-                          GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => Historique()));
-                            },
-                            child: MenuOption(
-                              text: "Historique",
-                              icon: Image.asset("images/images.png"),
-                              couleurCard: Colors.orange,
-                              couleurCircle: Colors.green,
-                              ctexte: Colors.white,
-                            ),
-                          ),
-                        ]),
-                      ],
+                      ),
+              ),
+              BubbleBottomBarItem(
+                  title: Text("notification"),
+                  activeIcon: Icon(
+                    Icons.notifications,
+                    color: Colors.blue[900],
+                  ),
+                  backgroundColor: Colors.blue[900],
+                  icon: Column(
+                    children: [
+                      Icon(
+                        Icons.notifications,
+                        color: Colors.black,
+                      ),
+                      Text("notification")
+                    ],
+                  ))
+            ],
+          ),
+          body: SingleChildScrollView(
+              child: Container(
+                  margin: EdgeInsets.only(top: 0),
+                  //color: Colors.white,
+                  child: Column(children: [
+                    Container(
+                      height: MediaQuery.of(context).size.height * 0.3,
+                      child: Container(
+                        color: Colors.white.withOpacity(0.7),
+                        width: double.infinity,
+                        child: Container(
+                            child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            // Text(
+                            //   "Al Hassane Diallo",
+                            //   style: TextStyle(
+                            //       color: Colors.blue[900],
+                            //       fontSize: 40,
+                            //       fontWeight: FontWeight.bold),
+                            // ),
+                            // Container(
+                            //   width: 100,
+                            //   child: Divider(
+                            //     thickness: 5,
+                            //     color: Colors.blue[900],
+                            //   ),
+                            // )
+                          ],
+                        )),
+                      ),
+                      decoration: BoxDecoration(
+                          image: DecorationImage(
+                              image: AssetImage("images/accueilP.jpg"),
+                              fit: BoxFit.contain)),
                     ),
-                  )
-                ]))));
+                    Container(
+                      padding: EdgeInsets.symmetric(vertical: 0, horizontal: 5),
+                      child: Table(
+                        children: [
+                          TableRow(
+                            children: [
+                              GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => ListeC()));
+                                },
+                                child: MenuOption(
+                                  text: "Consultation",
+                                  icon: Image.asset("images/ac.jpg"),
+                                  couleurCard: Colors.green,
+                                  couleurCircle: Colors.green,
+                                  ctexte: Colors.white,
+                                ),
+                              ),
+                              GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => RendezVous()));
+                                },
+                                child: MenuOption(
+                                  text: "Rendez-vous",
+                                  icon: Image.asset("images/rapport2.png"),
+                                  couleurCard: Colors.deepPurpleAccent,
+                                  couleurCircle: Colors.green,
+                                  ctexte: Colors.white,
+                                ),
+                              ),
+                            ],
+                          ),
+                          TableRow(children: [
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => Localisation()));
+                              },
+                              child: MenuOption(
+                                text: "MAP",
+                                icon: Image.asset("images/map.png"),
+                                couleurCard: Colors.red[900],
+                                couleurCircle: Colors.green,
+                                ctexte: Colors.white,
+                              ),
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => Historique()));
+                              },
+                              child: MenuOption(
+                                text: "Historique",
+                                icon: Image.asset("images/images.png"),
+                                couleurCard: Colors.orange,
+                                couleurCircle: Colors.green,
+                                ctexte: Colors.white,
+                              ),
+                            ),
+                          ]),
+                        ],
+                      ),
+                    )
+                  ])))),
+    );
   }
 
   void premierInterface() {

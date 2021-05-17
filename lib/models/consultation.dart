@@ -12,7 +12,7 @@ class Consultation {
 List<Consultation> list = [
   Consultation(
       nom: "ophtalmologie",
-      prix: 1500.00,
+      prix: 5000.00,
       image: "images/ophtalmologie.png",
       nomDocteur: "Assane Diallo"),
   Consultation(
@@ -32,7 +32,7 @@ List<Consultation> list = [
       nomDocteur: "Fatou Mbaye"),
   Consultation(
       nom: "radiologie",
-      prix: 1500.00,
+      prix: 5000.00,
       image: "images/radiotherapie.jpg",
       nomDocteur: "Assane Diallo"),
   Consultation(
@@ -57,7 +57,7 @@ List<Consultation> list = [
   //     nomDocteur: "Bassirou Dabo"),
   Consultation(
       nom: "Cardiologie",
-      prix: 1500.00,
+      prix: 5000.00,
       image: "images/cardio.png",
       nomDocteur: "Assane Diallo"),
 ];

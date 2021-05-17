@@ -18,7 +18,7 @@ class _DrawersState extends State<Drawers> {
   getUser() async {
     SharedPreferences localstorage = await SharedPreferences.getInstance();
     setState(() {
-      user = json.decode(localstorage.getString("user"));
+      user = json.decode(localstorage.getString("utilisateur"));
     });
   }
 
@@ -38,27 +38,33 @@ class _DrawersState extends State<Drawers> {
               decoration: BoxDecoration(color: Colors.blue[900]),
               child: Center(
                   child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   CircleAvatar(
                     backgroundColor: Colors.blue[100],
-                    child: Text(""),
+                    child: Text(user['nom']),
                     radius: 30,
                     foregroundColor: Colors.red,
                   ),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        "Al Hassane Diallo",
-                        style: TextStyle(fontSize: 22, color: Colors.white),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Text("774298343",
-                          style: TextStyle(fontSize: 22, color: Colors.white))
-                    ],
+                  SizedBox(
+                    width: 20,
+                  ),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "${user['prenom']}  ${user['nom']}",
+                          style: TextStyle(fontSize: 22, color: Colors.white),
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Text("${user['telephone']}",
+                            style: TextStyle(fontSize: 22, color: Colors.white))
+                      ],
+                    ),
                   ),
                 ],
               )),
@@ -105,6 +111,7 @@ class _DrawersState extends State<Drawers> {
     if (body['success']) {
       SharedPreferences localStorage = await SharedPreferences.getInstance();
       localStorage.remove('user');
+      localStorage.remove('utilisateur');
       localStorage.remove('token');
       Navigator.push(context, MaterialPageRoute(builder: (context) => Login()));
     }

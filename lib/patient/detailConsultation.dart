@@ -27,11 +27,12 @@ class _DetailState extends State<Detail> {
         setState(() {
           medecins.add(Medecin(
               nom: med["nom"],
-              idMedecin: med["idMedecin"],
               prenom: med["prenom"],
               libelleSpecialite: med["libelle"],
-              telephone: med["telephone"],
               region: med["region"],
+              telephone: med["telephone"],
+              idMedecin: med["idMedecin"],
+              experience: med["experience"],
               structure: med["nomStructure"]));
         });
       }

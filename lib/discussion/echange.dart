@@ -4,10 +4,12 @@ import 'package:gestion_materiel_cmu/controllers/Connexion.dart';
 import 'package:gestion_materiel_cmu/models/Message.dart';
 import 'package:gestion_materiel_cmu/models/utilisateur.dart';
 import 'package:intl/intl.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'PageMessage.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 import 'dart:io';
 import 'dart:async';
+import 'dart:convert';
 import 'dart:convert' as convert;
 
 class Echange extends StatefulWidget {
@@ -26,6 +28,14 @@ class _EchangeState extends State<Echange> {
   IO.Socket socket;
   int nv = 0;
   Mess m;
+  var user;
+
+  getUser() async {
+    SharedPreferences localstorage = await SharedPreferences.getInstance();
+    setState(() {
+      user = json.decode(localstorage.getString('user'));
+    });
+  }
 
   connection() {
     socket = IO.io("http://192.168.43.100:3000/", <String, dynamic>{
@@ -39,7 +49,7 @@ class _EchangeState extends State<Echange> {
     socket.on("message", (data) {
       print("-----------message---------------");
       print(data);
-      if (data['recipient_id'] == "patient@gmail.com" &&
+      if (data['recipient_id'] == user['email'] &&
           data['idMessagerie'] == widget.u.idMessagerie) {
         setState(() {
           setState(() {
@@ -73,6 +83,7 @@ class _EchangeState extends State<Echange> {
 
   @override
   void initState() {
+    getUser();
     dernierMessage();
     connection();
     super.initState();
@@ -89,8 +100,10 @@ class _EchangeState extends State<Echange> {
             setState(() {
               nv = 0;
             });
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => PageMessage()));
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => PageMessage(u: widget.u)));
           },
           title: Text(
             widget.u.nom,

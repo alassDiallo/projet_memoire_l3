@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:gestion_materiel_cmu/camera/camera.dart';
+import 'package:gestion_materiel_cmu/controllers/Connexion.dart';
 import 'package:gestion_materiel_cmu/discussion/chart_bubble.dart';
 import 'package:gestion_materiel_cmu/discussion/menu_plus.dart';
 import 'package:gestion_materiel_cmu/models/Message.dart';
+import 'package:gestion_materiel_cmu/models/utilisateur.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'appbar_disc.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 import 'dart:io';
@@ -10,6 +13,8 @@ import 'package:image_picker/image_picker.dart';
 import 'dart:convert';
 
 class PageMessage extends StatefulWidget {
+  Utilisateur u;
+  PageMessage({this.u});
   @override
   _PageMessageState createState() => _PageMessageState();
 }
@@ -20,6 +25,15 @@ class _PageMessageState extends State<PageMessage> {
   ScrollController scrollController;
   var cle = GlobalKey<FormState>();
   IO.Socket socket;
+
+  var user;
+
+  getUser() async {
+    SharedPreferences localstorage = await SharedPreferences.getInstance();
+    setState(() {
+      user = json.decode(localstorage.getString('user'));
+    });
+  }
 
   connection() {
     socket = IO.io("http://192.168.43.100:3000/", <String, dynamic>{
@@ -33,7 +47,7 @@ class _PageMessageState extends State<PageMessage> {
     socket.on(
         "message",
         (data) => {
-              if (data['recipient_id'] == "patient@gmail.com")
+              if (data['recipient_id'] == user['email'])
                 setState(() {
                   list.add(Mess(
                       message: data['contenu'], type: MessageType.receiver));
@@ -48,42 +62,74 @@ class _PageMessageState extends State<PageMessage> {
   }
 
   String mess = '';
-  List<Mess> list = [
-    Mess(message: "Bonjour docteur ", type: MessageType.receiver),
-    Mess(
-        message: "oui bonjour monsieur Diallo comment vous-allez",
-        type: MessageType.sender),
-    Mess(
-        message: "oui je vais bien et j'espere que vous allez bien aussi",
-        type: MessageType.receiver),
-    // Mess(message: "d'accord pour quand ?", type: MessageType.sender),
-    // Mess(
-    //     message: "bon ces temps si j'ai souvent mal à la téte",
-    //     type: MessageType.receiver),
-    // Mess(
-    //     message: "d'accords je vois tu as pris des medicaments",
-    //     type: MessageType.sender),
-    // Mess(message: "non pas encore", type: MessageType.receiver),
-    // Mess(message: "Bonjour asane comment tu vas", type: MessageType.receiver),
-    // Mess(message: "oui cva et toi", type: MessageType.sender),
-    // Mess(message: "cva cool lou bess", type: MessageType.receiver),
-    // Mess(message: "ah dara sinon et de ton cote", type: MessageType.sender),
-    // Mess(message: "ah naz com dab ymgx", type: MessageType.receiver),
-    // Mess(message: "naka activité yi nak", type: MessageType.sender),
-    // Mess(message: "cva gnogui ci di takkalé rk", type: MessageType.receiver),
-  ];
+  List<Mess> list = [];
+  // Mess(message: "d'accord pour quand ?", type: MessageType.sender),
+  // Mess(
+  //     message: "bon ces temps si j'ai souvent mal à la téte",
+  //     type: MessageType.receiver),
+  // Mess(
+  //     message: "d'accords je vois tu as pris des medicaments",
+  //     type: MessageType.sender),
+  // Mess(message: "non pas encore", type: MessageType.receiver),
+  // Mess(message: "Bonjour asane comment tu vas", type: MessageType.receiver),
+  // Mess(message: "oui cva et toi", type: MessageType.sender),
+  // Mess(message: "cva cool lou bess", type: MessageType.receiver),
+  // Mess(message: "ah dara sinon et de ton cote", type: MessageType.sender),
+  // Mess(message: "ah naz com dab ymgx", type: MessageType.receiver),
+  // Mess(message: "naka activité yi nak", type: MessageType.sender),
+  // Mess(message: "cva gnogui ci di takkalé rk", type: MessageType.receiver),
+  // ];
+
+  Future<void> getMessages() async {
+    String url = "auth/messages/" + widget.u.idMessagerie.toString();
+    var donnees = await Connexion().recuperation(url);
+    print(donnees.body);
+    if (donnees.statusCode == 200) {
+      var d = json.decode(donnees.body);
+      for (var sms in d) {
+        var t = user['email'] == sms['sender_id']
+            ? MessageType.sender
+            : MessageType.receiver;
+
+        print(t);
+        setState(() {
+          list.add(
+            Mess(
+                message: sms['contenu'], type: t, dateenvoi: sms['created_at']),
+          );
+        });
+      }
+    }
+  }
+
+  Future<void> envoiMess(sms) async {
+    var donnees = await Connexion().envoideDonnnee("auth/message", sms);
+    print(donnees.body);
+    if (donnees.statusCode == 200) {
+      var d = json.decode(donnees.body);
+      print(d);
+    }
+  }
 
   void _enregistrer() {
     if (cle.currentState.validate()) {
       cle.currentState.save();
       var message = Mess(message: mess, type: MessageType.sender);
-      socket.emit("message", mess);
+
       setState(() {
         list.add(
           Mess(message: mess, type: MessageType.sender),
         );
       });
       cle.currentState.reset();
+      Map<String, dynamic> sms = {
+        "contenu": mess,
+        "idMessagerie": widget.u.idMessagerie,
+        "dateEnvoi": DateTime.now().toString(),
+        "recipient_id": widget.u.recipientId
+      };
+      socket.emit("message", sms);
+      envoiMess(sms);
     }
   }
 
@@ -247,7 +293,9 @@ class _PageMessageState extends State<PageMessage> {
 
   @override
   void initState() {
+    getUser();
     connection();
+    getMessages();
     super.initState();
   }
 
@@ -258,7 +306,7 @@ class _PageMessageState extends State<PageMessage> {
         backgroundColor: Colors.blue[900],
         elevation: 0,
         automaticallyImplyLeading: false,
-        leadingWidth: 100,
+        leadingWidth: 90,
         leading: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -281,7 +329,7 @@ class _PageMessageState extends State<PageMessage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              "Assane diallo",
+              widget.u.nom,
               style: TextStyle(fontWeight: FontWeight.w600),
             ),
             SizedBox(height: 2),
@@ -305,70 +353,84 @@ class _PageMessageState extends State<PageMessage> {
         children: [
           Container(
             margin: EdgeInsets.only(bottom: 50),
-            child: ListView.builder(
-                itemCount: list.length,
-                shrinkWrap: true,
-                //physics: NeverScrollableScrollPhysics(),
-                itemBuilder: (context, index) {
-                  return Messages(sms: list[index]);
-                }),
+            child: list.isEmpty
+                ? Center(
+                    child: Text("Cette conversation est vide "),
+                  )
+                : ListView.builder(
+                    itemCount: list.length,
+                    shrinkWrap: true,
+                    //physics: NeverScrollableScrollPhysics(),
+                    itemBuilder: (context, index) {
+                      return Messages(sms: list[index]);
+                    }),
           ),
           Align(
               alignment: Alignment.bottomCenter,
-              child: Row(children: [
-                Container(
-                  // padding: EdgeInsets.only(left: 10, bottom: 10),
-                  //height: 80,
-                  width: MediaQuery.of(context).size.width - 55,
-                  child: Card(
-                      margin: EdgeInsets.only(left: 4, bottom: 8),
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30)),
-                      child: Form(
-                        key: cle,
-                        child: TextFormField(
-                          maxLines: null,
-                          minLines: null,
-                          onChanged: (value) {
-                            mess = value;
-                          },
-                          //expands: true,
-                          textAlignVertical: TextAlignVertical.center,
-                          keyboardType: TextInputType.multiline,
-                          decoration: InputDecoration(
-                              border: InputBorder.none,
-                              hintText: "ecrire un message.......",
-                              contentPadding: EdgeInsets.all(5),
-                              prefixIcon: IconButton(
-                                icon: Icon(Icons.emoji_emotions),
-                                onPressed: () {},
-                              ),
-                              suffixIcon: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  IconButton(
-                                    icon: Icon(Icons.attach_file),
-                                    onPressed: () => _showModal(),
-                                  ),
-                                  IconButton(
-                                    icon: Icon(Icons.camera_alt),
-                                    onPressed: () {
-                                      getImage(true);
-                                    },
-                                  )
-                                ],
-                              )),
-                        ),
-                      )),
-                  //color: Colors.white,
-                ),
-                Container(
-                  padding: EdgeInsets.only(bottom: 8, left: 2),
-                  width: 50,
-                  child: FloatingActionButton(
-                      child: Icon(Icons.send), onPressed: _enregistrer),
-                ),
-              ]))
+              child: Container(
+                color: Colors.blue,
+                child: Row(children: [
+                  Container(
+                    // padding: EdgeInsets.only(left: 10, bottom: 10),
+                    //height: 80,
+                    width: MediaQuery.of(context).size.width - 50,
+                    child: Card(
+                        // margin: EdgeInsets.only(left: 4, bottom: 8),
+                        // shape: RoundedRectangleBorder(
+                        //     borderRadius: BorderRadius.circular(30)),
+                        child: Form(
+                      key: cle,
+                      child: TextFormField(
+                        maxLines: null,
+                        minLines: null,
+                        onChanged: (value) {
+                          mess = value;
+                        },
+                        validator: (val) {
+                          if (val == "") {
+                            return "";
+                          }
+                        },
+                        //expands: true,
+                        textAlignVertical: TextAlignVertical.center,
+                        keyboardType: TextInputType.multiline,
+                        decoration: InputDecoration(
+                            border: InputBorder.none,
+                            hintText: "ecrire un message.......",
+                            contentPadding: EdgeInsets.all(5),
+                            prefixIcon: IconButton(
+                              icon: Icon(Icons.emoji_emotions),
+                              onPressed: () {},
+                            ),
+                            suffixIcon: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                IconButton(
+                                  icon: Icon(Icons.attach_file),
+                                  onPressed: () => _showModal(),
+                                ),
+                                IconButton(
+                                  icon: Icon(Icons.camera_alt),
+                                  onPressed: () {
+                                    getImage(true);
+                                  },
+                                )
+                              ],
+                            )),
+                      ),
+                    )),
+                    //color: Colors.white,
+                  ),
+                  Container(
+                    // padding: EdgeInsets.only(bottom: 8, left: 2),
+                    width: 50,
+                    child: FloatingActionButton(
+                        elevation: 0,
+                        child: Icon(Icons.send),
+                        onPressed: _enregistrer),
+                  ),
+                ]),
+              ))
         ],
       ),
     );

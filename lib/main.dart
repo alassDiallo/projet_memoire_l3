@@ -118,12 +118,14 @@
 //   }
 // }
 import 'package:flutter/material.dart';
+import 'package:gestion_materiel_cmu/Accueil.dart';
+import 'package:gestion_materiel_cmu/AccueilA.dart';
 import 'package:gestion_materiel_cmu/Animation.dart';
 import 'package:gestion_materiel_cmu/Login.dart';
 import 'package:page_transition/page_transition.dart';
 
 void main() =>
-    runApp(MaterialApp(debugShowCheckedModeBanner: false, home: HomePage()));
+    runApp(MaterialApp(debugShowCheckedModeBanner: false, home: AccueilA()));
 
 class HomePage extends StatefulWidget {
   @override
@@ -145,7 +147,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
 
     _scaleController =

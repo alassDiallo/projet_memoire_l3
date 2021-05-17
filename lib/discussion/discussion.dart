@@ -90,12 +90,13 @@ class _DiscussionState extends State<Discussion> {
         // print(mess);
         setState(() {
           messagerie.add(Utilisateur(
-            nom: "Dr. " + u['prenom'] + " " + u['nom'],
-            idMessagerie: u['idMessagerie'],
-            //contenu: "bonjour comment tu vas",
-            image: "images/vol.png",
-            // heure: "21/02/2020"
-          ));
+              nom: "Dr. " + u['prenom'] + " " + u['nom'],
+              idMessagerie: u['idMessagerie'],
+              //contenu: "bonjour comment tu vas",
+              image: "images/vol.png",
+              recipientId: u['recipient_id']
+              // heure: "21/02/2020"
+              ));
         });
       }
     }

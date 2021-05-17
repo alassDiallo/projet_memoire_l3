@@ -18,15 +18,21 @@ class _MessagesState extends State<Messages> {
       alignment: (widget.sms.type == MessageType.receiver
           ? Alignment.topLeft
           : Alignment.topRight),
-      child: Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(30),
-            color: widget.sms.type == MessageType.receiver
-                ? Colors.blue
-                : Colors.blue[100],
-          ),
-          padding: EdgeInsets.all(16),
-          child: Text(widget.sms.message)),
+      child: Column(
+        // crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(30),
+                color: widget.sms.type == MessageType.receiver
+                    ? Colors.blue
+                    : Colors.blue[100],
+              ),
+              padding: EdgeInsets.all(16),
+              child: Text(widget.sms.message)),
+          // Text(widget.sms.dateenvoi)
+        ],
+      ),
     );
   }
 }

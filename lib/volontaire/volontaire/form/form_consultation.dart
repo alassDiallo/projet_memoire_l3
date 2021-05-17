@@ -106,7 +106,7 @@ class _FormConsultationState extends State<FormConsultation> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      "Espace Consultation",
+                      "Espace \n Consultation",
                       style: TextStyle(
                           fontSize: 40,
                           fontWeight: FontWeight.bold,

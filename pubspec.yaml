@@ -67,12 +67,20 @@ dependencies:
   pdf: ^3.2.0
   #flutter_full_pdf_viewer: ^1.0.6
   open_file: ^3.2.0
+  percent_indicator: ^3.0.1
+  rflutter_alert: ^2.0.2
   #flutter_svg_provider: ^0.1.8
   #flutter_svg: ^0.22.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+#   flutter_launcher_icons: "^0.8.0"
+
+# flutter_icons:
+#   android: true
+#   ios: true
+#   image_path: "images/logosenjica.jpeg"
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

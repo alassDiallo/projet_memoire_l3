@@ -43,7 +43,8 @@ class _LoginState extends State<Login> {
         SharedPreferences localStorage = await SharedPreferences.getInstance();
         localStorage.setString('token', json.encode(d['token']));
         localStorage.setString('user', json.encode(d['user']));
-        print(localStorage.getString('user'));
+        localStorage.setString('utilisateur', json.encode(d['utilisateur']));
+        print(localStorage.getString('utilisateur'));
         if (d['user']['profil'] == "patient") {
           Navigator.push(context, MaterialPageRoute(builder: (context) {
             return AccueilPatient();
@@ -113,6 +114,12 @@ class _LoginState extends State<Login> {
                               padding: EdgeInsets.symmetric(
                                   vertical: 5, horizontal: 20),
                               decoration: BoxDecoration(
+                                // border: Border(
+                                //   top: BorderSide(color: Colors.red),
+                                //   left: BorderSide(color: Colors.red),
+                                //   right: BorderSide(color: Colors.red),
+                                //   bottom: BorderSide(color: Colors.red),
+                                // ),
                                 color: Colors.blue[100],
                                 borderRadius: BorderRadius.circular(29),
                               ),
