@@ -24,7 +24,7 @@ class AccueilJica extends StatefulWidget {
 class _AccueilJicaState extends State<AccueilJica> {
   var admin;
   double _total, _achatMat, _anaOrd, _consul, _depV;
-  double depI = 2000.00;
+  // double depI = 2000.00;
 
   Future<void> finance() async {
     var url = "auth/finance";
@@ -37,7 +37,8 @@ class _AccueilJicaState extends State<AccueilJica> {
         _anaOrd = double.parse(d['anaOrd'].toString());
         _consul = double.parse(d['cons'].toString());
         _depV = double.parse(d['depenseV'].toString());
-        _total = _achatMat + _anaOrd + _consul + _depV + depI;
+        _total = _achatMat + _anaOrd + _consul + _depV;
+        //  + depI;
       });
     }
   }

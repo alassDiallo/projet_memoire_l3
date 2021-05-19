@@ -128,7 +128,7 @@ class _Rapport_MaintenanceState extends State<Rapport_Maintenance> {
                         ElevatedButton(
                           onPressed: () {
                             // Navigator.pop(context);
-                            PdfSaveOpen.openFile('Rapport Maintenance.pdf');
+                            PdfSaveOpen.openFile("Rapport Maintenance1.pdf");
                           },
                           style: ElevatedButton.styleFrom(
                             padding: EdgeInsets.fromLTRB(5, 5, 5, 5),
@@ -239,10 +239,10 @@ class _Rapport_MaintenanceState extends State<Rapport_Maintenance> {
                         //   image: Svg('images/jica.svg'),
                         // )
                         // pd.svg,
-                        // pd.Image(image),
-                        pd.SvgImage(
-                          svg: 'images/jica.svg',
-                        ),
+                        // // pd.Image(image),
+                        // pd.SvgImage(
+                        //   svg: 'images/jica.svg',
+                        // ),
 
                         pd.Text('Bassirou Dabo'),
                         pd.Text('Structure De Diourbel'),
@@ -315,7 +315,7 @@ class _Rapport_MaintenanceState extends State<Rapport_Maintenance> {
     ));
 
     // return
-    PdfSaveOpen.saveDoc(name: 'Rapport Maintenance.pdf', pdf: pdf);
+    PdfSaveOpen.saveDoc(name: "Rapport Maintenance1.pdf", pdf: pdf);
     //  ${df.format(DateTime.now())}
   }
 
@@ -404,7 +404,7 @@ class _Rapport_MaintenanceState extends State<Rapport_Maintenance> {
 
                             content: Container(
                                 height:
-                                    MediaQuery.of(context).size.height * 0.5,
+                                    MediaQuery.of(context).size.height * 0.65,
                                 width: MediaQuery.of(context).size.width,
                                 // padding: EdgeInsets.only(top: 50),
                                 child: Center(
@@ -470,7 +470,8 @@ class _Rapport_MaintenanceState extends State<Rapport_Maintenance> {
                                                 margin: EdgeInsets.all(5),
                                                 child: TextFormField(
                                                   maxLength: 500,
-                                                  maxLines: 4,
+                                                  maxLines: 20,
+                                                  minLines: 2,
                                                   keyboardType:
                                                       TextInputType.multiline,
                                                   decoration: InputDecoration(

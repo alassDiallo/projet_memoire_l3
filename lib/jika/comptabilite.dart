@@ -6,6 +6,7 @@ import 'package:gestion_materiel_cmu/controllers/Connexion.dart';
 
 class Comptabilite extends StatefulWidget {
   double total, achatMat, anaOrd, consul, depV, depI;
+  // depI;
 
   Comptabilite(
       {this.achatMat,
@@ -95,7 +96,7 @@ class _ComptabiliteState extends State<Comptabilite> {
                                 borderRadius: BorderRadius.circular(20)),
                             child: Container(
                               margin: EdgeInsets.symmetric(
-                                  vertical: 30, horizontal: 20),
+                                  vertical: 20, horizontal: 20),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisAlignment:
@@ -242,11 +243,11 @@ class _ComptabiliteState extends State<Comptabilite> {
               decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.only(
-                      topRight: Radius.circular(40),
-                      topLeft: Radius.circular(40))),
+                      topRight: Radius.circular(45),
+                      topLeft: Radius.circular(45))),
               child: SingleChildScrollView(
                 child: Container(
-                  margin: EdgeInsets.symmetric(horizontal: 30, vertical: 20),
+                  margin: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
                   child: Column(
                     children: [
                       Row(
@@ -330,22 +331,22 @@ class _ComptabiliteState extends State<Comptabilite> {
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
                       ),
-                      ListTile(
-                        title: Text("Depense Interne"),
-                        subtitle: Text("depense"),
-                        leading: CircleAvatar(
-                          child: Icon(
-                            Icons.transform_rounded,
-                            color: Colors.white,
-                          ),
-                          radius: 30,
-                          backgroundColor: Colors.redAccent,
-                        ),
-                        trailing: Text(
-                          widget.depI.toString(),
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                      ),
+                      //  ListTile(
+                      //   title: Text("Depense Interne"),
+                      //   subtitle: Text("depense"),
+                      //   leading: CircleAvatar(
+                      //     child: Icon(
+                      //       Icons.transform_rounded,
+                      //       color: Colors.white,
+                      //     ),
+                      //     radius: 30,
+                      //     backgroundColor: Colors.redAccent,
+                      //   ),
+                      //   trailing: Text(
+                      //     widget.depI.toString(),
+                      //     style: TextStyle(fontWeight: FontWeight.bold),
+                      //   ),
+                      // ),
                     ],
                   ),
                 ),
